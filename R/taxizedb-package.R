@@ -1,8 +1,9 @@
 #' Taxonomic databases interface
 #'
 #' @import RPostgreSQL DBI
-#' @importFrom dplyr src_postgres src_mysql tbl sql collect %>%
+#' @importFrom dplyr src_postgres src_mysql tbl sql collect
 #' @importFrom curl curl_download
+#' @importFrom magrittr %>%
 #' @name taxizedb-package
 #' @aliases taxizedb
 #' @docType package
