@@ -21,6 +21,10 @@
 #'
 #' \code{db_load*()} functions are for loading SQL DBs into the respective driver,
 #' and they return the file path, but they don't load the database
+#'
+#' Beware: COL database loading takes a long time, e.g., 30 minutes. you may
+#' want to run it in a separate R session, or just look at the db_load_col fxn
+#' and run the commands in your shell.
 #' @examples \dontrun{
 #' # ITIS
 #' #db_download_itis() %>% db_load_itis()

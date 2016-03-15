@@ -9,9 +9,9 @@
 \usage{
 src_itis(user = NULL, password = NULL, dbname = "ITIS", ...)
 
-src_col(user = "root", password = NULL, dbname = "col", ...)
+src_tpl(user = NULL, password = NULL, dbname = "plantlist", ...)
 
-src_tpl(user = NULL, password = NULL, dbname = "plantlistdb", ...)
+src_col(user = "root", password = NULL, dbname = "col", ...)
 }
 \arguments{
 \item{user}{(character) user name}
@@ -33,8 +33,8 @@ ITIS src
 \examples{
 \dontrun{
 src_itis()
-src_col()
 src_tpl()
+src_col()
 }
 }
 

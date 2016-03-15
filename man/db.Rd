@@ -51,11 +51,27 @@ the file path, but they don't load the database
 
 \code{db_load*()} functions are for loading SQL DBs into the respective driver,
 and they return the file path, but they don't load the database
+
+Beware: COL database loading takes a long time, e.g., 30 minutes. you may
+want to run it in a separate R session, or just look at the db_load_col fxn
+and run the commands in your shell.
 }
 \examples{
 \dontrun{
 # ITIS
-db_download_itis() \%>\% db_load_itis()
+#db_download_itis() \%>\% db_load_itis()
+x <- db_download_itis()
+db_load_itis(x)
+
+# the plant list
+#db_download_tpl() \%>\% db_load_tpl()
+x <- db_download_tpl()
+db_load_tpl(x)
+
+# catalogue of life
+#db_download_col() \%>\% db_load_col()
+x <- db_download_col()
+db_load_col(x)
 }
 }
 
