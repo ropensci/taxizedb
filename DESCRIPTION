@@ -3,7 +3,8 @@ Type: Package
 Title: Tools for Working with Taxonomic Databases
 Description: Tools for Working with Taxonomic Databases.
 Version: 0.0.1.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus@gmail.com",
+    role = c("aut", "cre"))
 License: MIT + file LICENSE
 LazyData: TRUE
 Imports:
@@ -14,4 +15,4 @@ Imports:
 Suggests:
     testthat,
     covr
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 5.0.1
