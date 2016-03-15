@@ -2,7 +2,7 @@ Package: taxizedb
 Type: Package
 Title: Tools for Working with Taxonomic Databases
 Description: Tools for Working with Taxonomic Databases.
-Version: 0.0.1.9000
+Version: 0.0.2.9000
 Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus@gmail.com",
     role = c("aut", "cre"))
 License: MIT + file LICENSE
