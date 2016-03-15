@@ -14,7 +14,94 @@ knitr::opts_chunk$set(
 
 `taxizedb` - Tools for Working with Taxonomic Databases
 
-in the works
+## install
+
+```{r eval=FALSE}
+devtools::install_github("ropenscilabs/taxizedb")
+```
+
+```{r}
+library("taxizedb")
+library("dplyr")
+```
+
+## start your SQL DBs
+
+Remember to start your PostgreSQL database for ITIS and ThePlantList and your MySQL database for COL
+
+## Download and load DBs
+
+ITIS
+
+```{r eval=FALSE}
+x <- db_download_itis()
+db_load_itis(x)
+```
+
+The Plant List (TPL)
+
+```{r eval=FALSE}
+x <- db_download_tpl()
+db_load_tpl(x)
+```
+
+Cataloge of Life (COL)
+
+```{r eval=FALSE}
+x <- db_download_itis()
+db_load_itis(x)
+```
+
+## connect to the DBs
+
+ITIS 
+
+```{r}
+src <- src_itis()
+```
+
+TPL
+
+```{r eval=FALSE}
+src <- src_tpl()
+```
+
+COL 
+
+```{r eval=FALSE}
+src <- src_col()
+```
+
+## query with SQL syntax 
+
+```{r}
+sql_collect(src, "select * from hierarchy limit 5")
+```
+
+```{r}
+# or pipe the src to sql_collect
+src %>% sql_collect("select * from hierarchy limit 5")
+```
+
+## use dplyr verbs
+
+get a `tbl`
+
+```{r}
+hiers <- src %>% tbl("hierarchy")
+```
+
+limit 10
+
+```{r}
+hiers %>% top_n(10)
+```
+
+select certain fields
+
+```{r}
+hiers %>% select(tsn, level)
+```
 
 ## Meta
 

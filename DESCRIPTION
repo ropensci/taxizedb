@@ -11,7 +11,8 @@ Imports:
     curl,
     RPostgreSQL,
     DBI,
-    dplyr
+    dplyr,
+    magrittr
 Suggests:
     testthat,
     covr
