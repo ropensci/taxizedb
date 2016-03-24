@@ -50,6 +50,8 @@ db_download_itis <- function(verbose = TRUE){
   itis_db_path <- path.expand('~/.taxize_local/itisPostgreSql.zip')
   itis_db_path_file <- path.expand('~/.taxize_local/itisPostgreSql')
   itis_final_file <- path.expand('~/.taxize_local/ITIS.sql')
+  # make home dir if not already present
+  mkhome(path.expand('~/.taxize_local/'))
   # download data
   mssg(verbose, 'downloading...')
   curl::curl_download(itis_db_url, itis_db_path, quiet = TRUE)
@@ -72,7 +74,7 @@ db_download_itis <- function(verbose = TRUE){
 
 #' @export
 #' @rdname db
-db_load_itis <- function(path, user = "sacmac", pwd = NULL, verbose = TRUE){
+db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE){
   mssg(verbose, "loading database...")
   system(sprintf("psql %s %s -f %s", cl("-U ", user), cl("-p ", pwd), path))
   mssg(verbose, "Done. see ?src_itis")
@@ -86,6 +88,8 @@ db_download_tpl <- function(verbose = TRUE){
   db_path <- path.expand('~/.taxize_local/plantlist.zip')
   db_path_file <- path.expand('~/.taxize_local/plantlist')
   final_file <- path.expand('~/.taxize_local/plantlist.sql')
+  # make home dir if not already present
+  mkhome(path.expand('~/.taxize_local/'))
   # download data
   mssg(verbose, 'downloading...')
   curl::curl_download(db_url, db_path, quiet = TRUE)
@@ -102,14 +106,23 @@ db_download_tpl <- function(verbose = TRUE){
   return( final_file )
 }
 
+mkhome <- function(x) {
+  dir.create(x, showWarnings = FALSE, recursive = FALSE)
+}
+
 #' @export
 #' @rdname db
 db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
   mssg(verbose, 'creating PostgreSQL database...')
   drv <- dbDriver("PostgreSQL")
-  psqlconn <- dbConnect(drv, user = "sacmac")
+  psqlconn <- if (is.null(pwd)) {
+    dbConnect(drv, user = user)
+  } else {
+    dbConnect(drv, user = user, password = pwd)
+  }
   dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
   system(sprintf("psql %s %s plantlist < %s", cl("-U ", user), cl("-p ", pwd), path))
+  invisible(dbDisconnect(psqlconn))
   mssg(verbose, "Done. see ?src_tpl")
 }
 
@@ -124,6 +137,8 @@ db_download_col <- function(verbose = TRUE){
   db_sql_path <- path.expand('~/.taxize_local/colmysql/col2015ac_linux/col2015ac.sql.tar.gz')
   db_sql_out <- path.expand('~/.taxize_local/colmysql/col2015ac_linux')
   final_file <- path.expand('~/.taxize_local/col.sql')
+  # make home dir if not already present
+  mkhome(path.expand('~/.taxize_local/'))
   # download data
   mssg(verbose, 'downloading...')
   curl::curl_download(db_url, db_path, quiet = TRUE)

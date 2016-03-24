@@ -12,7 +12,7 @@
 \usage{
 db_download_itis(verbose = TRUE)
 
-db_load_itis(path, user = "sacmac", pwd = NULL, verbose = TRUE)
+db_load_itis(path, user, pwd = NULL, verbose = TRUE)
 
 db_download_tpl(verbose = TRUE)
 

@@ -2,7 +2,7 @@ Package: taxizedb
 Type: Package
 Title: Tools for Working with Taxonomic Databases
 Description: Tools for Working with Taxonomic Databases.
-Version: 0.0.2.9000
+Version: 0.0.2.9300
 Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus@gmail.com",
     role = c("aut", "cre"))
 License: MIT + file LICENSE
@@ -14,6 +14,7 @@ Imports:
     dplyr,
     magrittr
 Suggests:
+    roxygen2 (>= 5.0.1),
     testthat,
     covr
 RoxygenNote: 5.0.1
