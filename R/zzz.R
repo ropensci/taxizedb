@@ -9,3 +9,7 @@ cl <- function(x, y){
     paste0(x, y)
   }
 }
+
+mkhome <- function(x) {
+  dir.create(x, showWarnings = FALSE, recursive = FALSE)
+}
