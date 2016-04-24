@@ -2,9 +2,6 @@
 #'
 #' @export
 #' @name db_download
-#' @param path (character) path to the \code{.sql} database file
-#' @param user (character) User name
-#' @param pwd (character) Password, if any
 #' @param verbose (logical) Print messages. Default: \code{TRUE}
 #'
 #' @return Path to the downloaded SQL database

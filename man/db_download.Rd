@@ -15,12 +15,6 @@ db_download_col(verbose = TRUE)
 }
 \arguments{
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
-
-\item{path}{(character) path to the \code{.sql} database file}
-
-\item{user}{(character) User name}
-
-\item{pwd}{(character) Password, if any}
 }
 \value{
 Path to the downloaded SQL database
