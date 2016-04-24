@@ -8,11 +8,11 @@ Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus@gmail.com",
 License: MIT + file LICENSE
 LazyData: TRUE
 Imports:
-    curl,
-    RPostgreSQL,
-    DBI,
-    dplyr,
-    magrittr
+    curl (>= 0.9.7),
+    RPostgreSQL (>= 0.4),
+    DBI (>= 0.3.1),
+    dplyr (>= 0.4.3),
+    magrittr (>= 1.5)
 Suggests:
     roxygen2 (>= 5.0.1),
     testthat,
