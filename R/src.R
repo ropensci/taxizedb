@@ -1,4 +1,4 @@
-#' ITIS src
+#' src - dplyr src objects
 #'
 #' @name src_taxizedb
 #' @param user (character) user name

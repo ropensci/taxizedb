@@ -5,7 +5,7 @@
 \alias{src_itis}
 \alias{src_taxizedb}
 \alias{src_tpl}
-\title{ITIS src}
+\title{src - dplyr src objects}
 \usage{
 src_itis(user = NULL, password = NULL, dbname = "ITIS", ...)
 
@@ -28,7 +28,7 @@ for ITIS, COL, and ThePlantlist, respectively}
 an src object
 }
 \description{
-ITIS src
+src - dplyr src objects
 }
 \examples{
 \dontrun{
