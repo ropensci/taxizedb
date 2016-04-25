@@ -11,6 +11,11 @@
 #' @details These functions load SQL DBs into the respective driver,
 #' and they return the file path, but they don't load the database
 #'
+#' We check if the database used for each source is installed on
+#' your machine first. We'll soon add a check for whether it's
+#' running or not yet. For now, you may get weird errors given
+#' if you forgot to start your database.
+#'
 #' @section Supported:
 #' \itemize{
 #'  \item ITIS - PostgreSQL
@@ -43,6 +48,8 @@
 #' @export
 #' @rdname db_load
 db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE){
+  mssg(verbose, 'checking if PostgreSQL installed...')
+  db_installed("psql")
   mssg(verbose, "loading database...")
   system(sprintf("psql %s %s -f %s", cl("-U ", user), cl("-p ", pwd), path))
   mssg(verbose, "Done. see ?src_itis")
@@ -51,6 +58,8 @@ db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE){
 #' @export
 #' @rdname db_load
 db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
+  mssg(verbose, 'checking if PostgreSQL installed...')
+  db_installed("psql")
   mssg(verbose, 'creating PostgreSQL database...')
   drv <- dbDriver("PostgreSQL")
   psqlconn <- if (is.null(pwd)) {
@@ -67,6 +76,8 @@ db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
 #' @export
 #' @rdname db_load
 db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE){
+  mssg(verbose, 'checking if MySQL installed...')
+  db_installed("mysql")
   mssg(verbose, 'creating MySQL database, this may take a while, get some coffee...')
   system(sprintf("mysql %s %s -e 'CREATE DATABASE IF NOT EXISTS col';", cl("-u ", user), cl("-p ", pwd)))
   system(sprintf("mysql %s %s col < %s", cl("-u ", user), cl("-p ", pwd), path))
