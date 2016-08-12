@@ -2,14 +2,15 @@ Package: taxizedb
 Type: Package
 Title: Tools for Working with Taxonomic Databases
 Description: Tools for Working with Taxonomic Databases.
-Version: 0.0.2.9700
+Version: 0.0.3.9100
 Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus@gmail.com",
     role = c("aut", "cre"))
 License: MIT + file LICENSE
 LazyData: TRUE
 Imports:
     curl (>= 0.9.7),
-    RPostgreSQL (>= 0.4),
+    RPostgreSQL (>= 0.4-1),
+    RMySQL (>= 0.10.9),
     DBI (>= 0.3.1),
     dplyr (>= 0.4.3),
     magrittr (>= 1.5)
