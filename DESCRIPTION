@@ -2,20 +2,21 @@ Package: taxizedb
 Type: Package
 Title: Tools for Working with Taxonomic Databases
 Description: Tools for Working with Taxonomic Databases.
-Version: 0.0.3.9100
+Version: 0.0.4.9200
 Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus@gmail.com",
     role = c("aut", "cre"))
+URL: https://github.com/ropenscilabs/taxizedb
+BugReports: https://github.com/ropenscilabs/taxizedb/issues
 License: MIT + file LICENSE
 LazyData: TRUE
 Imports:
-    curl (>= 0.9.7),
-    RPostgreSQL (>= 0.4-1),
-    RMySQL (>= 0.10.9),
-    DBI (>= 0.3.1),
-    dplyr (>= 0.4.3),
+    curl (>= 2.4),
+    RPostgreSQL (>= 0.4.1),
+    RMySQL (>= 0.10.11),
+    DBI (>= 0.6.1),
+    dplyr (>= 0.5.0),
     magrittr (>= 1.5)
 Suggests:
-    roxygen2 (>= 5.0.1),
-    testthat,
-    covr
-RoxygenNote: 5.0.1
+    roxygen2 (>= 6.0.1),
+    testthat
+RoxygenNote: 6.0.1
