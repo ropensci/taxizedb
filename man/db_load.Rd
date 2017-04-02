@@ -2,9 +2,9 @@
 % Please edit documentation in R/db_load.R
 \name{db_load}
 \alias{db_load}
-\alias{db_load_col}
 \alias{db_load_itis}
 \alias{db_load_tpl}
+\alias{db_load_col}
 \title{Load taxonomic databases}
 \usage{
 db_load_itis(path, user, pwd = NULL, verbose = TRUE)
@@ -52,6 +52,7 @@ COL database loading takes a long time, e.g., 30 minutes. you may
 want to run it in a separate R session, or just look at the db_load_col fxn
 and run the commands in your shell.
 }
+
 \examples{
 \dontrun{
 # ITIS
@@ -70,4 +71,3 @@ x <- db_download_col()
 db_load_col(x)
 }
 }
-

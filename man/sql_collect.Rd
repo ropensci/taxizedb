@@ -28,4 +28,3 @@ sql_collect(src, "select * from hierarchy limit 5")
 src \%>\% sql_collect("select * from hierarchy limit 5")
 }
 }
-

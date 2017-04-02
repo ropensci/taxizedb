@@ -2,9 +2,10 @@
 % Please edit documentation in R/db_download.R
 \name{db_download}
 \alias{db_download}
-\alias{db_download_col}
 \alias{db_download_itis}
 \alias{db_download_tpl}
+\alias{db_download_col}
+\alias{db_download_gbif}
 \title{Download taxonomic databases}
 \usage{
 db_download_itis(verbose = TRUE)
@@ -12,6 +13,8 @@ db_download_itis(verbose = TRUE)
 db_download_tpl(verbose = TRUE)
 
 db_download_col(verbose = TRUE)
+
+db_download_gbif(verbose = TRUE)
 }
 \arguments{
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
@@ -40,6 +43,7 @@ COL database loading takes a long time, e.g., 30 minutes. you may
 want to run it in a separate R session, or just look at the db_load_col fxn
 and run the commands in your shell.
 }
+
 \examples{
 \dontrun{
 # ITIS
@@ -58,4 +62,3 @@ x <- db_download_col()
 db_load_col(x)
 }
 }
-

@@ -2,8 +2,8 @@
 % Please edit documentation in R/backend.R
 \name{backend}
 \alias{backend}
-\alias{backend_get}
 \alias{backend_set}
+\alias{backend_get}
 \title{Set location of data acquisition.}
 \usage{
 backend_set(itis = "api", col = itis, ncbi = itis, theplantlist = itis,
@@ -58,4 +58,3 @@ backend_get()
 backend_set(col_user="root")
 }
 }
-

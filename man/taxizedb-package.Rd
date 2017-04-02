@@ -2,8 +2,8 @@
 % Please edit documentation in R/taxizedb-package.R
 \docType{package}
 \name{taxizedb-package}
-\alias{taxizedb}
 \alias{taxizedb-package}
+\alias{taxizedb}
 \title{Taxonomic databases interface}
 \description{
 Taxonomic databases interface
@@ -66,4 +66,3 @@ cnames \%>\% select(name)
 Scott Chamberlain \email{myrmecocystus@gmail.com}
 }
 \keyword{package}
-
