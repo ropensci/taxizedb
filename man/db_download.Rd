@@ -26,14 +26,15 @@ Path to the downloaded SQL database
 Download taxonomic databases
 }
 \details{
-Downloads sql database, cleans up unneeded files, returns path to sql file
+Downloads sql database, cleans up unneeded files, returns path
+to sql file
 }
 \section{Supported}{
 
 \itemize{
- \item ITIS - PostgreSQL
- \item the PlantList - PostgreSQL
- \item Catalogue of Life - MySQL
+\item ITIS - PostgreSQL
+\item the PlantList - PostgreSQL
+\item Catalogue of Life - MySQL
 }
 }
 

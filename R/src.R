@@ -3,10 +3,10 @@
 #' @name src_taxizedb
 #' @param user (character) user name
 #' @param password (character) password
-#' @param dbname (character) database name. Defaults: ITIS, col, and plantlistdb
-#' for ITIS, COL, and ThePlantlist, respectively
-#' @param ... Further args passed on to \code{\link[dplyr]{src_postgres}} or
-#' \code{\link[dplyr]{src_mysql}}
+#' @param dbname (character) database name. Defaults: ITIS, col, and
+#' plantlistdb for ITIS, COL, and ThePlantlist, respectively
+#' @param ... Further args passed on to [dplyr::src_postgres()] or
+#' [dplyr::src_mysql()]
 #' @return an src object
 #' @examples \dontrun{
 #' src_itis()

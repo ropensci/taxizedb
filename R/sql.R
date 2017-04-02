@@ -1,11 +1,11 @@
 #' Query and get data back into a data.frame
 #'
 #' @export
-#' @param src An \code{src} object, result of calling \code{\link{src_itis}},
-#' \code{\link{src_col}}, or \code{\link{src_tpl}}
+#' @param src An `src` object, result of calling [src_itis()],
+#' [src_col()], or [src_tpl()]
 #' @param query A SQL query
-#' @param ... further args passed on to \code{\link[dplyr]{tbl}}
-#' @details we run \code{\link[dplyr]{tbl}}, then \code{\link[dplyr]{collect}}
+#' @param ... further args passed on to [dplyr::tbl()]
+#' @details we run [dplyr::tbl()], then [dplyr::collect()]
 #' @examples \dontrun{
 #' src <- src_itis()
 #' sql_collect(src, "select * from hierarchy limit 5")

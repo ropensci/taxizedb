@@ -40,9 +40,9 @@ if you forgot to start your database.
 \section{Supported}{
 
 \itemize{
- \item ITIS - PostgreSQL
- \item the PlantList - PostgreSQL
- \item Catalogue of Life - MySQL
+\item ITIS - PostgreSQL
+\item the PlantList - PostgreSQL
+\item Catalogue of Life - MySQL
 }
 }
 

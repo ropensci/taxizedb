@@ -2,10 +2,11 @@
 #'
 #' @export
 #' @name db_download
-#' @param verbose (logical) Print messages. Default: \code{TRUE}
+#' @param verbose (logical) Print messages. Default: `TRUE`
 #'
 #' @return Path to the downloaded SQL database
-#' @details Downloads sql database, cleans up unneeded files, returns path to sql file
+#' @details Downloads sql database, cleans up unneeded files, returns path
+#' to sql file
 #'
 #' @section Supported:
 #' \itemize{
@@ -70,7 +71,7 @@ db_download_itis <- function(verbose = TRUE){
 #' @rdname db_download
 db_download_tpl <- function(verbose = TRUE){
   # paths
-  db_url <- 'https://github.com/ropensci/taxizedbs/blob/master/theplantlist/plantlist.zip?raw=true'
+  db_url <- 'https://github.com/ropensci/taxizedbs/blob/master/theplantlist/plantlist.zip?raw=true' #nolint
   db_path <- path.expand('~/.taxize_local/plantlist.zip')
   db_path_file <- path.expand('~/.taxize_local/plantlist')
   final_file <- path.expand('~/.taxize_local/plantlist.sql')
@@ -96,11 +97,11 @@ db_download_tpl <- function(verbose = TRUE){
 #' @rdname db_download
 db_download_col <- function(verbose = TRUE){
   # paths
-  #db_url <- 'http://www.catalogueoflife.org/services/res/AnnualChecklist2013-Linux.zip'
   db_url <- 'http://www.catalogueoflife.org/services/res/col2015ac_linux.tar.gz'
   db_path <- path.expand('~/.taxize_local/col2015ac_linux.tar.gz')
   db_path_file <- path.expand('~/.taxize_local/colmysql')
-  db_sql_path <- path.expand('~/.taxize_local/colmysql/col2015ac_linux/col2015ac.sql.tar.gz')
+  db_sql_path <- path.expand(
+    '~/.taxize_local/colmysql/col2015ac_linux/col2015ac.sql.tar.gz')
   db_sql_out <- path.expand('~/.taxize_local/colmysql/col2015ac_linux')
   final_file <- path.expand('~/.taxize_local/col.sql')
   # make home dir if not already present
@@ -148,7 +149,8 @@ db_download_gbif <- function(verbose = TRUE){
   #RSQLite::dbWriteTable(con, name = "gbif", value = )
 
   # sql query to load data
-  #ldq <- ".mode csv \n .import /Users/sacmac/.taxize_local/backbone-current/taxon.txt gbif;"
+  #ldq <- ".mode csv \n .import
+  #  /Users/sacmac/.taxize_local/backbone-current/taxon.txt gbif;"
   #RSQLite::dbSendQuery(con, ldq)
 
   ## load txt file
@@ -187,6 +189,7 @@ CREATE TABLE gbif (
 '
 
 ## some code tried to use to convert COL mysql db to postgresql, didn't work
-# mysqldump --compatible=postgresql --default-character-set=utf8 -r col.mysql -u root col2014ac
+# mysqldump --compatible=postgresql --default-character-set=utf8 -r col.mysql
+#   -u root col2014ac
 # python db_converter.py col.mysql col.psql
 # psql -f col.psql

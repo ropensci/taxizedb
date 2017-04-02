@@ -19,7 +19,10 @@ db_installed <- function(x) {
   tmp <- Sys.which(x)
   if (any(tmp == "")) {
     nf <- paste0(names(tmp)[tmp == ""], collapse = ", ")
-    stop(sprintf("\n%s not found on your computer\nInstall the missing tool(s) and try again", nf))
+    stop(
+      sprintf(
+  "\n%s not found on your computer\nInstall the missing tool(s) and try again",
+  nf))
   }
 }
 

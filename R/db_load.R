@@ -2,10 +2,10 @@
 #'
 #' @export
 #' @name db_load
-#' @param path (character) path to the \code{.sql} database file
+#' @param path (character) path to the `.sql` database file
 #' @param user (character) User name
 #' @param pwd (character) Password, if any
-#' @param verbose (logical) Print messages. Default: \code{TRUE}
+#' @param verbose (logical) Print messages. Default: `TRUE`
 #'
 #' @return Nothing, just message on success
 #' @details These functions load SQL DBs into the respective driver,
@@ -68,7 +68,8 @@ db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
     RPostgreSQL::dbConnect(drv, user = user, password = pwd)
   }
   RPostgreSQL::dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
-  system(sprintf("psql %s %s plantlist < %s", cl("-U ", user), cl("-p ", pwd), path))
+  system(sprintf("psql %s %s plantlist < %s", cl("-U ", user),
+                 cl("-p ", pwd), path))
   invisible(dbDisconnect(psqlconn))
   mssg(verbose, "Done. see ?src_tpl")
 }
@@ -78,13 +79,18 @@ db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
 db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE){
   mssg(verbose, 'checking if MySQL installed...')
   db_installed("mysql")
-  mssg(verbose, 'creating MySQL database, this may take a while, get some coffee...')
-  system(sprintf("mysql %s %s -e 'CREATE DATABASE IF NOT EXISTS col';", cl("-u ", user), cl("-p ", pwd)))
-  system(sprintf("mysql %s %s col < %s", cl("-u ", user), cl("-p ", pwd), path))
+  mssg(
+    verbose,
+    'creating MySQL database, this may take a while, get some coffee...')
+  system(sprintf("mysql %s %s -e 'CREATE DATABASE IF NOT EXISTS col';",
+                 cl("-u ", user), cl("-p ", pwd)))
+  system(sprintf("mysql %s %s col < %s", cl("-u ", user), cl("-p ", pwd),
+                 path))
   mssg(verbose, "Done. see ?src_col")
 }
 
 ## some code tried to use to convert COL mysql db to postgresql, didn't work
-# mysqldump --compatible=postgresql --default-character-set=utf8 -r col.mysql -u root col2014ac
+# mysqldump --compatible=postgresql --default-character-set=utf8 -r col.mysql
+#  -u root col2014ac
 # python db_converter.py col.mysql col.psql
 # psql -f col.psql

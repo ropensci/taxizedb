@@ -18,11 +18,11 @@ src_col(user = "root", password = NULL, dbname = "col", ...)
 
 \item{password}{(character) password}
 
-\item{dbname}{(character) database name. Defaults: ITIS, col, and plantlistdb
-for ITIS, COL, and ThePlantlist, respectively}
+\item{dbname}{(character) database name. Defaults: ITIS, col, and
+plantlistdb for ITIS, COL, and ThePlantlist, respectively}
 
-\item{...}{Further args passed on to \code{\link[dplyr]{src_postgres}} or
-\code{\link[dplyr]{src_mysql}}}
+\item{...}{Further args passed on to \code{\link[dplyr:src_postgres]{dplyr::src_postgres()}} or
+\code{\link[dplyr:src_mysql]{dplyr::src_mysql()}}}
 }
 \value{
 an src object
