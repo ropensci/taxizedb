@@ -1,6 +1,6 @@
 #' Taxonomic databases interface
 #'
-#' @import RPostgreSQL DBI
+#' @import RPostgreSQL
 #' @importFrom dplyr src_postgres src_mysql tbl sql collect
 #' @importFrom curl curl_download
 #' @importFrom magrittr %>%

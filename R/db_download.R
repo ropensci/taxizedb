@@ -141,7 +141,7 @@ db_download_gbif <- function(verbose = TRUE){
   mssg(verbose, 'unzipping...')
   unzip(db_path, exdir = path.expand('~/.taxize_local'))
   # convert to sqlite database
-  library(DBI)
+  #library(DBI)
   con <- dbConnect(RSQLite::SQLite(), path.expand('~/.taxize_local/gbif.sql'))
   ## create table
   dbSendQuery(con, gbif_create_table)
