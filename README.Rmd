@@ -11,10 +11,41 @@ knitr::opts_chunk$set(
 ```
 
 [![Build Status](https://api.travis-ci.org/ropenscilabs/taxizedb.png?branch=master)](https://travis-ci.org/ropenscilabs/taxizedb)
+[![codecov](https://codecov.io/gh/ropenscilabs/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropenscilabs/taxizedb)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/metacran/cranlogs.app)
 
-`taxizedb` - Tools for Working with Taxonomic Databases
+`taxizedb` - Tools for Working with Taxonomic Databases on your Machine
+
+[taxize](https://github.com/ropensci/taxize) is a heavily used taxonomic toolbelt
+package in R - However, it makes web requests for nearly all methods. That is fine
+for most cases, but when the user has many, many names it is much more efficient
+to do requests to a local SQL database. 
+
+Not all taxonomic databases are publicly available. Taxonomic DB's supported thus far:
+
+* ITIS
+* COL
+* Theplantlist
+
+Get in touch [in the issues](issues) with any ideas on new data sources.
+
+This package for each data sources performs the following tasks:
+
+* Download database - `db_download_*`
+* Load database into SQL - `db_load_*`
+* Create `dplyr` SQL backend - `src_*`
+
+`backend_set` and `backend_get` are functions to set and get backend options.
 
 ## install
+
+cran version
+
+```{r eval=FALSE}
+install.packages("taxizedb")
+```
+
+dev version
 
 ```{r eval=FALSE}
 devtools::install_github("ropenscilabs/taxizedb")
@@ -109,3 +140,5 @@ hiers %>% select(tsn, level)
 * License: MIT
 * Get citation information for `taxizedb` in R doing `citation(package = 'taxizedb')`
 * Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)

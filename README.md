@@ -4,10 +4,42 @@ taxizedb
 
 
 [![Build Status](https://api.travis-ci.org/ropenscilabs/taxizedb.png?branch=master)](https://travis-ci.org/ropenscilabs/taxizedb)
+[![codecov](https://codecov.io/gh/ropenscilabs/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropenscilabs/taxizedb)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/metacran/cranlogs.app)
 
-`taxizedb` - Tools for Working with Taxonomic Databases
+`taxizedb` - Tools for Working with Taxonomic Databases on your Machine
+
+[taxize](https://github.com/ropensci/taxize) is a heavily used taxonomic toolbelt
+package in R - However, it makes web requests for nearly all methods. That is fine
+for most cases, but when the user has many, many names it is much more efficient
+to do requests to a local SQL database. 
+
+Not all taxonomic databases are publicly available. Taxonomic DB's supported thus far:
+
+* ITIS
+* COL
+* Theplantlist
+
+Get in touch [in the issues](issues) with any ideas on new data sources.
+
+This package for each data sources performs the following tasks:
+
+* Download database - `db_download_*`
+* Load database into SQL - `db_load_*`
+* Create `dplyr` SQL backend - `src_*`
+
+`backend_set` and `backend_get` are functions to set and get backend options.
 
 ## install
+
+cran version
+
+
+```r
+install.packages("taxizedb")
+```
+
+dev version
 
 
 ```r
@@ -78,11 +110,10 @@ src <- src_col()
 
 ```r
 sql_collect(src, "select * from hierarchy limit 5")
-#> Source: local data frame [5 x 5]
-#> 
+#> # A tibble: 5 × 5
 #>                     hierarchy_string    tsn parent_tsn level childrencount
-#>                                (chr)  (int)      (int) (int)         (int)
-#> 1                             202422 202422          0     0        145306
+#> *                              <chr>  <int>      <int> <int>         <int>
+#> 1                             202422 202422          0     0        145330
 #> 2                      202422-846491 846491     202422     1          2666
 #> 3               202422-846491-660046 660046     846491     2          2654
 #> 4        202422-846491-660046-846497 846497     660046     3             7
@@ -93,11 +124,10 @@ sql_collect(src, "select * from hierarchy limit 5")
 ```r
 # or pipe the src to sql_collect
 src %>% sql_collect("select * from hierarchy limit 5")
-#> Source: local data frame [5 x 5]
-#> 
+#> # A tibble: 5 × 5
 #>                     hierarchy_string    tsn parent_tsn level childrencount
-#>                                (chr)  (int)      (int) (int)         (int)
-#> 1                             202422 202422          0     0        145306
+#> *                              <chr>  <int>      <int> <int>         <int>
+#> 1                             202422 202422          0     0        145330
 #> 2                      202422-846491 846491     202422     1          2666
 #> 3               202422-846491-660046 660046     846491     2          2654
 #> 4        202422-846491-660046-846497 846497     660046     3             7
@@ -118,12 +148,11 @@ limit 10
 
 ```r
 hiers %>% top_n(10)
-#> Source: postgres 9.4.5 [sacmac@localhost:5432/ITIS]
-#> From: hierarchy [10 x 5]
-#> Filter: min_rank(desc(childrencount)) <= 10 
+#> Source:   query [?? x 5]
+#> Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
 #> 
 #>                                                       hierarchy_string
-#>                                                                  (chr)
+#>                                                                  <chr>
 #> 1                                                               202423
 #> 2                                                        202423-914154
 #> 3                                                 202423-914154-914155
@@ -134,8 +163,8 @@ hiers %>% top_n(10)
 #> 8                202423-914154-914155-914158-82696-563886-99208-100500
 #> 9         202423-914154-914155-914158-82696-563886-99208-100500-563890
 #> 10 202423-914154-914155-914158-82696-563886-99208-100500-563890-914213
-#> Variables not shown: tsn (int), parent_tsn (int), level (int),
-#>   childrencount (int)
+#> # ... with more rows, and 4 more variables: tsn <int>, parent_tsn <int>,
+#> #   level <int>, childrencount <int>
 ```
 
 select certain fields
@@ -143,11 +172,11 @@ select certain fields
 
 ```r
 hiers %>% select(tsn, level)
-#> Source: postgres 9.4.5 [sacmac@localhost:5432/ITIS]
-#> From: hierarchy [528,960 x 2]
+#> Source:   query [?? x 2]
+#> Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
 #> 
 #>       tsn level
-#>     (int) (int)
+#>     <int> <int>
 #> 1  202422     0
 #> 2  846491     1
 #> 3  660046     2
@@ -158,7 +187,7 @@ hiers %>% select(tsn, level)
 #> 8    5549     7
 #> 9    5550     8
 #> 10 954936     6
-#> ..    ...   ...
+#> # ... with more rows
 ```
 
 ## Meta
@@ -167,3 +196,5 @@ hiers %>% select(tsn, level)
 * License: MIT
 * Get citation information for `taxizedb` in R doing `citation(package = 'taxizedb')`
 * Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
