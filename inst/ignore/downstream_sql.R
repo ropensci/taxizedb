@@ -12,7 +12,10 @@ make_sql <- function(x) {
       )
 }
 
-tsn2 <- 173420 #amphibia TSN
+
+
+#tsn2 <- 173420 # amphibia TSN
+tsn2 <- 179913 # mammalia TSN
 out <- list()
 # pb <- txtProgressBar(min = 0, max = 10, initial = 0,
 #                      style = 3)
@@ -22,7 +25,7 @@ for (i in 1:10) {
   #   df <- sql_collect(src, make_sql(z))
   #   filter(df, tsn != z)
   # })
-  i <- 5
+  i <- 11
   df <- sql_collect(src, make_sql(tsn2))
   df$rank_name <- rcrossref:::strtrim(df$rank_name)
 
@@ -42,4 +45,4 @@ all$rank_name <- rcrossref:::strtrim(all$rank_name)
 all %>%
   filter(rank_name == "Species") %>%
   distinct() %>%
-  readr::write_csv(path = "amphibians.csv")
+  readr::write_csv(path = "~/Dropbox/sAPROPOS project/DemogData/mammals.csv")
