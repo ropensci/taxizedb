@@ -51,7 +51,7 @@ db_download_itis <- function(verbose = TRUE){
   curl::curl_download(itis_db_url, itis_db_path, quiet = TRUE)
   # unzip
   mssg(verbose, 'unzipping...')
-  unzip(itis_db_path, exdir = itis_db_path_file)
+  utils::unzip(itis_db_path, exdir = itis_db_path_file)
   # get file path
   dirs <- list.dirs(itis_db_path_file, full.names = TRUE)
   dir_date <- dirs[ dirs != itis_db_path_file ]
@@ -81,7 +81,7 @@ db_download_tpl <- function(verbose = TRUE){
   curl::curl_download(db_url, db_path, quiet = TRUE)
   # unzip
   mssg(verbose, 'unzipping...')
-  unzip(db_path, exdir = db_path_file)
+  utils::unzip(db_path, exdir = db_path_file)
   # move database
   file.rename(file.path(db_path_file, "plantlist.sql"), final_file)
   # cleanup
@@ -111,8 +111,8 @@ db_download_col <- function(verbose = TRUE){
   # unzip
   mssg(verbose, 'unzipping...')
   #unzip(db_path, exdir = db_path_file)
-  untar(db_path, exdir = db_sql_out)
-  untar(db_sql_path, exdir = db_sql_out)
+  utils::untar(db_path, exdir = db_sql_out)
+  utils::untar(db_sql_path, exdir = db_sql_out)
   # move database
   file.rename(file.path(db_sql_out, "col2015ac.sql"), final_file)
   # cleanup
@@ -139,13 +139,18 @@ db_download_gbif <- function(verbose = TRUE){
   curl::curl_download(db_url, db_path, quiet = TRUE)
   # unzip
   mssg(verbose, 'unzipping...')
-  unzip(db_path, exdir = path.expand('~/.taxize_local'))
+  utils::unzip(db_path, exdir = path.expand('~/.taxize_local'))
   # convert to sqlite database
   #library(DBI)
   con <- dbConnect(RSQLite::SQLite(), path.expand('~/.taxize_local/gbif.sql'))
   ## create table
-  dbSendQuery(con, gbif_create_table)
-  dbWriteTable(con, name = "gbif", vv)
+  RSQLite::dbSendQuery(con, gbif_create_table)
+  #RSQLite::dbWriteTable(con, name = "gbif", value = )
+
+  # sql query to load data
+  #ldq <- ".mode csv \n .import /Users/sacmac/.taxize_local/backbone-current/taxon.txt gbif;"
+  #RSQLite::dbSendQuery(con, ldq)
+
   ## load txt file
   system2("sqlite3")
   # move database

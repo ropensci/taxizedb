@@ -61,13 +61,13 @@ db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
   mssg(verbose, 'checking if PostgreSQL installed...')
   db_installed("psql")
   mssg(verbose, 'creating PostgreSQL database...')
-  drv <- dbDriver("PostgreSQL")
+  drv <- DBI::dbDriver("PostgreSQL")
   psqlconn <- if (is.null(pwd)) {
-    dbConnect(drv, user = user)
+    RPostgreSQL::dbConnect(drv, user = user)
   } else {
-    dbConnect(drv, user = user, password = pwd)
+    RPostgreSQL::dbConnect(drv, user = user, password = pwd)
   }
-  dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
+  RPostgreSQL::dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
   system(sprintf("psql %s %s plantlist < %s", cl("-U ", user), cl("-p ", pwd), path))
   invisible(dbDisconnect(psqlconn))
   mssg(verbose, "Done. see ?src_tpl")
