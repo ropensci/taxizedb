@@ -2,7 +2,7 @@
 % Please edit documentation in R/caching.R
 \name{tdb_cache}
 \alias{tdb_cache}
-\title{Manage cached taxizedb files with \pkg{hoardr}}
+\title{Caching}
 \description{
 Manage cached taxizedb files with \pkg{hoardr}
 }

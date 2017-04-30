@@ -1,4 +1,6 @@
-#' Manage cached taxizedb files with \pkg{hoardr}
+#' @title Caching
+#'
+#' @description Manage cached taxizedb files with \pkg{hoardr}
 #'
 #' @export
 #' @name tdb_cache
