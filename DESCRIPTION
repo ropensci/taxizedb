@@ -2,14 +2,14 @@ Package: taxizedb
 Type: Package
 Title: Tools for Working with 'Taxonomic' Databases
 Description: Tools for working with 'taxonomic' databases, including
-    utilities for downloading databases, loading them into various 
+    utilities for downloading databases, loading them into various
     SQL databases, cleaning up files, and providing a SQL connection
     that can be used to do SQL queries directly or used in dplyr.
 Version: 0.0.7.9100
 Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus+r@gmail.com",
     role = c("aut", "cre"))
-URL: https://github.com/ropenscilabs/taxizedb
-BugReports: https://github.com/ropenscilabs/taxizedb/issues
+URL: https://github.com/ropensci/taxizedb
+BugReports: https://github.com/ropensci/taxizedb/issues
 License: MIT + file LICENSE
 LazyData: TRUE
 Roxygen: list(markdown = TRUE)

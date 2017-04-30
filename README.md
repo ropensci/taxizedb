@@ -3,8 +3,8 @@ taxizedb
 
 
 
-[![Build Status](https://api.travis-ci.org/ropenscilabs/taxizedb.png?branch=master)](https://travis-ci.org/ropenscilabs/taxizedb)
-[![codecov](https://codecov.io/gh/ropenscilabs/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropenscilabs/taxizedb)
+[![Build Status](https://api.travis-ci.org/ropensci/taxizedb.png?branch=master)](https://travis-ci.org/ropensci/taxizedb)
+[![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/taxizedb)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/metacran/cranlogs.app)
 
 `taxizedb` - Tools for Working with Taxonomic Databases on your Machine
@@ -12,7 +12,7 @@ taxizedb
 [taxize](https://github.com/ropensci/taxize) is a heavily used taxonomic toolbelt
 package in R - However, it makes web requests for nearly all methods. That is fine
 for most cases, but when the user has many, many names it is much more efficient
-to do requests to a local SQL database. 
+to do requests to a local SQL database.
 
 Not all taxonomic databases are publicly available. Taxonomic DB's supported thus far:
 
@@ -43,7 +43,7 @@ dev version
 
 
 ```r
-devtools::install_github("ropenscilabs/taxizedb")
+devtools::install_github("ropensci/taxizedb")
 ```
 
 
@@ -84,7 +84,7 @@ db_load_itis(x)
 
 ## connect to the DBs
 
-ITIS 
+ITIS
 
 
 ```r
@@ -98,14 +98,14 @@ TPL
 src <- src_tpl()
 ```
 
-COL 
+COL
 
 
 ```r
 src <- src_col()
 ```
 
-## query with SQL syntax 
+## query with SQL syntax
 
 
 ```r
@@ -192,7 +192,7 @@ hiers %>% select(tsn, level)
 
 ## Meta
 
-* Please [report any issues or bugs](https://github.com/ropenscilabs/taxizedb/issues).
+* Please [report any issues or bugs](https://github.com/ropensci/taxizedb/issues).
 * License: MIT
 * Get citation information for `taxizedb` in R doing `citation(package = 'taxizedb')`
 * Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
