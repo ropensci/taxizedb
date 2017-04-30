@@ -13,7 +13,10 @@
 #'  \item ITIS - PostgreSQL
 #'  \item the PlantList - PostgreSQL
 #'  \item Catalogue of Life - MySQL
+#'  \item GBIF - SQLite
 #' }
+#'
+#' @seealso [tdb_cache]
 #'
 #' @section Beware:
 #' COL database loading takes a long time, e.g., 30 minutes. you may
@@ -29,42 +32,47 @@
 #' # the plant list
 #' #db_download_tpl() %>% db_load_tpl()
 #' x <- db_download_tpl()
-#' db_load_tpl(x)
+#' db_load_tpl(x, "sacmac")
 #'
 #' # catalogue of life
 #' #db_download_col() %>% db_load_col()
 #' x <- db_download_col()
 #' db_load_col(x)
+#'
+#' # GBIF
+#' #db_download_col()
+#' x <- db_download_gbif()
+#' db_load_gbif(x)
 #' }
 
 #' @export
 #' @rdname db_download
 db_download_itis <- function(verbose = TRUE){
   # paths
-  itis_db_url <- 'http://www.itis.gov/downloads/itisPostgreSql.zip'
-  itis_db_path <- path.expand('~/.taxize_local/itisPostgreSql.zip')
-  itis_db_path_file <- path.expand('~/.taxize_local/itisPostgreSql')
-  itis_final_file <- path.expand('~/.taxize_local/ITIS.sql')
+  db_url <- 'http://www.itis.gov/downloads/itisPostgreSql.zip'
+  db_path <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql.zip')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'ITIS.sql')
   # make home dir if not already present
-  mkhome(path.expand('~/.taxize_local/'))
+  tdb_cache$mkdir()
   # download data
   mssg(verbose, 'downloading...')
-  curl::curl_download(itis_db_url, itis_db_path, quiet = TRUE)
+  curl::curl_download(db_url, db_path, quiet = TRUE)
   # unzip
   mssg(verbose, 'unzipping...')
-  utils::unzip(itis_db_path, exdir = itis_db_path_file)
+  utils::unzip(db_path, exdir = db_path_file)
   # get file path
-  dirs <- list.dirs(itis_db_path_file, full.names = TRUE)
-  dir_date <- dirs[ dirs != itis_db_path_file ]
+  dirs <- list.dirs(db_path_file, full.names = TRUE)
+  dir_date <- dirs[ dirs != db_path_file ]
   db_path <- list.files(dir_date, pattern = ".sql", full.names = TRUE)
   # move database
-  file.rename(db_path, itis_final_file)
+  file.rename(db_path, final_file)
   # cleanup
   mssg(verbose, 'cleaning up...')
-  unlink(itis_db_path)
-  unlink(itis_db_path_file, recursive = TRUE)
+  unlink(db_path)
+  unlink(db_path_file, recursive = TRUE)
   # return path
-  return( itis_final_file )
+  return(final_file)
 }
 
 #' @export
@@ -72,11 +80,11 @@ db_download_itis <- function(verbose = TRUE){
 db_download_tpl <- function(verbose = TRUE){
   # paths
   db_url <- 'https://github.com/ropensci/taxizedbs/blob/master/theplantlist/plantlist.zip?raw=true' #nolint
-  db_path <- path.expand('~/.taxize_local/plantlist.zip')
-  db_path_file <- path.expand('~/.taxize_local/plantlist')
-  final_file <- path.expand('~/.taxize_local/plantlist.sql')
+  db_path <- file.path(tdb_cache$cache_path_get(), 'plantlist.zip')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'plantlist')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sql')
   # make home dir if not already present
-  mkhome(path.expand('~/.taxize_local/'))
+  tdb_cache$mkdir()
   # download data
   mssg(verbose, 'downloading...')
   curl::curl_download(db_url, db_path, quiet = TRUE)
@@ -98,14 +106,15 @@ db_download_tpl <- function(verbose = TRUE){
 db_download_col <- function(verbose = TRUE){
   # paths
   db_url <- 'http://www.catalogueoflife.org/services/res/col2015ac_linux.tar.gz'
-  db_path <- path.expand('~/.taxize_local/col2015ac_linux.tar.gz')
-  db_path_file <- path.expand('~/.taxize_local/colmysql')
-  db_sql_path <- path.expand(
-    '~/.taxize_local/colmysql/col2015ac_linux/col2015ac.sql.tar.gz')
-  db_sql_out <- path.expand('~/.taxize_local/colmysql/col2015ac_linux')
-  final_file <- path.expand('~/.taxize_local/col.sql')
+  db_path <- file.path(tdb_cache$cache_path_get(), 'col2015ac_linux.tar.gz')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'colmysql')
+  db_sql_path <- file.path(tdb_cache$cache_path_get(),
+                           '/colmysql/col2015ac_linux/col2015ac.sql.tar.gz')
+  db_sql_out <- file.path(tdb_cache$cache_path_get(),
+                          'colmysql/col2015ac_linux')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'col.sql')
   # make home dir if not already present
-  mkhome(path.expand('~/.taxize_local/'))
+  tdb_cache$mkdir()
   # download data
   mssg(verbose, 'downloading...')
   curl::curl_download(db_url, db_path, quiet = TRUE)
@@ -126,35 +135,12 @@ db_download_col <- function(verbose = TRUE){
 #' @export
 #' @rdname db_download
 db_download_gbif <- function(verbose = TRUE){
-  # paths
   db_url <- 'https://s3-us-west-2.amazonaws.com/gbif-backbone/gbif.sqlite'
-  db_path <- path.expand('~/.taxize_local/gbif.sqlite')
-  #db_path_file <- path.expand('~/.taxize_local/backbone-current')
-  #db_sql_path <- path.expand('~/.taxize_local/gbif/gbif/gbif.sql.tar.gz')
-  #taxon_file <- path.expand('~/.taxize_local/backbone-current/taxon.txt')
-  final_file <- path.expand('~/.taxize_local/gbif.sqlite')
-  # make home dir if not already present
-  mkhome(path.expand('~/.taxize_local/'))
-  # download data
+  db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
+  tdb_cache$mkdir()
   mssg(verbose, 'downloading...')
   curl::curl_download(db_url, db_path, quiet = TRUE)
-  # unzip
-  mssg(verbose, 'unzipping...')
-  utils::unzip(db_path, exdir = path.expand('~/.taxize_local'))
-  # convert to sqlite database
-  #library(DBI)
-  con <- dbConnect(RSQLite::SQLite(), path.expand('~/.taxize_local/gbif.sql'))
-  ## create table
-  RSQLite::dbSendQuery(con, gbif_create_table)
-  #RSQLite::dbWriteTable(con, name = "gbif", value = )
-
-  ## load txt file
-  system2("sqlite3")
-  # move database
-  file.rename(file.path(db_sql_out, "gbif.sql"), final_file)
-  # cleanup
-  mssg(verbose, 'cleaning up...')
-  unlink(db_path)
-  unlink(db_path_file, recursive = TRUE)
-  return( final_file )
+  mssg(verbose, 'all done...')
+  return(db_path)
 }

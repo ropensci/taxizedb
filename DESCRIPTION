@@ -1,9 +1,12 @@
 Package: taxizedb
 Type: Package
-Title: Tools for Working with Taxonomic Databases
-Description: Tools for Working with Taxonomic Databases.
-Version: 0.0.4.9200
-Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus@gmail.com",
+Title: Tools for Working with 'Taxonomic' Databases
+Description: Tools for working with 'taxonomic' databases, including
+    utilities for downloading databases, loading them into various 
+    SQL databases, cleaning up files, and providing a SQL connection
+    that can be used to do SQL queries directly or used in dplyr.
+Version: 0.0.7.9100
+Authors@R: person("Scott", "Chamberlain", email = "myrmecocystus+r@gmail.com",
     role = c("aut", "cre"))
 URL: https://github.com/ropenscilabs/taxizedb
 BugReports: https://github.com/ropenscilabs/taxizedb/issues
@@ -16,7 +19,8 @@ Imports:
     RMySQL (>= 0.10.11),
     RSQLite (>= 1.1.2),
     dplyr (>= 0.5.0),
-    magrittr (>= 1.5)
+    magrittr (>= 1.5),
+    hoardr (>= 0.1.0)
 Suggests:
     roxygen2 (>= 6.0.1),
     testthat,

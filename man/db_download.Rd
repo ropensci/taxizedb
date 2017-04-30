@@ -35,6 +35,7 @@ to sql file
 \item ITIS - PostgreSQL
 \item the PlantList - PostgreSQL
 \item Catalogue of Life - MySQL
+\item GBIF - SQLite
 }
 }
 
@@ -55,11 +56,19 @@ db_load_itis(x)
 # the plant list
 #db_download_tpl() \%>\% db_load_tpl()
 x <- db_download_tpl()
-db_load_tpl(x)
+db_load_tpl(x, "sacmac")
 
 # catalogue of life
 #db_download_col() \%>\% db_load_col()
 x <- db_download_col()
 db_load_col(x)
+
+# GBIF
+#db_download_col()
+x <- db_download_gbif()
+db_load_gbif(x)
 }
+}
+\seealso{
+\link{tdb_cache}
 }

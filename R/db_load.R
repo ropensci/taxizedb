@@ -21,6 +21,7 @@
 #'  \item ITIS - PostgreSQL
 #'  \item the PlantList - PostgreSQL
 #'  \item Catalogue of Life - MySQL
+#'  \item GBIF - SQLite
 #' }
 #'
 #' @section Beware:
@@ -47,7 +48,7 @@
 
 #' @export
 #' @rdname db_load
-db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE){
+db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE) {
   mssg(verbose, 'checking if PostgreSQL installed...')
   db_installed("psql")
   mssg(verbose, "loading database...")
@@ -57,7 +58,7 @@ db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE){
 
 #' @export
 #' @rdname db_load
-db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
+db_load_tpl <- function(path, user, pwd = NULL, verbose = TRUE) {
   mssg(verbose, 'checking if PostgreSQL installed...')
   db_installed("psql")
   mssg(verbose, 'creating PostgreSQL database...')
@@ -76,7 +77,7 @@ db_load_tpl <- function(path, user = NULL, pwd = NULL, verbose = TRUE){
 
 #' @export
 #' @rdname db_load
-db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE){
+db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE) {
   mssg(verbose, 'checking if MySQL installed...')
   db_installed("mysql")
   mssg(
@@ -89,8 +90,10 @@ db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE){
   mssg(verbose, "Done. see ?src_col")
 }
 
-## some code tried to use to convert COL mysql db to postgresql, didn't work
-# mysqldump --compatible=postgresql --default-character-set=utf8 -r col.mysql
-#  -u root col2014ac
-# python db_converter.py col.mysql col.psql
-# psql -f col.psql
+#' @export
+#' @rdname db_load
+db_load_gbif <- function(verbose = TRUE) {
+  mssg(verbose, 'checking if SQLite installed...')
+  db_installed("sqlite3")
+  mssg(verbose, "Done. see ?src_gbif")
+}

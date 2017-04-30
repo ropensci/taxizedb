@@ -5,13 +5,16 @@
 \alias{db_load_itis}
 \alias{db_load_tpl}
 \alias{db_load_col}
+\alias{db_load_gbif}
 \title{Load taxonomic databases}
 \usage{
 db_load_itis(path, user, pwd = NULL, verbose = TRUE)
 
-db_load_tpl(path, user = NULL, pwd = NULL, verbose = TRUE)
+db_load_tpl(path, user, pwd = NULL, verbose = TRUE)
 
 db_load_col(path, user = "root", pwd = NULL, verbose = TRUE)
+
+db_load_gbif(verbose = TRUE)
 }
 \arguments{
 \item{path}{(character) path to the \code{.sql} database file}
@@ -43,6 +46,7 @@ if you forgot to start your database.
 \item ITIS - PostgreSQL
 \item the PlantList - PostgreSQL
 \item Catalogue of Life - MySQL
+\item GBIF - SQLite
 }
 }
 
