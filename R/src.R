@@ -6,6 +6,7 @@
 #' @param dbname (character) database name. Defaults: ITIS, col, and
 #' plantlistdb for ITIS, COL, and ThePlantlist, respectively. GBIF uses
 #' SQLite so doesn't have a database name
+#' @param path (character) path to SQLite database
 #' @param ... Further args passed on to [dplyr::src_postgres()] or
 #' [dplyr::src_mysql()], or [dplyr::src_sqlite()]
 #' @return an src object

@@ -27,6 +27,8 @@ SQLite so doesn't have a database name}
 
 \item{...}{Further args passed on to \code{\link[dplyr:src_postgres]{dplyr::src_postgres()}} or
 \code{\link[dplyr:src_mysql]{dplyr::src_mysql()}}, or \code{\link[dplyr:src_sqlite]{dplyr::src_sqlite()}}}
+
+\item{path}{(character) path to SQLite database}
 }
 \value{
 an src object
