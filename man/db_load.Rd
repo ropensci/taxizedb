@@ -36,9 +36,8 @@ These functions load SQL DBs into the respective driver,
 and they return the file path, but they don't load the database
 
 We check if the database used for each source is installed on
-your machine first. We'll soon add a check for whether it's
-running or not yet. For now, you may get weird errors given
-if you forgot to start your database.
+your machine first. and if it is running or not, with errors
+for the user if neither are true.
 }
 \section{Supported}{
 

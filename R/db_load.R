@@ -12,9 +12,8 @@
 #' and they return the file path, but they don't load the database
 #'
 #' We check if the database used for each source is installed on
-#' your machine first. We'll soon add a check for whether it's
-#' running or not yet. For now, you may get weird errors given
-#' if you forgot to start your database.
+#' your machine first. and if it is running or not, with errors
+#' for the user if neither are true.
 #'
 #' @section Supported:
 #' \itemize{
@@ -49,24 +48,46 @@
 #' @export
 #' @rdname db_load
 db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE) {
-  mssg(verbose, 'checking if PostgreSQL installed...')
+  mssg(verbose, 'checking if Postgres installed...')
   db_installed("psql")
   mssg(verbose, "loading database...")
+
+  drv <- DBI::dbDriver("PostgreSQL")
+  mssg(verbose, "checking if Postgres is running...")
+  if (is.null(pwd)) {
+    psqlconn <- tryCatch(
+      RPostgreSQL::dbConnect(drv, user = user), error = function(e) e)
+  } else {
+    psqlconn <- tryCatch(
+      RPostgreSQL::dbConnect(drv, user = user, password = pwd),
+      error = function(e) e)
+  }
+  if (inherits(psqlconn, "error")) {
+    stop("Make sure Postgres is on/running\n  ", psqlconn$message)
+  }
   system(sprintf("psql %s %s -f %s", cl("-U ", user), cl("-p ", pwd), path))
+  invisible(dbDisconnect(psqlconn))
   mssg(verbose, "Done. see ?src_itis")
 }
 
 #' @export
 #' @rdname db_load
 db_load_tpl <- function(path, user, pwd = NULL, verbose = TRUE) {
-  mssg(verbose, 'checking if PostgreSQL installed...')
+  mssg(verbose, 'checking if Postgres installed...')
   db_installed("psql")
-  mssg(verbose, 'creating PostgreSQL database...')
+  mssg(verbose, 'creating Postgres database...')
   drv <- DBI::dbDriver("PostgreSQL")
-  psqlconn <- if (is.null(pwd)) {
-    RPostgreSQL::dbConnect(drv, user = user)
+  mssg(verbose, "checking if Postgres is running...")
+  if (is.null(pwd)) {
+    psqlconn <- tryCatch(
+      RPostgreSQL::dbConnect(drv, user = user), error = function(e) e)
   } else {
-    RPostgreSQL::dbConnect(drv, user = user, password = pwd)
+    psqlconn <- tryCatch(
+      RPostgreSQL::dbConnect(drv, user = user, password = pwd),
+      error = function(e) e)
+  }
+  if (inherits(psqlconn, "error")) {
+    stop("Make sure Postgres is on/running\n  ", psqlconn$message)
   }
   RPostgreSQL::dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
   system(sprintf("psql %s %s plantlist < %s", cl("-U ", user),
@@ -80,6 +101,22 @@ db_load_tpl <- function(path, user, pwd = NULL, verbose = TRUE) {
 db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE) {
   mssg(verbose, 'checking if MySQL installed...')
   db_installed("mysql")
+
+  mssg(verbose, "checking if MySQL is running...")
+  drv <- DBI::dbDriver("MySQL")
+  if (is.null(pwd)) {
+    mysqlconn <- tryCatch(
+      RMySQL::dbConnect(drv, user = user), error = function(e) e)
+  } else {
+    mysqlconn <- tryCatch(
+      RMySQL::dbConnect(drv, user = user, password = pwd),
+      error = function(e) e)
+  }
+  if (inherits(mysqlconn, "error")) {
+    stop("Make sure MySQL is on/running\n  ", mysqlconn$message)
+  }
+  invisible(dbDisconnect(mysqlconn))
+
   mssg(
     verbose,
     'creating MySQL database, this may take a while, get some coffee...')
