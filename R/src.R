@@ -11,10 +11,10 @@
 #' [dplyr::src_mysql()], or [dplyr::src_sqlite()]
 #' @return an src object
 #' @examples \dontrun{
-#' src_itis()
-#' src_tpl()
-#' src_col()
-#' src_gbif()
+#' # src_itis()
+#' # src_tpl()
+#' # src_col()
+#' # src_gbif()
 #' }
 
 #' @export

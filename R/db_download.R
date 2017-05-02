@@ -11,7 +11,7 @@
 #' @section Supported:
 #' \itemize{
 #'  \item ITIS - PostgreSQL
-#'  \item the PlantList - PostgreSQL
+#'  \item The PlantList - PostgreSQL
 #'  \item Catalogue of Life - MySQL
 #'  \item GBIF - SQLite
 #' }
@@ -25,24 +25,24 @@
 #'
 #' @examples \dontrun{
 #' # ITIS
-#' #db_download_itis() %>% db_load_itis()
-#' x <- db_download_itis()
-#' db_load_itis(x)
+#' # x <- db_download_itis()
+#' # db_load_itis(x)
+#' # src_itis()
 #'
-#' # the plant list
-#' #db_download_tpl() %>% db_load_tpl()
-#' x <- db_download_tpl()
-#' db_load_tpl(x, "sacmac")
+#' # Plantlist
+#' # x <- db_download_tpl()
+#' # db_load_tpl(x, "sacmac")
+#' # src_tpl()
 #'
-#' # catalogue of life
-#' #db_download_col() %>% db_load_col()
-#' x <- db_download_col()
-#' db_load_col(x)
+#' # COL
+#' # x <- db_download_col()
+#' # db_load_col(x)
+#' # src_col()
 #'
 #' # GBIF
-#' #db_download_col()
-#' x <- db_download_gbif()
-#' db_load_gbif(x)
+#' # x <- db_download_gbif()
+#' # db_load_gbif()
+#' # src_gbif(x)
 #' }
 
 #' @export

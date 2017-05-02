@@ -38,9 +38,9 @@ src - dplyr src objects
 }
 \examples{
 \dontrun{
-src_itis()
-src_tpl()
-src_col()
-src_gbif()
+# src_itis()
+# src_tpl()
+# src_col()
+# src_gbif()
 }
 }

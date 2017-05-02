@@ -63,14 +63,18 @@ and run the commands in your shell.
 x <- db_download_itis()
 db_load_itis(x)
 
-# the plant list
+# Plantlist
 #db_download_tpl() \%>\% db_load_tpl()
 x <- db_download_tpl()
 db_load_tpl(x)
 
-# catalogue of life
+# COL
 #db_download_col() \%>\% db_load_col()
 x <- db_download_col()
 db_load_col(x)
+
+# GBIF
+## only checks if sqlite installed
+db_load_gbif()
 }
 }
