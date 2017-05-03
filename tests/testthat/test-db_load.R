@@ -26,6 +26,9 @@ test_that("db_load fails as expected - more", {
   skip_on_cran()
   skip_on_travis()
 
+  f <- tempfile()
+  cat("hello world", file = f)
+
   # connection failures
   expect_error(suppressMessages(db_load_col(path = f)), "Failed to connect")
   expect_error(suppressMessages(db_load_itis(path = f, user = "stuff")),
