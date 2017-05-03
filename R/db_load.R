@@ -52,6 +52,9 @@
 #' @export
 #' @rdname db_load
 db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE) {
+  mssg(verbose, 'checking if `path` exists...')
+  stopifnot(file.exists(path))
+
   mssg(verbose, 'checking if Postgres installed...')
   db_installed("psql")
   mssg(verbose, "loading database...")
@@ -77,6 +80,9 @@ db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE) {
 #' @export
 #' @rdname db_load
 db_load_tpl <- function(path, user, pwd = NULL, verbose = TRUE) {
+  mssg(verbose, 'checking if `path` exists...')
+  stopifnot(file.exists(path))
+
   mssg(verbose, 'checking if Postgres installed...')
   db_installed("psql")
   mssg(verbose, 'creating Postgres database...')
@@ -103,6 +109,9 @@ db_load_tpl <- function(path, user, pwd = NULL, verbose = TRUE) {
 #' @export
 #' @rdname db_load
 db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE) {
+  mssg(verbose, 'checking if `path` exists...')
+  stopifnot(file.exists(path))
+
   mssg(verbose, 'checking if MySQL installed...')
   db_installed("mysql")
 
