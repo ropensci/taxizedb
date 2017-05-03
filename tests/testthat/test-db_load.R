@@ -1,6 +1,8 @@
 context("db_load")
 
 test_that("db_load fails as expected", {
+  skip_on_cran()
+
   # parameter errors
   ## path
   expect_error(suppressMessages(db_load_col(path = "asdfasdf")),

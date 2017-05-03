@@ -23,6 +23,8 @@ test_that("tdb_cache structure is as expected", {
 
 
 test_that("tdb_cache works as expected", {
+  skip_on_cran()
+
   # clear cache in case any in there
   tdb_cache$delete_all()
 
