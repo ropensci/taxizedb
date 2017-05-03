@@ -23,6 +23,7 @@
 #'  \item GBIF - SQLite
 #' }
 #'
+#'
 #' @section Beware:
 #' COL database loading takes a long time, e.g., 30 minutes. you may
 #' want to run it in a separate R session, or just look at the db_load_col fxn

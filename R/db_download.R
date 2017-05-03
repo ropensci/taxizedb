@@ -49,7 +49,7 @@
 #' @rdname db_download
 db_download_itis <- function(verbose = TRUE){
   # paths
-  db_url <- 'http://www.itis.gov/downloads/itisPostgreSql.zip'
+  db_url <- 'https://www.itis.gov/downloads/itisPostgreSql.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql')
   final_file <- file.path(tdb_cache$cache_path_get(), 'ITIS.sql')

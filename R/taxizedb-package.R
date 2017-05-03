@@ -10,6 +10,11 @@
 #' @author Scott Chamberlain \email{myrmecocystus@@gmail.com}
 #' @keywords package
 #'
+#' @section Database setup/user/pwd:
+#' Every user will have a unique combination of username, password, and
+#' platform, so we can't make the functions in this package work out of the
+#' box in every situation.
+#'
 #' @examples \dontrun{
 #' # IMPORTANT: Remember to start your PostgreSQL database for ITIS
 #' # and ThePlantList and your MySQL database for COL
