@@ -8,8 +8,9 @@ test_that("src structure is as expected", {
 })
 
 
-test_that("src itis fails well", {
+test_that("src fails well", {
   skip_on_cran()
+  skip_on_travis()
 
   expect_error(src_itis(), "could not connect")
   expect_error(src_col(), "Failed to connect")

@@ -20,6 +20,11 @@ test_that("db_load fails as expected", {
                "argument \"user\" is missing, with no default")
   expect_error(suppressMessages(db_load_tpl(path = f)),
                "argument \"user\" is missing, with no default")
+})
+
+test_that("db_load fails as expected - more", {
+  skip_on_cran()
+  skip_on_travis()
 
   # connection failures
   expect_error(suppressMessages(db_load_col(path = f)), "Failed to connect")
