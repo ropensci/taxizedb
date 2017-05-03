@@ -99,6 +99,9 @@ db_load_tpl <- function(path, user, pwd = NULL, verbose = TRUE) {
   if (inherits(psqlconn, "error")) {
     stop("Make sure Postgres is on/running\n  ", psqlconn$message)
   }
+  # drop database if exists
+  RPostgreSQL::dbSendQuery(psqlconn, "DROP DATABASE IF EXISTS plantlist;")
+  # create database
   RPostgreSQL::dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
   system(sprintf("psql %s %s plantlist < %s", cl("-U ", user),
                  cl("-p ", pwd), path))
