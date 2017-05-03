@@ -20,10 +20,10 @@ test_that("db_load fails as expected", {
                "argument \"user\" is missing, with no default")
 
   # connection failures
-  expect_error(suppressMessages(db_load_col()), "Failed to connect")
-  expect_error(suppressMessages(db_load_itis()),
+  expect_error(suppressMessages(db_load_col(path = f)), "Failed to connect")
+  expect_error(suppressMessages(db_load_itis(path = f, user = "stuff")),
                "Make sure Postgres is on/running")
-  expect_error(suppressMessages(db_load_tpl()),
+  expect_error(suppressMessages(db_load_tpl(path = f, user = "stuff")),
                "Make sure Postgres is on/running")
 
   # doesn't fail, is just checking that sqlite installed

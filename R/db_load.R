@@ -116,7 +116,7 @@ db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE) {
   db_installed("mysql")
 
   mssg(verbose, "checking if MySQL is running...")
-  drv <- DBI::dbDriver("MySQL")
+  drv <- RMySQL::MySQL()
   if (is.null(pwd)) {
     mysqlconn <- tryCatch(
       RMySQL::dbConnect(drv, user = user), error = function(e) e)
