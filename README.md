@@ -6,6 +6,7 @@ taxizedb
 [![Build Status](https://travis-ci.org/ropensci/taxizedb.svg?branch=master)](https://travis-ci.org/ropensci/taxizedb)
 [![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/taxizedb)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/metacran/cranlogs.app)
+[![cran version](https://www.r-pkg.org/badges/version/taxizedb)](https://cran.r-project.org/package=taxizedb)
 
 `taxizedb` - Tools for Working with Taxonomic Databases on your Machine
 
@@ -19,10 +20,10 @@ version. Taxonomic DB's supported thus far:
 
 * ITIS - they provide a SQL dump
 * COL - they provide a SQL dump
-* Theplantlist - we make a SQL database from CSV files they provide 
+* Theplantlist - we make a SQL database from CSV files they provide
 * GBIF taxonomic backbone - we make a SQL database from darwin core archive
 
-Get in touch [in the issues](https://github.com/ropensci/taxizedb/issues) with 
+Get in touch [in the issues](https://github.com/ropensci/taxizedb/issues) with
 any ideas on new data sources.
 
 This package for each data sources performs the following tasks:
@@ -151,7 +152,7 @@ limit 10
 hiers %>% top_n(10)
 #> Source:   query [?? x 5]
 #> Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
-#> 
+#>
 #>                                                       hierarchy_string
 #>                                                                  <chr>
 #> 1                                                               202423
@@ -175,7 +176,7 @@ select certain fields
 hiers %>% select(tsn, level)
 #> Source:   query [?? x 2]
 #> Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
-#> 
+#>
 #>       tsn level
 #>     <int> <int>
 #> 1  202422     0
