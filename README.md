@@ -76,12 +76,12 @@ x <- db_download_tpl()
 db_load_tpl(x)
 ```
 
-Cataloge of Life (COL)
+Catalogue of Life (COL)
 
 
 ```r
-x <- db_download_itis()
-db_load_itis(x)
+x <- db_download_col()
+db_load_col(x)
 ```
 
 ## connect to the DBs
