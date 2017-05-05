@@ -76,7 +76,7 @@ x <- db_download_tpl()
 db_load_tpl(x)
 ```
 
-Cataloge of Life (COL)
+Catalogue of Life (COL)
 
 
 ```r
