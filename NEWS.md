@@ -3,8 +3,8 @@ taxizedb 0.1.2
 
 ## BUG FIXES
 
-* xxxx (#xx)
-* xxxx (#xx)
+* Fixes to SQL database connection functions for changes in `dplyr`, 
+which now requires `dbplyr` package - also `DBI` now imported (#16)
 
 
 

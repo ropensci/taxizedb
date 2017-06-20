@@ -21,7 +21,8 @@ There are no reverse dependencies.
 
 ---
 
-This version xxx.
+This version fixes SQL database connection functions for changes in `dplyr`, 
+which now requires the new `dbplyr` package.
 
 Thanks!
 Scott Chamberlain
