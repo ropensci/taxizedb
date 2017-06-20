@@ -1,4 +1,4 @@
-taxizedb 0.1.2
+taxizedb 0.1.4
 ==============
 
 ## BUG FIXES
