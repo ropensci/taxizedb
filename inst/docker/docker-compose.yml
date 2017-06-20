@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  mysql:
+    build: .
+    dockerfile: Dockerfile-mysql
+    ports: 3306:3306
+    restart: always
+    volumes:
+      - data-volume:/var/lib/mysql
+  postgres:
+    build: .
+    dockerfile: Dockerfile-postgres
+    ports: 5432:5432
+    restart: always
+    volumes:
+      - data-volume:/var/lib/postgresql
+
+# volumes:
+#   data-volume:
+#     image: ropensci/custom-data:1.0

@@ -1,0 +1,18 @@
+# postgres:
+#   image: postgres
+#   volumes:
+#     - data-volume:/var/lib/postgresql
+
+FROM postgres:9.6
+MAINTAINER Scott Chamberlain <myrmecocystus@gmail.com>
+
+RUN curl --silent "https://github.com/ropensci/taxizedbs/blob/master/theplantlist/plantlist.zip?raw=true" \
+        --output plantlist.zip \
+    && unzip plantlist.zip
+
+USER postgres
+RUN /etc/init.d/postgresql start \
+    && psql --command "CREATE USER pguser WITH SUPERUSER PASSWORD 'pguser';" \
+    && createdb -O pguser plantlist
+
+EXPOSE 5432
