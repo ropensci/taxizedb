@@ -31,19 +31,16 @@
 #'
 #' @examples \dontrun{
 #' # ITIS
-#' #db_download_itis() %>% db_load_itis()
-#' x <- db_download_itis()
-#' db_load_itis(x)
+#' # x <- db_download_itis()
+#' # db_load_itis(x, "<your user name>", "<your password>")
 #'
 #' # Plantlist
-#' #db_download_tpl() %>% db_load_tpl()
-#' x <- db_download_tpl()
-#' db_load_tpl(x)
+#' # x <- db_download_tpl()
+#' # db_load_tpl(x, "<your user name>", "<your password>")
 #'
 #' # COL
-#' #db_download_col() %>% db_load_col()
 #' x <- db_download_col()
-#' db_load_col(x)
+#' db_load_col(x, "<your user name>", "<your password>")
 #'
 #' # GBIF
 #' ## only checks if sqlite installed
@@ -60,21 +57,26 @@ db_load_itis <- function(path, user, pwd = NULL, verbose = TRUE) {
   db_installed("psql")
   mssg(verbose, "loading database...")
 
-  drv <- DBI::dbDriver("PostgreSQL")
   mssg(verbose, "checking if Postgres is running...")
   if (is.null(pwd)) {
     psqlconn <- tryCatch(
-      RPostgreSQL::dbConnect(drv, user = user), error = function(e) e)
+      DBI::dbConnect(RPostgreSQL::PostgreSQL(), user = user), error = function(e) e)
   } else {
     psqlconn <- tryCatch(
-      RPostgreSQL::dbConnect(drv, user = user, password = pwd),
+      DBI::dbConnect(RPostgreSQL::PostgreSQL(), user = user, password = pwd),
       error = function(e) e)
   }
   if (inherits(psqlconn, "error")) {
     stop("Make sure Postgres is on/running\n  ", psqlconn$message)
   }
-  system(sprintf("psql %s %s -f %s", cl("-U ", user), cl("-p ", pwd), path))
-  invisible(dbDisconnect(psqlconn))
+  if (is.null(pwd)) {
+    cmd <- sprintf("psql %s -f %s", cl("-U ", user), path)
+  } else {
+    cmd <- sprintf("PGPASSWORD=[%s] psql %s -f %s", pwd,
+                   cl("-U ", user), path)
+  }
+  system(cmd)
+  invisible(DBI::dbDisconnect(psqlconn))
   mssg(verbose, "Done. see ?src_itis")
 }
 
@@ -87,26 +89,32 @@ db_load_tpl <- function(path, user, pwd = NULL, verbose = TRUE) {
   mssg(verbose, 'checking if Postgres installed...')
   db_installed("psql")
   mssg(verbose, 'creating Postgres database...')
-  drv <- DBI::dbDriver("PostgreSQL")
+
   mssg(verbose, "checking if Postgres is running...")
   if (is.null(pwd)) {
     psqlconn <- tryCatch(
-      RPostgreSQL::dbConnect(drv, user = user), error = function(e) e)
+      DBI::dbConnect(
+        RPostgreSQL::PostgreSQL(), user = user), error = function(e) e)
   } else {
     psqlconn <- tryCatch(
-      RPostgreSQL::dbConnect(drv, user = user, password = pwd),
+      DBI::dbConnect(RPostgreSQL::PostgreSQL(), user = user, password = pwd),
       error = function(e) e)
   }
   if (inherits(psqlconn, "error")) {
     stop("Make sure Postgres is on/running\n  ", psqlconn$message)
   }
   # drop database if exists
-  RPostgreSQL::dbSendQuery(psqlconn, "DROP DATABASE IF EXISTS plantlist;")
+  DBI::dbSendQuery(psqlconn, "DROP DATABASE IF EXISTS plantlist;")
   # create database
-  RPostgreSQL::dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
-  system(sprintf("psql %s %s plantlist < %s", cl("-U ", user),
-                 cl("-p ", pwd), path))
-  invisible(dbDisconnect(psqlconn))
+  DBI::dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
+  if (is.null(pwd)) {
+    cmd <- sprintf("psql %s plantlist < %s", cl("-U ", user), path)
+  } else {
+    cmd <- sprintf("PGPASSWORD=[%s] psql %s plantlist < %s", pwd,
+            cl("-U ", user), path)
+  }
+  system(cmd)
+  invisible(DBI::dbDisconnect(psqlconn))
   mssg(verbose, "Done. see ?src_tpl")
 }
 
@@ -120,19 +128,19 @@ db_load_col <- function(path, user = "root", pwd = NULL, verbose = TRUE) {
   db_installed("mysql")
 
   mssg(verbose, "checking if MySQL is running...")
-  drv <- RMySQL::MySQL()
+
   if (is.null(pwd)) {
     mysqlconn <- tryCatch(
-      RMySQL::dbConnect(drv, user = user), error = function(e) e)
+      DBI::dbConnect(RMySQL::MySQL(), user = user), error = function(e) e)
   } else {
     mysqlconn <- tryCatch(
-      RMySQL::dbConnect(drv, user = user, password = pwd),
+      DBI::dbConnect(RMySQL::MySQL(), user = user, password = pwd),
       error = function(e) e)
   }
   if (inherits(mysqlconn, "error")) {
     stop("Make sure MySQL is on/running\n  ", mysqlconn$message)
   }
-  invisible(dbDisconnect(mysqlconn))
+  invisible(DBI::dbDisconnect(mysqlconn))
 
   mssg(
     verbose,

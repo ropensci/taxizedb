@@ -4,9 +4,9 @@ library(dplyr, quietly = TRUE, warn.conflicts = FALSE)
 
 test_that("sql_collect works", {
   # src
-  src <- dplyr::src_sqlite("irisdb.sqlite")
+  src <- dplyr::src_sqlite("irisdb.sqlite", create = TRUE)
 
-  expect_is(src, "src_sqlite")
+  expect_is(src, "src_dbi")
   expect_is(src, "src_sql")
 
   ## without pipe

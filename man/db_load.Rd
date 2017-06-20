@@ -59,19 +59,16 @@ and run the commands in your shell.
 \examples{
 \dontrun{
 # ITIS
-#db_download_itis() \%>\% db_load_itis()
-x <- db_download_itis()
-db_load_itis(x)
+# x <- db_download_itis()
+# db_load_itis(x, "<your user name>", "<your password>")
 
 # Plantlist
-#db_download_tpl() \%>\% db_load_tpl()
-x <- db_download_tpl()
-db_load_tpl(x)
+# x <- db_download_tpl()
+# db_load_tpl(x, "<your user name>", "<your password>")
 
 # COL
-#db_download_col() \%>\% db_load_col()
 x <- db_download_col()
-db_load_col(x)
+db_load_col(x, "<your user name>", "<your password>")
 
 # GBIF
 ## only checks if sqlite installed

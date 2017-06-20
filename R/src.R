@@ -7,8 +7,7 @@
 #' plantlistdb for ITIS, COL, and ThePlantlist, respectively. GBIF uses
 #' SQLite so doesn't have a database name
 #' @param path (character) path to SQLite database
-#' @param ... Further args passed on to [dplyr::src_postgres()] or
-#' [dplyr::src_mysql()], or [dplyr::src_sqlite()]
+#' @param ... Further args passed on to [DBI::dbConnect()]
 #' @return an src object
 #' @examples \dontrun{
 #' # src_itis()
@@ -19,24 +18,32 @@
 
 #' @export
 #' @rdname src_taxizedb
-src_itis <- function(user = NULL, password = NULL, dbname = "ITIS", ...){
-  dplyr::src_postgres(dbname = dbname, user = user, password = password, ...)
+src_itis <- function(user, password, dbname = "ITIS", ...) {
+  con <- DBI::dbConnect(RPostgreSQL::PostgreSQL(),
+                        dbname = dbname, user = user, password = password)
+  dbplyr::src_dbi(con)
 }
 
 #' @export
 #' @rdname src_taxizedb
-src_tpl <- function(user = NULL, password = NULL, dbname = "plantlist", ...){
-  dplyr::src_postgres(dbname = dbname, user = user, password = password, ...)
+src_tpl <- function(user, password, dbname = "plantlist", ...) {
+  con <- DBI::dbConnect(RPostgreSQL::PostgreSQL(),
+                        dbname = dbname, user = user, password = password)
+  dbplyr::src_dbi(con)
 }
 
 #' @export
 #' @rdname src_taxizedb
-src_col <- function(user = "root", password = NULL, dbname = "col", ...){
-  dplyr::src_mysql(dbname = dbname, user = user, password = password, ...)
+src_col <- function(user = "root", password = NULL, dbname = "col", ...) {
+  con <- DBI::dbConnect(RMySQL::MySQL(),
+                        dbname = dbname, user = user, password = password, ...)
+  dbplyr::src_dbi(con)
 }
 
 #' @export
 #' @rdname src_taxizedb
 src_gbif <- function(path) {
-  dplyr::src_sqlite(path)
+  stopifnot(file.exists(path))
+  con <- DBI::dbConnect(RSQLite::SQLite(), dbname = path)
+  dbplyr::src_dbi(con)
 }

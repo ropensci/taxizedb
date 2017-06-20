@@ -8,9 +8,9 @@
 \alias{src_gbif}
 \title{src - dplyr src objects}
 \usage{
-src_itis(user = NULL, password = NULL, dbname = "ITIS", ...)
+src_itis(user, password, dbname = "ITIS", ...)
 
-src_tpl(user = NULL, password = NULL, dbname = "plantlist", ...)
+src_tpl(user, password, dbname = "plantlist", ...)
 
 src_col(user = "root", password = NULL, dbname = "col", ...)
 
@@ -25,8 +25,7 @@ src_gbif(path)
 plantlistdb for ITIS, COL, and ThePlantlist, respectively. GBIF uses
 SQLite so doesn't have a database name}
 
-\item{...}{Further args passed on to \code{\link[dplyr:src_postgres]{dplyr::src_postgres()}} or
-\code{\link[dplyr:src_mysql]{dplyr::src_mysql()}}, or \code{\link[dplyr:src_sqlite]{dplyr::src_sqlite()}}}
+\item{...}{Further args passed on to \code{\link[DBI:dbConnect]{DBI::dbConnect()}}}
 
 \item{path}{(character) path to SQLite database}
 }

@@ -12,12 +12,12 @@ test_that("src fails well", {
   skip_on_cran()
   skip_on_travis()
 
-  expect_error(src_itis(), "could not connect")
+  expect_error(src_itis(), "argument \"user\" is missing")
   expect_error(src_col(), "Failed to connect")
-  expect_error(src_tpl(), "could not connect")
+  expect_error(src_tpl(), "argument \"user\" is missing")
 
   expect_error(src_gbif(), "argument \"path\" is missing")
-  expect_error(src_gbif("Asdf"), "Path does not exist")
+  expect_error(src_gbif("Asdf"), "is not TRUE")
   f <- tempfile()
-  expect_error(src_gbif(f), "Path does not exist")
+  expect_error(src_gbif(f), "is not TRUE")
 })

@@ -27,11 +27,11 @@ db_installed <- function(x) {
 }
 
 # db_on(x = 'psql')
-db_on <- function(x) {
-  tmp <- system("ps aux | grep postgres", intern = TRUE)
-  tmp
-  if (any(tmp == "")) {
-    nf <- paste0(names(tmp)[tmp == ""], collapse = ", ")
-    stop(sprintf("\n%s not turned on\nPlease turn it on", nf))
-  }
-}
+# db_on <- function(x) {
+#   tmp <- system("ps aux | grep postgres", intern = TRUE)
+#   tmp
+#   if (any(tmp == "")) {
+#     nf <- paste0(names(tmp)[tmp == ""], collapse = ", ")
+#     stop(sprintf("\n%s not turned on\nPlease turn it on", nf))
+#   }
+# }
