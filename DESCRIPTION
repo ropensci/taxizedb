@@ -20,6 +20,7 @@ Imports:
     RMySQL (>= 0.10.11),
     RSQLite (>= 1.1.2),
     dplyr (>= 0.7.0),
+    readr (>= 1.1.1),
     dbplyr (>= 1.0.0),
     magrittr (>= 1.5),
     hoardr (>= 0.1.0)

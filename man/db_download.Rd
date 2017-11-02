@@ -2,12 +2,15 @@
 % Please edit documentation in R/db_download.R
 \name{db_download}
 \alias{db_download}
+\alias{db_download_ncbi}
 \alias{db_download_itis}
 \alias{db_download_tpl}
 \alias{db_download_col}
 \alias{db_download_gbif}
 \title{Download taxonomic databases}
 \usage{
+db_download_ncbi(verbose = TRUE)
+
 db_download_itis(verbose = TRUE)
 
 db_download_tpl(verbose = TRUE)
@@ -67,6 +70,11 @@ and run the commands in your shell.
 # x <- db_download_gbif()
 # db_load_gbif()
 # src_gbif(x)
+
+# NCBI
+# x <- db_download_ncbi()
+# db_load_ncbi()
+# src_ncbi(x)
 }
 }
 \seealso{

@@ -6,6 +6,7 @@
 \alias{db_load_tpl}
 \alias{db_load_col}
 \alias{db_load_gbif}
+\alias{db_load_ncbi}
 \title{Load taxonomic databases}
 \usage{
 db_load_itis(path, user, pwd = NULL, verbose = TRUE)
@@ -15,6 +16,8 @@ db_load_tpl(path, user, pwd = NULL, verbose = TRUE)
 db_load_col(path, user = "root", pwd = NULL, verbose = TRUE)
 
 db_load_gbif(verbose = TRUE)
+
+db_load_ncbi(verbose = TRUE)
 }
 \arguments{
 \item{path}{(character) path to the \code{.sql} database file}
@@ -73,5 +76,9 @@ db_load_col(x, "<your user name>", "<your password>")
 # GBIF
 ## only checks if sqlite installed
 db_load_gbif()
+
+# NCBI
+## only checks if sqlite installed
+db_load_ncbi()
 }
 }

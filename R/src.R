@@ -14,6 +14,7 @@
 #' # src_tpl()
 #' # src_col()
 #' # src_gbif()
+#' # src_ncbi()
 #' }
 
 #' @export
@@ -43,6 +44,14 @@ src_col <- function(user = "root", password = NULL, dbname = "col", ...) {
 #' @export
 #' @rdname src_taxizedb
 src_gbif <- function(path) {
+  stopifnot(file.exists(path))
+  con <- DBI::dbConnect(RSQLite::SQLite(), dbname = path)
+  dbplyr::src_dbi(con)
+}
+
+#' @export
+#' @rdname src_taxizedb
+src_ncbi <- function(path) {
   stopifnot(file.exists(path))
   con <- DBI::dbConnect(RSQLite::SQLite(), dbname = path)
   dbplyr::src_dbi(con)
