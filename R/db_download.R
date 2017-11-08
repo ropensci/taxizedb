@@ -53,8 +53,7 @@
 #' @export
 #' @rdname db_download
 db_download_ncbi <- function(verbose = TRUE){
-  # paths
-
+  # set paths
   db_url <- 'ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip'
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'taxdump.zip')
   db_path_dir <- file.path(tdb_cache$cache_path_get(), 'taxdump')
@@ -125,9 +124,37 @@ db_download_ncbi <- function(verbose = TRUE){
     quote=""
   )
 
+  mssg(verbose, 'building hierarchy table...')
+  # make child to parent id map
+  idmap <- as.character(ncbi_nodes$parent_tax_id)
+  names(idmap) <- as.character(ncbi_nodes$tax_id)
+  # set up root hierarchy table
+  hierarchy <- ncbi_nodes[, c('tax_id', 'parent_tax_id')]
+  hierarchy$level <- 0
+  hierarchy$hierarchy_string <- as.character(hierarchy$tax_id)
+  # temporary vector storing whether the hierarchy string has reached root
+  complete <- rep(FALSE, nrow(hierarchy))
+  # the root taxon ID
+  root_node <- 1L
+  # each iteration appends the parent id to the hierarchy_string and then replaces gets the new parent
+  # the loop breaks when all lineages have been traced to root
+  while(any(hierarchy$parent_tax_id != root_node)){
+    # add parent to hierarchy string
+    hierarchy$hierarchy_string[!complete] <- with(hierarchy[!complete, ], paste(parent_tax_id, hierarchy_string, sep="-")) 
+    # bump level
+    hierarchy$level[!complete] <- hierarchy$level[!complete] + 1
+    # set whether root has been reached
+    complete <- hierarchy$parent_tax_id == root_node
+    # get new parents
+    hierarchy$parent_tax_id <- idmap[as.character(hierarchy$parent_tax_id)] %>% unname
+  }
+  # remove the now unneeded parent column
+  hierarchy$parent_tax_id <- NULL
+
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=final_file)
   RSQLite::dbWriteTable(conn=db, name='names', value=as.data.frame(ncbi_names))
   RSQLite::dbWriteTable(conn=db, name='nodes', value=as.data.frame(ncbi_nodes))
+  RSQLite::dbWriteTable(conn=db, name='hierarchy', value=as.data.frame(hierarchy))
   RSQLite::dbDisconnect(db)
 
   # cleanup
