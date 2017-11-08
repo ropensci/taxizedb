@@ -152,6 +152,8 @@ db_download_ncbi <- function(verbose = TRUE){
   hierarchy$hierarchy_string[hierarchy$hierarchy_string == "1-1"] <- "1"
   # remove the now unneeded parent column
   hierarchy$parent_tax_id <- NULL
+  # make level integrel
+  hierarchy$level <- as.integer(hierarchy$level)
 
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=final_file)
   RSQLite::dbWriteTable(conn=db, name='names', value=as.data.frame(ncbi_names))
