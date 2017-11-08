@@ -148,6 +148,8 @@ db_download_ncbi <- function(verbose = TRUE){
     # get new parents
     hierarchy$parent_tax_id <- idmap[as.character(hierarchy$parent_tax_id)] %>% unname
   }
+  # remove the self-referential connection
+  hierarchy$hierarchy_string[hierarchy$hierarchy_string == "1-1"] <- "1"
   # remove the now unneeded parent column
   hierarchy$parent_tax_id <- NULL
 
