@@ -6,6 +6,7 @@
 \alias{src_tpl}
 \alias{src_col}
 \alias{src_gbif}
+\alias{src_ncbi}
 \title{src - dplyr src objects}
 \usage{
 src_itis(user, password, dbname = "ITIS", ...)
@@ -15,6 +16,8 @@ src_tpl(user, password, dbname = "plantlist", ...)
 src_col(user = "root", password = NULL, dbname = "col", ...)
 
 src_gbif(path)
+
+src_ncbi(path)
 }
 \arguments{
 \item{user}{(character) user name}
@@ -41,5 +44,6 @@ src - dplyr src objects
 # src_tpl()
 # src_col()
 # src_gbif()
+# src_ncbi()
 }
 }

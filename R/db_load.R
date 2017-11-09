@@ -45,6 +45,10 @@
 #' # GBIF
 #' ## only checks if sqlite installed
 #' db_load_gbif()
+#'
+#' # NCBI
+#' ## only checks if sqlite installed
+#' db_load_ncbi()
 #' }
 
 #' @export
@@ -158,4 +162,12 @@ db_load_gbif <- function(verbose = TRUE) {
   mssg(verbose, 'checking if SQLite installed...')
   db_installed("sqlite3")
   mssg(verbose, "Done. see ?src_gbif")
+}
+
+#' @export
+#' @rdname db_load
+db_load_ncbi <- function(verbose = TRUE) {
+  mssg(verbose, 'checking if SQLite installed...')
+  db_installed("sqlite3")
+  mssg(verbose, "Done. see ?src_ncbi")
 }
