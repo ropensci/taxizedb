@@ -2,13 +2,9 @@
 % Please edit documentation in R/classification.R
 \name{classification}
 \alias{classification}
-\alias{classification}
-\alias{ncbi_classification}
 \title{Retrieve the taxonomic hierarchies from local database}
 \usage{
 classification(x, db = "ncbi", ...)
-
-ncbi_classification(x, ...)
 }
 \arguments{
 \item{x}{Vector of taxon keys for the given database}

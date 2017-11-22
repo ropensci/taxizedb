@@ -10,27 +10,40 @@
 #' @param ... Additional arguments passed to database specific classification functions.
 #' @return list of data.frames with the columns: name, rank, and id. This is
 #' exactly equivalent to the output of 'taxize::classification'. 
-#' @name classification 
-NULL
-
-#' @rdname classification 
 #' @export
 classification <- function(x, db='ncbi', ...){
-  lineages <- if(db == 'ncbi'){
-    ncbi_classification(x, ...)
-  } else {
-    stop("Sorry, only the NCBI database is currently supported")
+  FUN <- switch(db,
+    itis = itis_classification,
+    tpl  = tpl_classification,
+    col  = col_classification,
+    gbif = gbif_classification,
+    ncbi = ncbi_classification
+  )
+  if(is.null(FUN)){
+    stop("Database '", db, "' is not supported")
   }
-
+  lineages <- FUN(x, ...)
   attributes(lineages) <- list(names=names(lineages), class='classification', db=db)
-
   lineages
 }
 
+itis_classification <- function(x, ...){
+  stop("The ITIS database is currently not supported")
+}
 
-#' @rdname classification 
+tpl_classification <- function(x, ...){
+  stop("The TPL database is currently not supported")
+}
+
+col_classification <- function(x, ...){
+  stop("The COL database is currently not supported")
+}
+
+gbif_classification <- function(x, ...){
+  stop("The GBIF database is currently not supported")
+}
+
 ncbi_classification <- function(x, ...){
-
   # Load the NCBI SQLite database
   src <- src_ncbi(db_download_ncbi())
 
