@@ -22,17 +22,17 @@ classification <- function(src, taxa, db='ncbi'){
   taxid_str <- paste(taxa, collapse=", ")
   lineages <- sql_collect(src, sprintf(cmd, taxid_str)) %>%
     # Split the hierarchy_string, e.g.  1-123-23-134, into a nested list
-    dplyr::mutate(ancestor = strsplit(hierarchy_string, '-')) %>%
+    dplyr::mutate(ancestor = strsplit(.data$hierarchy_string, '-')) %>%
     # Unnest ancestors, making one row for each ancestor
-    tidyr::unnest(ancestor) %>%
+    tidyr::unnest(.data$ancestor) %>%
     # Convert strings to integer IDs
-    dplyr::mutate(ancestor = as.integer(ancestor)) %>%
+    dplyr::mutate(ancestor = as.integer(.data$ancestor)) %>%
     # Add the level, where root == 1
-    dplyr::group_by(tax_id) %>%
+    dplyr::group_by(.data$tax_id) %>%
     dplyr::mutate(level=1:n()) %>%
     dplyr::ungroup() %>%
     # Filter out the fields we need
-    dplyr::select(tax_id, level, ancestor)
+    dplyr::select(.data$tax_id, .data$level, .data$ancestor)
 
   # Retrive the names for each ancestral ID
   cmd <- "SELECT tax_id, name_txt FROM names WHERE name_class == 'scientific name' AND tax_id IN (%s)"
@@ -46,12 +46,17 @@ classification <- function(src, taxa, db='ncbi'){
   # Merge in ancestor names and ranks.
   lineages <- merge(lineages, ancestor_names, by.x='ancestor', by.y='tax_id') %>%
     merge(ancestor_ranks, by.x='ancestor', by.y='tax_id') %>%
-    dplyr::arrange(tax_id, level) %>%
+    dplyr::arrange(.data$tax_id, .data$level) %>%
     # NOTE: Here I drop the 'level' column. I do this because it is not present
     # in the taxize::classification output. However, without the level column,
     # the ancestor order is encoded only in the row order of the data.frame,
     # which is not robost.
-    dplyr::select(tax_id, name=name_txt, rank, id=ancestor) %>%
+    dplyr::select(
+      tax_id = .data$tax_id,
+      name   = .data$name_txt,
+      rank   = .data$rank,
+      id     = .data$ancestor
+    ) %>%
     # Split the data.frame by input taxon ID
     split(factor(.$tax_id)) %>%
     lapply(function(x) {

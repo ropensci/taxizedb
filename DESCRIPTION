@@ -22,6 +22,8 @@ Imports:
     RMySQL (>= 0.10.11),
     RSQLite (>= 1.1.2),
     dplyr (>= 0.7.0),
+    tidyr,
+    rlang,
     readr (>= 1.1.1),
     dbplyr (>= 1.0.0),
     magrittr (>= 1.5),
@@ -29,5 +31,5 @@ Imports:
 Suggests:
     roxygen2 (>= 6.0.1),
     testthat,
-    taxize,
+    taxize
 RoxygenNote: 6.0.1
