@@ -2,16 +2,20 @@
 % Please edit documentation in R/classification.R
 \name{classification}
 \alias{classification}
+\alias{classification}
+\alias{ncbi_classification}
 \title{Retrieve the taxonomic hierarchies from local database}
 \usage{
-classification(src, taxa, db = "ncbi")
+classification(x, db = "ncbi", ...)
+
+ncbi_classification(x, ...)
 }
 \arguments{
-\item{src}{src_dbi database link to a local database}
+\item{x}{Vector of taxon keys for the given database}
 
-\item{taxa}{Vector of taxonomy ids}
+\item{db}{The database to search}
 
-\item{db}{The database to search (currently only NCBI is implemented)}
+\item{...}{Additional arguments passed to database specific classification functions.}
 }
 \value{
 list of data.frames with the columns: name, rank, and id. This is

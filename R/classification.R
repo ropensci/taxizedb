@@ -5,21 +5,38 @@
 #' restricted to handling NCBI taxa. The output is identical to
 #' taxize::classification.
 #'
-#' @param src src_dbi database link to a local database 
-#' @param taxa Vector of taxonomy ids
-#' @param db The database to search (currently only NCBI is implemented)
+#' @param x Vector of taxon keys for the given database
+#' @param db The database to search
+#' @param ... Additional arguments passed to database specific classification functions.
 #' @return list of data.frames with the columns: name, rank, and id. This is
 #' exactly equivalent to the output of 'taxize::classification'. 
-#' @export
-classification <- function(src, taxa, db='ncbi'){
+#' @name classification 
+NULL
 
-  if(db != 'ncbi'){
+#' @rdname classification 
+#' @export
+classification <- function(x, db='ncbi', ...){
+  lineages <- if(db == 'ncbi'){
+    ncbi_classification(x, ...)
+  } else {
     stop("Sorry, only the NCBI database is currently supported")
   }
 
+  attributes(lineages) <- list(names=names(lineages), class='classification', db=db)
+
+  lineages
+}
+
+
+#' @rdname classification 
+ncbi_classification <- function(x, ...){
+
+  # Load the NCBI SQLite database
+  src <- src_ncbi(db_download_ncbi())
+
   # Retrieve the hierarchy for each input taxon id
   cmd <- "SELECT * FROM hierarchy WHERE tax_id IN (%s)"
-  taxid_str <- paste(taxa, collapse=", ")
+  taxid_str <- paste(x, collapse=", ")
   lineages <- sql_collect(src, sprintf(cmd, taxid_str)) %>%
     # Split the hierarchy_string, e.g.  1-123-23-134, into a nested list
     dplyr::mutate(ancestor = strsplit(.data$hierarchy_string, '-')) %>%
@@ -69,8 +86,6 @@ classification <- function(src, taxa, db='ncbi'){
         rownames(x) <- NULL
         x
     })
-
-  attributes(lineages) <- list(names=names(lineages), class='classification', db=db)
 
   lineages
 }
