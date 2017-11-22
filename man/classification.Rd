@@ -23,3 +23,8 @@ that it uses a local database (so is much faster) and is currently
 restricted to handling NCBI taxa. The output is identical to
 taxize::classification.
 }
+\examples{
+\dontrun{
+classification(c(3702, 9606))
+}
+}

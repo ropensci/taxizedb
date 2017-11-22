@@ -11,6 +11,10 @@
 #' @return list of data.frames with the columns: name, rank, and id. This is
 #' exactly equivalent to the output of 'taxize::classification'. 
 #' @export
+#' @examples
+#' \dontrun{
+#' classification(c(3702, 9606))
+#' }
 classification <- function(x, db='ncbi', ...){
   FUN <- switch(db,
     itis = itis_classification,
