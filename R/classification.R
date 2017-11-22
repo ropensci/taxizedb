@@ -59,6 +59,8 @@ classification <- function(src, taxa, db='ncbi'){
         # NOTE: Remove the root node, for consistency with 'taxize'. The root
         # node really is important, though, because viruses are a thing.
         x <- x[x$name != 'root', ]
+        # To match the type in 'taxize':
+        x$id <- as.character(x$id)
         rownames(x) <- NULL
         x
     })
