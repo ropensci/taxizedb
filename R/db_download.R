@@ -156,9 +156,14 @@ db_download_ncbi <- function(verbose = TRUE){
   hierarchy$level <- as.integer(hierarchy$level)
 
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=final_file)
+  # Load tables
   RSQLite::dbWriteTable(conn=db, name='names', value=as.data.frame(ncbi_names))
   RSQLite::dbWriteTable(conn=db, name='nodes', value=as.data.frame(ncbi_nodes))
   RSQLite::dbWriteTable(conn=db, name='hierarchy', value=as.data.frame(hierarchy))
+  # Create indices on tax_id columns
+  RSQLite::dbExecute(conn=db, 'CREATE INDEX tax_id_index_names ON names (tax_id)')
+  RSQLite::dbExecute(conn=db, 'CREATE INDEX tax_id_index_nodes ON nodes (tax_id)')
+  RSQLite::dbExecute(conn=db, 'CREATE INDEX tax_id_index_hierarchy ON hierarchy (tax_id)')
   RSQLite::dbDisconnect(db)
 
   # cleanup
