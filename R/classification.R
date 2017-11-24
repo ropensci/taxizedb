@@ -26,35 +26,44 @@ classification <- function(x, db='ncbi', ...){
   if(is.null(FUN)){
     stop("Database '", db, "' is not supported")
   }
-  lineages <- FUN(x, ...)
+  src <- autoload(db)
+  lineages <- FUN(src, x, ...)
   attributes(lineages) <- list(names=names(lineages), class='classification', db=db)
   lineages
 }
 
-itis_classification <- function(x, ...){
+autoload <- function(db){
+  if(db == 'ncbi'){
+    src_ncbi(db_download_ncbi())
+  } else {
+    stop("Database '", db, "' is not supported")
+  }
+}
+
+itis_classification <- function(src, x, ...){
   stop("The ITIS database is currently not supported")
 }
 
-tpl_classification <- function(x, ...){
+tpl_classification <- function(src, x, ...){
   stop("The TPL database is currently not supported")
 }
 
-col_classification <- function(x, ...){
+col_classification <- function(src, x, ...){
   stop("The COL database is currently not supported")
 }
 
-gbif_classification <- function(x, ...){
+gbif_classification <- function(src, x, ...){
   stop("The GBIF database is currently not supported")
 }
 
-ncbi_classification <- function(x, ...){
-  # Load the NCBI SQLite database
-  src <- src_ncbi(db_download_ncbi())
+ncbi_classification <- function(src, x, ...){
 
   # Retrieve the hierarchy for each input taxon id
   cmd <- "SELECT * FROM hierarchy WHERE tax_id IN (%s)"
-  taxid_str <- paste(x, collapse=", ")
-  lineages <- sql_collect(src, sprintf(cmd, taxid_str)) %>%
+  query <- sprintf(cmd, paste(x, collapse=", "))
+
+  lineages <-
+    sql_collect(src, query) %>%
     # Split the hierarchy_string, e.g.  1-123-23-134, into a nested list
     dplyr::mutate(ancestor = strsplit(.data$hierarchy_string, '-')) %>%
     # Unnest ancestors, making one row for each ancestor
