@@ -164,6 +164,7 @@ db_download_ncbi <- function(verbose = TRUE){
   RSQLite::dbExecute(conn=db, 'CREATE INDEX tax_id_index_names ON names (tax_id)')
   RSQLite::dbExecute(conn=db, 'CREATE INDEX tax_id_index_nodes ON nodes (tax_id)')
   RSQLite::dbExecute(conn=db, 'CREATE INDEX tax_id_index_hierarchy ON hierarchy (tax_id)')
+  RSQLite::dbExecute(conn=db, 'CREATE INDEX name_txt_index_names ON names (name_txt)')
   RSQLite::dbDisconnect(db)
 
   # cleanup

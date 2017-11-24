@@ -58,6 +58,16 @@ gbif_classification <- function(src, x, ...){
 
 ncbi_classification <- function(src, x, ...){
 
+  if(!all(grepl('^[0-9]+$', x, perl=TRUE))){
+    # If x is not integrel, then we assume it is a name.  The NCBI taxonomy
+    # database includes common names, synonyms and misspellings. Among the
+    # mispellings, are scientific names with underscores. So we don't need to
+    # handle such issues here.
+    query <- "SELECT tax_id FROM names WHERE name_txt IN (%s)"
+    query <- sprintf(query, paste(paste0("'", x, "'"), collapse=', '))
+    x <- sql_collect(src, query)$tax_id
+  }
+
   # Retrieve the hierarchy for each input taxon id
   cmd <- "SELECT * FROM hierarchy WHERE tax_id IN (%s)"
   query <- sprintf(cmd, paste(x, collapse=", "))
