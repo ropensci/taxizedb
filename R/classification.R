@@ -7,6 +7,7 @@
 #'
 #' @param x Vector of taxon keys for the given database
 #' @param db The database to search
+#' @param verbose Print verbose messages
 #' @param ... Additional arguments passed to database specific classification functions.
 #' @return list of data.frames with the columns: name, rank, and id. This is
 #' exactly equivalent to the output of 'taxize::classification'. 
@@ -15,20 +16,31 @@
 #' \dontrun{
 #' classification(c(3702, 9606))
 #' }
-classification <- function(x, db='ncbi', ...){
-  FUN <- switch(db,
-    itis = itis_classification,
-    tpl  = tpl_classification,
-    col  = col_classification,
-    gbif = gbif_classification,
-    ncbi = ncbi_classification
-  )
-  if(is.null(FUN)){
-    stop("Database '", db, "' is not supported")
+classification <- function(x, db='ncbi', verbose=TRUE, ...){
+  lineages <- if(is.null(x) || length(x) == 0){
+    # For empty or NULL input, return empty list
+    list()
+  } else {
+    FUN <- switch(db,
+      itis = itis_classification,
+      tpl  = tpl_classification,
+      col  = col_classification,
+      gbif = gbif_classification,
+      ncbi = ncbi_classification
+    )
+    if(is.null(FUN)){
+      stop("Database '", db, "' is not supported")
+    }
+    src <- autoload(db)
+    lineages <- FUN(src, x, ...)
   }
-  src <- autoload(db)
-  lineages <- FUN(src, x, ...)
+
   attributes(lineages) <- list(names=names(lineages), class='classification', db=db)
+
+  if(verbose && all(is.na(lineages))){
+    message("Not found. Consider checking the spelling or alternative classification")
+  }
+
   lineages
 }
 
@@ -60,32 +72,56 @@ ncbi_classification <- function(src, x, ...){
 
   # preserve original names (this is important when x is a name vector)
   namemap <- x
+  names(namemap) <- x
 
+  # find the entries that are integers
+  not_integer <- !grepl('^[0-9]+$', x, perl=TRUE)
   # If x is not integrel, then we assume it is a name.
-  if(!all(grepl('^[0-9]+$', x, perl=TRUE))){
+  if(any(not_integer)){
     # The NCBI taxonomy database includes common names, synonyms and
     # misspellings. However, the database is a little inconsistent here. For
     # some species, such as Arabidopsis thaliana, the misspelling
     # 'Arabidopsis_thaliana' is included, but the same is NOT done for humans.
     # However, underscores are supported when querying through entrez, which
     # implies they are replacing underscores with spaces. So I do the same.
-    x <- gsub('_', ' ', x)
+    s <- x[not_integer]
+    s <- gsub('_', ' ', s)
     # FYI: The schema is set to support case insensitive matches
     query <- "SELECT name_txt, tax_id FROM names WHERE name_txt IN (%s)"
-    query <- sprintf(query, paste(paste0("'", x, "'"), collapse=', '))
+    query <- sprintf(query, paste(paste0("'", s, "'"), collapse=', '))
     result <- sql_collect(src, query)
     result$name_txt <- tolower(result$name_txt)
-    x <- merge(data.frame(name_txt=tolower(x)), result, sort=FALSE)$tax_id
+    was_found <- gsub('_', ' ', tolower(namemap)) %in% result$name_txt
+    x[was_found] <- result$tax_id[order(match(result$name_txt, tolower(namemap)))]
+    names(namemap)[was_found] <- x[was_found]
+    x[not_integer & !was_found] <- NA
   }
 
-  names(namemap) <- x
+  # Remove any taxa that where not found, the missing values will be merged
+  # into the final output later (with values of NA)
+  x <- x[!is.na(x)]
+
+  # If there isn't anything to consider, return a list of NA
+  if(length(x) == 0){
+    lineages <- as.list(as.logical(rep(NA, length(namemap))))
+    names(lineages) <- namemap
+    return(lineages)
+  }
 
   # Retrieve the hierarchy for each input taxon id
   cmd <- "SELECT * FROM hierarchy WHERE tax_id IN (%s)"
   query <- sprintf(cmd, paste(x, collapse=", "))
+  tbl <- sql_collect(src, query)
+
+  # If no IDs were found, return list of NA
+  if(nrow(tbl) == 0){
+    lineages <- as.list(as.logical(rep(NA, length(namemap))))
+    names(lineages) <- namemap
+    return(lineages)
+  }
 
   lineages <-
-    sql_collect(src, query) %>%
+    tbl %>%
     # Split the hierarchy_string, e.g.  1-123-23-134, into a nested list
     dplyr::mutate(ancestor = strsplit(.data$hierarchy_string, '-')) %>%
     # Unnest ancestors, making one row for each ancestor
@@ -135,7 +171,25 @@ ncbi_classification <- function(src, x, ...){
         x
     })
 
+  # Map the input names to them
   names(lineages) <- namemap[names(lineages)]
 
-  lineages[as.character(namemap)]
+  # Add the missing values
+  missing_names <- setdiff(namemap, names(lineages))
+  if(length(missing_names) > 0){
+    missing <- as.list(as.logical(rep(NA, length(missing_names))))
+    names(missing) <- missing_names
+    lineages <- append(lineages, missing)
+  }
+
+  # Get lineages in the input order
+  lineages <- lineages[as.character(namemap)]
+
+  # Cleanup residual NULLs (if needed)
+  lineages <- lapply(lineages, function(x) {
+    if(is.null(x)){ NA } else { x }
+  })
+  lineages[is.na(names(lineages))] <- NA
+
+  lineages
 }

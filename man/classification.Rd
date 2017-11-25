@@ -4,12 +4,14 @@
 \alias{classification}
 \title{Retrieve the taxonomic hierarchies from local database}
 \usage{
-classification(x, db = "ncbi", ...)
+classification(x, db = "ncbi", verbose = TRUE, ...)
 }
 \arguments{
 \item{x}{Vector of taxon keys for the given database}
 
 \item{db}{The database to search}
+
+\item{verbose}{Print verbose messages}
 
 \item{...}{Additional arguments passed to database specific classification functions.}
 }
