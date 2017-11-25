@@ -58,6 +58,9 @@ gbif_classification <- function(src, x, ...){
 
 ncbi_classification <- function(src, x, ...){
 
+  # preserve original names (this is important when x is a name vector)
+  namemap <- x
+
   # If x is not integrel, then we assume it is a name.
   if(!all(grepl('^[0-9]+$', x, perl=TRUE))){
     # The NCBI taxonomy database includes common names, synonyms and
@@ -68,10 +71,14 @@ ncbi_classification <- function(src, x, ...){
     # implies they are replacing underscores with spaces. So I do the same.
     x <- gsub('_', ' ', x)
     # FYI: The schema is set to support case insensitive matches
-    query <- "SELECT tax_id FROM names WHERE name_txt IN (%s)"
+    query <- "SELECT name_txt, tax_id FROM names WHERE name_txt IN (%s)"
     query <- sprintf(query, paste(paste0("'", x, "'"), collapse=', '))
-    x <- sql_collect(src, query)$tax_id
+    result <- sql_collect(src, query)
+    result$name_txt <- tolower(result$name_txt)
+    x <- merge(data.frame(name_txt=tolower(x)), result, sort=FALSE)$tax_id
   }
+
+  names(namemap) <- x
 
   # Retrieve the hierarchy for each input taxon id
   cmd <- "SELECT * FROM hierarchy WHERE tax_id IN (%s)"
@@ -128,5 +135,7 @@ ncbi_classification <- function(src, x, ...){
         x
     })
 
-  lineages
+  names(lineages) <- namemap[names(lineages)]
+
+  lineages[as.character(namemap)]
 }
