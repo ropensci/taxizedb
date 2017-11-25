@@ -58,11 +58,16 @@ gbif_classification <- function(src, x, ...){
 
 ncbi_classification <- function(src, x, ...){
 
+  # If x is not integrel, then we assume it is a name.
   if(!all(grepl('^[0-9]+$', x, perl=TRUE))){
-    # If x is not integrel, then we assume it is a name.  The NCBI taxonomy
-    # database includes common names, synonyms and misspellings. Among the
-    # mispellings, are scientific names with underscores. So we don't need to
-    # handle such issues here.
+    # The NCBI taxonomy database includes common names, synonyms and
+    # misspellings. However, the database is a little inconsistent here. For
+    # some species, such as Arabidopsis thaliana, the misspelling
+    # 'Arabidopsis_thaliana' is included, but the same is NOT done for humans.
+    # However, underscores are supported when querying through entrez, which
+    # implies they are replacing underscores with spaces. So I do the same.
+    x <- gsub('_', ' ', x)
+    # FYI: The schema is set to support case insensitive matches
     query <- "SELECT tax_id FROM names WHERE name_txt IN (%s)"
     query <- sprintf(query, paste(paste0("'", x, "'"), collapse=', '))
     x <- sql_collect(src, query)$tax_id
