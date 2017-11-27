@@ -26,11 +26,9 @@ classification <- function(x, db='ncbi', verbose=TRUE, ...){
       tpl  = tpl_classification,
       col  = col_classification,
       gbif = gbif_classification,
-      ncbi = ncbi_classification
-    )
-    if(is.null(FUN)){
+      ncbi = ncbi_classification,
       stop("Database '", db, "' is not supported")
-    }
+    )
     src <- autoload(db)
     lineages <- FUN(src, x, ...)
   }
