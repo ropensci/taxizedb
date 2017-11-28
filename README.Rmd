@@ -176,6 +176,13 @@ hiers %>% select(tsn, level)
 #> # ... with more rows
 ```
 
+## Contributors
+
+* [Scott Chamberlain](https://github.com/sckott)
+* [Zebulun Arendsee](https://github.com/arendsee)
+* [Tamora James](https://github.com/tdjames1)
+
+
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/taxizedb/issues).
