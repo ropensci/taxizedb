@@ -29,8 +29,7 @@ classification <- function(x, db='ncbi', verbose=TRUE, ...){
       ncbi = ncbi_classification,
       stop("Database '", db, "' is not supported")
     )
-    src <- autoload(db)
-    lineages <- FUN(src, x, ...)
+    lineages <- run_with_db(FUN, db, x=x, ...)
   }
 
   attributes(lineages) <- list(names=names(lineages), class='classification', db=db)
@@ -42,12 +41,13 @@ classification <- function(x, db='ncbi', verbose=TRUE, ...){
   lineages
 }
 
-autoload <- function(db){
-  if(db == 'ncbi'){
+run_with_db <- function(FUN, db, ...){
+  src <- if(db == 'ncbi'){
     src_ncbi(db_download_ncbi())
   } else {
     stop("Database '", db, "' is not supported")
   }
+  FUN(src, ...)
 }
 
 itis_classification <- function(src, x, ...){
