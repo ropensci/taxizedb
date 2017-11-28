@@ -136,17 +136,23 @@ db_download_ncbi <- function(verbose = TRUE){
   complete <- rep(FALSE, nrow(hierarchy))
   # the root taxon ID
   root_node <- 1L
-  # each iteration appends the parent id to the hierarchy_string and then replaces gets the new parent
-  # the loop breaks when all lineages have been traced to root
+
+  # each iteration appends the parent id to the hierarchy_string and then
+  # replaces gets the new parent the loop breaks when all lineages have been
+  # traced to root
   while(any(hierarchy$parent_tax_id != root_node)){
     # add parent to hierarchy string
-    hierarchy$hierarchy_string[!complete] <- with(hierarchy[!complete, ], paste(parent_tax_id, hierarchy_string, sep="-")) 
+    hierarchy$hierarchy_string[!complete] <-
+      with(
+        hierarchy[!complete, ],
+        paste(parent_tax_id, hierarchy_string, sep="-")
+      )
     # bump level
     hierarchy$level[!complete] <- hierarchy$level[!complete] + 1
     # set whether root has been reached
     complete <- hierarchy$parent_tax_id == root_node
     # get new parents
-    hierarchy$parent_tax_id <- idmap[as.character(hierarchy$parent_tax_id)] %>% unname
+    hierarchy$parent_tax_id <- unname(idmap[as.character(hierarchy$parent_tax_id)])
   }
   # remove the self-referential connection
   hierarchy$hierarchy_string[hierarchy$hierarchy_string == "1-1"] <- "1"
@@ -156,9 +162,51 @@ db_download_ncbi <- function(verbose = TRUE){
   hierarchy$level <- as.integer(hierarchy$level)
 
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=final_file)
-  RSQLite::dbWriteTable(conn=db, name='names', value=as.data.frame(ncbi_names))
-  RSQLite::dbWriteTable(conn=db, name='nodes', value=as.data.frame(ncbi_nodes))
-  RSQLite::dbWriteTable(conn=db, name='hierarchy', value=as.data.frame(hierarchy))
+
+  # Create tables - I have to manually make the `names` table because I have to
+  # set `COLLATE NOCASE` at the time of table creation.
+  RSQLite::dbExecute(conn=db, "
+    CREATE TABLE names (
+      tax_id INTEGER,
+      name_txt TEXT COLLATE NOCASE,
+      unique_name TEXT,
+      name_class TEXT
+    )
+    "
+  )
+
+  # Load tables
+  RSQLite::dbWriteTable(
+    conn   = db,
+    name   = 'names',
+    value  = as.data.frame(ncbi_names),
+    append = TRUE # since I explicitly created the table above
+  )
+  RSQLite::dbWriteTable(
+    conn  = db,
+    name  = 'nodes',
+    value = as.data.frame(ncbi_nodes),
+  )
+  RSQLite::dbWriteTable(
+    conn  = db,
+    name  = 'hierarchy',
+    value = as.data.frame(hierarchy),
+  )
+
+  # Create indices on tax_id columns
+  RSQLite::dbExecute(db,
+    'CREATE INDEX tax_id_index_names ON names (tax_id)'
+  )
+  RSQLite::dbExecute(db,
+    'CREATE INDEX name_txt_index_names ON names (name_txt COLLATE NOCASE)'
+  )
+  RSQLite::dbExecute(db,
+    'CREATE INDEX tax_id_index_nodes ON nodes (tax_id)'
+  )
+  RSQLite::dbExecute(db,
+    'CREATE INDEX tax_id_index_hierarchy ON hierarchy (tax_id)'
+  )
+
   RSQLite::dbDisconnect(db)
 
   # cleanup

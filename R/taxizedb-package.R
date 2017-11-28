@@ -4,8 +4,9 @@
 #' @importFrom RPostgreSQL PostgreSQL
 #' @importFrom RMySQL MySQL
 #' @importFrom RSQLite SQLite
-#' @importFrom dplyr tbl sql collect
+#' @importFrom dplyr tbl sql collect n
 #' @importFrom dbplyr src_dbi
+#' @importFrom rlang .data
 #' @importFrom curl curl_download
 #' @importFrom magrittr %>%
 #' @name taxizedb-package
@@ -71,4 +72,6 @@
 #' cnames <- src %>% tbl("common_name_element")
 #' cnames %>% select(name)
 #' }
+# Needed for use of . in magrittr pipelines
+utils::globalVariables(c("."))
 NULL
