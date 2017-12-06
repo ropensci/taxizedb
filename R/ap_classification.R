@@ -17,7 +17,13 @@
 #' classification(c(3702, 9606))
 #' }
 classification <- function(x, db='ncbi', verbose=TRUE, ...){
-  ap_dispatch(x=x, db=db, cmd='classification', verbose=verbose, ...)
+  ap_dispatch(
+    x       = x,
+    db      = db,
+    cmd     = 'classification',
+    verbose = verbose,
+    ...
+  )
 }
 
 itis_classification <- function(src, x, ...){

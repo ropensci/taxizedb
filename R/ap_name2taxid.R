@@ -69,6 +69,7 @@ ncbi_name2taxid <- function(src, x, ...){
   result <- sql_collect(src, query)
   # There may be ambiguities
   result$name_txt <- x[pmatch(tolower(result$name_txt), s, duplicates.ok=TRUE)]
-
+  # sort results according to input order
+  result <- result[order(pmatch(x, result$name_txt)), ]
   result
 }

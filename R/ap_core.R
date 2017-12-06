@@ -36,16 +36,16 @@ run_with_db <- function(FUN, db, ...){
   FUN(src, ...)
 }
 
-ncbi_apply <- function(src, x, FUN, ...){
+ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   # preserve original names (this is important when x is a name vector)
   namemap <- x
   names(namemap) <- x
-  # find the entries that are integers
-  not_integer <- !grepl('^[0-9]+$', x, perl=TRUE)
+  # find the entries that are named
+  is_named <- !(grepl('^[0-9]+$', x, perl=TRUE) | is.na(x))
   # If x is not integrel, then we assume it is a name.
-  if(any(not_integer)){
-    x[not_integer] <- ncbi_name2taxid(src, x[not_integer])$tax_id
-    names(namemap)[not_integer] <- x[not_integer]
+  if(any(is_named)){
+    x[is_named] <- ncbi_name2taxid(src, x[is_named])$tax_id
+    names(namemap)[is_named] <- x[is_named]
   }
   # Remove any taxa that where not found, the missing values will be merged
   # into the final output later (with values of NA)
@@ -78,6 +78,6 @@ ncbi_apply <- function(src, x, FUN, ...){
   result <- lapply(result, function(x) {
     if(is.null(x)){ NA } else { x }
   })
-  result[is.na(names(result))] <- NA
+  result[is.na(names(result))] <- missing
   result
 }
