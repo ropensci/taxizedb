@@ -45,8 +45,8 @@ ncbi_classification <- function(src, x, ...){
     tbl <- sql_collect(src, query)
     # If no IDs were found, return list of NA
     if(nrow(tbl) == 0){
-      lineages <- as.list(as.logical(rep(NA, length(namemap))))
-      names(lineages) <- namemap
+      lineages <- as.list(as.logical(rep(NA, length(x))))
+      names(lineages) <- x
       return(lineages)
     }
     lineages <-
