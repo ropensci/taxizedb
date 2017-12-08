@@ -69,7 +69,12 @@ ncbi_name2taxid <- function(src, x, ...){
   result <- sql_collect(src, query)
   # There may be ambiguities
   result$name_txt <- x[pmatch(tolower(result$name_txt), s, duplicates.ok=TRUE)]
-  # sort results according to input order
-  result <- result[order(pmatch(x, result$name_txt)), ]
+
+  # sort results first according to input order of names and second by taxon
+  # order (which matters only for ambiguous entries)
+  result <- result[order(factor(result$name_txt, levels=x), result$tax_id), ]
+  # There can be repeated rows, for example 'Bacteria' and 'bacteria' are both
+  # are converted into 'Bacteria', but they point to the same taxon id.
+  result <- dplyr::distinct(result)
   result
 }

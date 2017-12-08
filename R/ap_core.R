@@ -44,7 +44,7 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   is_named <- !(grepl('^[0-9]+$', x, perl=TRUE) | is.na(x))
   # If x is not integrel, then we assume it is a name.
   if(any(is_named)){
-    x[is_named] <- ncbi_name2taxid(src, x[is_named])$tax_id
+    x[is_named] <- name2taxid(x[is_named], db='ncbi')
     names(namemap)[is_named] <- x[is_named]
   }
   # Remove any taxa that where not found, the missing values will be merged

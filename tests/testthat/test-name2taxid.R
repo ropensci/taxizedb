@@ -11,3 +11,12 @@ test_that("name2taxid", {
   )
   expect_equal(name2taxid(NULL), character(0))
 })
+
+test_that("name2taxid works for ambiguous cases", {
+  tax_names <- c('pig', 'Bacteria', 'horse')
+  expected_df <- tibble::data_frame(
+    name_txt = c("pig", "Bacteria", "Bacteria", "horse"),
+    tax_id = c(9823L, 2L, 629395L, 9796L)
+  )
+  expect_equal(name2taxid_map(tax_names), expected_df) 
+})
