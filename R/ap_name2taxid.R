@@ -6,6 +6,8 @@
 #' @param x Vector of taxon keys for the given database
 #' @param db The database to search
 #' @param verbose Print verbose messages
+#' @param out_type character "uid" for an ID vector, "summary" for a table with
+#'        columns 'tax_id' and 'tax_name'.
 #' @param ... Additional arguments passed to database specific classification functions.
 #' @export
 #' @examples

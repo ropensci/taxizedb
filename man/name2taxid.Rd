@@ -14,6 +14,9 @@ name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid", "summary"),
 
 \item{verbose}{Print verbose messages}
 
+\item{out_type}{character "uid" for an ID vector, "summary" for a table with
+columns 'tax_id' and 'tax_name'.}
+
 \item{...}{Additional arguments passed to database specific classification functions.}
 }
 \description{
