@@ -16,7 +16,7 @@ test_that("unambiguous children", {
     # need to sqash the walking stick Bacteria genus
     taxize::children(2, db='ncbi', ambiguous=FALSE)[[1]] %>%
       subset(childtaxa_rank != 'species') %>%
-      set_rownames(NULL)
+      magrittr::set_rownames(NULL)
   )
 })
 
@@ -26,6 +26,6 @@ test_that("ambiguous NCBI children", {
     # need to sqash the walking stick Bacteria genus
     taxize::children(2, db='ncbi', ambiguous=TRUE)[[1]] %>%
       subset(childtaxa_rank != 'species') %>%
-      set_rownames(NULL)
+      magrittr::set_rownames(NULL)
   )
 })
