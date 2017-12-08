@@ -68,9 +68,9 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   # Add the missing values
   missing_names <- setdiff(namemap, names(result))
   if(length(missing_names) > 0){
-    missing <- as.list(as.logical(rep(NA, length(missing_names))))
-    names(missing) <- missing_names
-    result <- append(result, missing)
+    missing_values <- lapply(missing_names, function(x) missing)
+    names(missing_values) <- missing_names
+    result <- append(result, missing_values)
   }
   # Get result in the input order
   result <- result[as.character(namemap)]
