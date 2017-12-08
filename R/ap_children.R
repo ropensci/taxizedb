@@ -40,7 +40,7 @@ ncbi_children <- function(src, x, ...){
                        "miscellaneous", "candidatus", "affinis", "aff\\.", "incertae sedis",
                        "mixed", "samples", "libaries"), collapse="|")
 
-  FUN <- function(src, x, ...){
+  FUN <- function(src, x, ambiguous=FALSE, ...){
     query <- "SELECT tax_id, parent_tax_id, rank FROM nodes where parent_tax_id IN (%s)"
     query <- sprintf(query, paste(paste0("'", x, "'"), collapse=', '))
     children <- sql_collect(src, query)
@@ -61,10 +61,14 @@ ncbi_children <- function(src, x, ...){
         d$parent <- NULL
         d$childtaxa_id <- as.character(d$childtaxa_id)
         # convert temporarily to integer for numeric sorting
-        dplyr::mutate(d, childtaxa_id = as.integer(.data$childtaxa_id)) %>%
-        dplyr::arrange(-.data$childtaxa_id) %>%
-        dplyr::mutate(childtaxa_id = as.character(.data$childtaxa_id)) %>%
-          dplyr::filter(!grepl(ambiguous_regex, .data$childtaxa_name, perl=TRUE))
+        d <- d %>%
+          dplyr::mutate(childtaxa_id = as.integer(.data$childtaxa_id)) %>%
+          dplyr::arrange(-.data$childtaxa_id) %>%
+          dplyr::mutate(childtaxa_id = as.character(.data$childtaxa_id))
+        if(!ambiguous)
+          d <- d[!grepl(ambiguous_regex, d$childtaxa_name, perl=TRUE), ]
+        rownames(d) <- NULL
+        d
       })
   }
 
