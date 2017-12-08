@@ -2,13 +2,10 @@
 % Please edit documentation in R/ap_name2taxid.R
 \name{name2taxid}
 \alias{name2taxid}
-\alias{name2taxid}
-\alias{name2taxid_map}
 \title{Convert species names to taxon IDs}
 \usage{
-name2taxid(x, db = "ncbi", verbose = TRUE, ...)
-
-name2taxid_map(x, db = "ncbi", verbose = TRUE, ...)
+name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid", "summary"),
+  ...)
 }
 \arguments{
 \item{x}{Vector of taxon keys for the given database}

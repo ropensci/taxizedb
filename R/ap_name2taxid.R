@@ -7,32 +7,28 @@
 #' @param db The database to search
 #' @param verbose Print verbose messages
 #' @param ... Additional arguments passed to database specific classification functions.
+#' @export
 #' @examples
 #' \dontrun{
 #' name2taxid(c('Arabidopsis thaliana', 'pig'))
 #' }
-#' @name name2taxid
-NULL
-
-#' @rdname name2taxid
-#' @export
-name2taxid <- function(x, db='ncbi', verbose=TRUE, ...){
-  result <- name2taxid_map(x, db, verbose, ...)
-  if(length(result) == 0){
-    return(result)
-  } else {
-    if(length(unique(result$tax_id)) != nrow(result)){
-      stop("Some of these names are ambiguous, so this cannot be simplified ",
-           "to a vector, try setting 'simplify=FALSE'")
+name2taxid <- function(x, db='ncbi', verbose=TRUE, out_type=c("uid", "summary"), ...){
+  result <- ap_vector_dispatch(x=x, db=db, cmd='name2taxid', verbose=verbose, ...)
+  if(identical(out_type[1], "summary")){
+    result
+  } else if (identical(out_type[1], "uid")) {
+    if(is.null(x) || nrow(result) == 0){
+      rep(NA_character_, length(x))
+    } else {
+      ids <- result$tax_id
+      if(any(duplicated(ids))){
+        stop("Some of the input names are ambiguous, try setting out_type to 'summary'")
+      }
+      as.character(result$tax_id[match(x, result$name_txt)])
     }
-    as.character(result$tax_id[match(x, result$name_txt)])
+  } else {
+    stop("The out_type value '", out_type, "' is not supported")
   }
-}
-
-#' @rdname name2taxid
-#' @export
-name2taxid_map <- function(x, db='ncbi', verbose=TRUE, ...){
-  ap_vector_dispatch(x=x, db=db, cmd='name2taxid', verbose=verbose, ...)
 }
 
 itis_name2taxid <- function(src, x, ...){
@@ -53,7 +49,7 @@ gbif_name2taxid <- function(src, x, ...){
 
 ncbi_name2taxid <- function(src, x, ...){
   if(length(x) == 0){
-    return(character(0))
+    return(tibble::data_frame(name_txt=character(), tax_id=character()))
   }
   # The NCBI taxonomy database includes common names, synonyms and
   # misspellings. However, the database is a little inconsistent here. For

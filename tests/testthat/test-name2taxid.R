@@ -18,5 +18,5 @@ test_that("name2taxid works for ambiguous cases", {
     name_txt = c("pig", "Bacteria", "Bacteria", "horse"),
     tax_id = c(9823L, 2L, 629395L, 9796L)
   )
-  expect_equal(name2taxid_map(tax_names), expected_df) 
+  expect_equal(name2taxid(tax_names, out_type='summary'), expected_df, out_type='summary') 
 })
