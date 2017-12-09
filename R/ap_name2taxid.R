@@ -15,17 +15,24 @@
 #' name2taxid(c('Arabidopsis thaliana', 'pig'))
 #' }
 name2taxid <- function(x, db='ncbi', verbose=TRUE, out_type=c("uid", "summary"), ...){
-  result <- ap_vector_dispatch(x=x, db=db, cmd='name2taxid', verbose=verbose, ...)
+  result <- ap_vector_dispatch(
+    x       = x,
+    db      = db,
+    cmd     = 'name2taxid',
+    verbose = verbose,
+    empty   = tibble::data_frame(name_txt=character(), tax_id=character()),
+    ...
+  )
   if(identical(out_type[1], "summary")){
     result
   } else if (identical(out_type[1], "uid")) {
-    if(is.null(x) || nrow(result) == 0){
+    ids <- result$tax_id
+    if(any(duplicated(result$name_txt))){
+      stop("Some of the input names are ambiguous, try setting out_type to 'summary'")
+    }
+    if(is.null(x) || length(result) == 0){
       rep(NA_character_, length(x))
     } else {
-      ids <- result$tax_id
-      if(any(duplicated(ids))){
-        stop("Some of the input names are ambiguous, try setting out_type to 'summary'")
-      }
       as.character(result$tax_id[match(x, result$name_txt)])
     }
   } else {
@@ -33,25 +40,25 @@ name2taxid <- function(x, db='ncbi', verbose=TRUE, out_type=c("uid", "summary"),
   }
 }
 
-itis_name2taxid <- function(src, x, ...){
+itis_name2taxid <- function(src, x, empty, ...){
   stop("The ITIS database is currently not supported")
 }
 
-tpl_name2taxid <- function(src, x, ...){
+tpl_name2taxid <- function(src, x, empty, ...){
   stop("The TPL database is currently not supported")
 }
 
-col_name2taxid <- function(src, x, ...){
+col_name2taxid <- function(src, x, empty, ...){
   stop("The COL database is currently not supported")
 }
 
-gbif_name2taxid <- function(src, x, ...){
+gbif_name2taxid <- function(src, x, empty, ...){
   stop("The GBIF database is currently not supported")
 }
 
-ncbi_name2taxid <- function(src, x, ...){
+ncbi_name2taxid <- function(src, x, empty, ...){
   if(length(x) == 0){
-    return(tibble::data_frame(name_txt=character(), tax_id=character()))
+    return(empty)
   }
   # The NCBI taxonomy database includes common names, synonyms and
   # misspellings. However, the database is a little inconsistent here. For
@@ -71,6 +78,7 @@ ncbi_name2taxid <- function(src, x, ...){
   # sort results first according to input order of names and second by taxon
   # order (which matters only for ambiguous entries)
   result <- result[order(factor(result$name_txt, levels=x), result$tax_id), ]
+  result$tax_id <- as.character(result$tax_id)
   # There can be repeated rows, for example 'Bacteria' and 'bacteria' are both
   # are converted into 'Bacteria', but they point to the same taxon id.
   result <- dplyr::distinct(result)

@@ -5,11 +5,11 @@ ap_vector_dispatch <- function(x, db, cmd, verbose=TRUE, empty=character(0), ...
     empty 
   } else {
     FUN <- paste0(db, "_", cmd)
-    run_with_db(FUN=get(FUN), db=db, x=x, ...)
+    run_with_db(FUN=get(FUN), db=db, x=x, empty=empty, ...)
   }
 }
 
-ap_dispatch <- function(x, db, cmd, out_class=cmd, verbose=TRUE, ...){
+ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, ...){
   result <- if(is.null(x) || length(x) == 0){
     # For empty or NULL input, return empty list
     list()

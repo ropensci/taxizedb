@@ -16,7 +16,18 @@ test_that("name2taxid works for ambiguous cases", {
   tax_names <- c('pig', 'Bacteria', 'horse')
   expected_df <- tibble::data_frame(
     name_txt = c("pig", "Bacteria", "Bacteria", "horse"),
-    tax_id = c(9823L, 2L, 629395L, 9796L)
+    tax_id = c("9823", "2", "629395", "9796")
   )
   expect_equal(name2taxid(tax_names, out_type='summary'), expected_df, out_type='summary') 
+})
+
+test_that("name2taxid(out_type='uid') dies if ambiguous", {
+  expect_error(name2taxid("Bacteria", out_type='uid'))
+})
+
+test_that("name2taxid summary works", {
+  expect_equal(
+    name2taxid('dragon', out_type='summary'),
+    tibble::data_frame(name_txt=character(), tax_id=character())
+  ) 
 })

@@ -11,7 +11,14 @@
 #' taxid2name(c(3702, 9606))
 #' }
 taxid2name <- function(x, db='ncbi', verbose=TRUE, ...){
-  ap_vector_dispatch(x=x, db=db, cmd='taxid2name', verbose=verbose, ...)
+  ap_vector_dispatch(
+    x       = x,
+    db      = db,
+    cmd     = 'taxid2name',
+    verbose = verbose,
+    empty   = character(0),
+    ...
+  )
 }
 
 itis_name2taxid <- function(src, x, ...){
