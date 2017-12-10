@@ -7,5 +7,10 @@ test_that("taxid2name", {
     taxid2name(c(3702,99999999,1)),
     c('Arabidopsis thaliana', NA, 'root')
   )
+  # check order
+  expect_equal(
+    taxid2name(c(99999999,1,3702)),
+    c(NA, 'root', 'Arabidopsis thaliana')
+  )
   expect_equal(taxid2name(NULL), character(0))
 })

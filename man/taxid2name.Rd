@@ -4,7 +4,7 @@
 \alias{taxid2name}
 \title{Convert taxon IDs to scientific names}
 \usage{
-taxid2name(x, db = "ncbi", verbose = TRUE, ...)
+taxid2name(x, db = "ncbi", verbose = TRUE, warn = TRUE, ...)
 }
 \arguments{
 \item{x}{Vector of taxon keys for the given database}
@@ -12,6 +12,8 @@ taxid2name(x, db = "ncbi", verbose = TRUE, ...)
 \item{db}{The database to search}
 
 \item{verbose}{Print verbose messages}
+
+\item{warn}{If TRUE, raise a warning if any taxon IDs can not be found}
 
 \item{...}{Additional arguments passed to database specific classification functions.}
 }
