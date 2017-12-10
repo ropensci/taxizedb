@@ -29,7 +29,7 @@ ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, .
 
 run_with_db <- function(FUN, db, ...){
   src <- if(db == 'ncbi'){
-    src_ncbi(db_download_ncbi())
+    src_ncbi(db_download_ncbi(verbose=FALSE))
   } else {
     stop("Database '", db, "' is not supported")
   }
