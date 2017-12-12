@@ -85,8 +85,8 @@ test_that('classification(NULL) == list()', {
 })
 
 test_that('classification handles mixed inputs', {
-  x <- c(9606, 'pig', 3702, NA, 'cow', 'zebra', NA) 
-  lineage <- classification(x, db='ncbi')
+  x <- c(9606, 'pig', 3702, NA, 'cow', 'zebra', NA)
+  lineage <- taxizedb::classification(x, db='ncbi')
   expect_equal(
     names(lineage),
     c('9606', 'pig', '3702', NA, 'cow', 'zebra', NA)
