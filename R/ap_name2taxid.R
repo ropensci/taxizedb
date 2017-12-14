@@ -77,7 +77,7 @@ ncbi_name2taxid <- function(src, x, empty, ...){
 
   # sort results first according to input order of names and second by taxon
   # order (which matters only for ambiguous entries)
-  result <- result[order(factor(result$name_txt, levels=x), result$tax_id), ]
+  result <- result[order(factor(result$name_txt, levels=unique(x)), result$tax_id), ]
   result$tax_id <- as.character(result$tax_id)
   # There can be repeated rows, for example 'Bacteria' and 'bacteria' are both
   # are converted into 'Bacteria', but they point to the same taxon id.
