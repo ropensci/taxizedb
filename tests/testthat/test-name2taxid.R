@@ -25,6 +25,10 @@ test_that("name2taxid(out_type='uid') dies if ambiguous", {
   expect_error(name2taxid("Bacteria", out_type='uid'))
 })
 
+test_that("name2taxid works with duplicates", {
+  expect_equal(name2taxid(c("Arabidopsis", "Arabidopsis"), out_type='uid'), c("3701", "3701"))
+})
+
 test_that("name2taxid summary works", {
   expect_equal(
     name2taxid('dragon', out_type='summary'),
