@@ -132,7 +132,7 @@ db_download_ncbi <- function(verbose = TRUE){
   # set up the base table with columns 'tax_id', 'ancestor', and 'level', where
   # level is 1 for immediate parent
   hierarchs[[1]] <- ncbi_nodes[, c('tax_id', 'parent_tax_id')] %>%
-    set_names(c('tax_id', 'ancestor'))
+    magrittr::set_names(c('tax_id', 'ancestor'))
   hierarchs[[1]]$level <- 1
   # make a child to parent map
   child2parent <- ncbi_nodes$parent_tax_id
