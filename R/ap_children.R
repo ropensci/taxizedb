@@ -34,12 +34,6 @@ gbif_children <- function(src, x, ...){
 
 ncbi_children <- function(src, x, ...){
 
-  # ambiguous terms (see taxize::ncbi_children.R)
-  ambiguous_regex <- paste0(c("unclassified", "environmental", "uncultured", "unknown",
-                       "unidentified", "candidate", "sp\\.", "s\\.l\\.", "sensu lato", "clone",
-                       "miscellaneous", "candidatus", "affinis", "aff\\.", "incertae sedis",
-                       "mixed", "samples", "libaries"), collapse="|")
-
   FUN <- function(src, x, ambiguous=FALSE, ...){
     query <- "SELECT tax_id, parent_tax_id, rank FROM nodes where parent_tax_id IN (%s)"
     query <- sprintf(query, paste(paste0("'", x, "'"), collapse=', '))
@@ -66,7 +60,7 @@ ncbi_children <- function(src, x, ...){
           dplyr::arrange(-.data$childtaxa_id) %>%
           dplyr::mutate(childtaxa_id = as.character(.data$childtaxa_id))
         if(!ambiguous)
-          d <- d[!grepl(ambiguous_regex, d$childtaxa_name, perl=TRUE), ]
+          d <- d[!is_ambiguous(d$childtaxa_name), ]
         rownames(d) <- NULL
         d
       })

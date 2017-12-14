@@ -203,7 +203,10 @@ db_download_ncbi <- function(verbose = TRUE){
     'CREATE INDEX tax_id_index_nodes ON nodes (tax_id)'
   )
   RSQLite::dbExecute(db,
-    'CREATE INDEX tax_id_index_hierarchy ON hierarchy (tax_id, ancestor)'
+    'CREATE INDEX tax_id_index_hierarchy ON hierarchy (tax_id)'
+  )
+  RSQLite::dbExecute(db,
+    'CREATE INDEX tax_id_ancestor_hierarchy ON hierarchy (ancestor)'
   )
 
   RSQLite::dbDisconnect(db)

@@ -81,3 +81,12 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   result[is.na(names(result))] <- missing
   result
 }
+
+is_ambiguous <- function(scinames){
+  # ambiguous terms (see taxize::ncbi_children.R)
+  ambiguous_regex <- paste0(c("unclassified", "environmental", "uncultured", "unknown",
+                       "unidentified", "candidate", "sp\\.", "s\\.l\\.", "sensu lato", "clone",
+                       "miscellaneous", "candidatus", "affinis", "aff\\.", "incertae sedis",
+                       "mixed", "samples", "libaries"), collapse="|")
+  grepl(ambiguous_regex, scinames, perl=TRUE)
+}
