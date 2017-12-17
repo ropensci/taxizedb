@@ -36,7 +36,7 @@ ap_vector_dispatch <- function(x, db, cmd, verbose=TRUE, empty=character(0), ...
 ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, ...){
   result <- if(is.null(x) || length(x) == 0){
     # For empty or NULL input, return empty list
-    list()
+    empty
   } else {
     FUN <- paste0(db, "_", cmd)
     run_with_db(FUN=get(FUN), db=db, x=x, ...)
@@ -78,6 +78,7 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   # If there isn't anything to consider, return a list of NA
   if(length(x) == 0){
     result <- as.list(as.logical(rep(NA, length(namemap))))
+    result <- lapply(result, function(x) missing)
     names(result) <- namemap
     return(result)
   }

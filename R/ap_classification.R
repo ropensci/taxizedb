@@ -92,5 +92,14 @@ ncbi_classification <- function(src, x, ...){
     )
   }
 
-  ncbi_apply(src, x, FUN, ...)
+  ## TODO: probably the Right missing value is this:
+  # missing = data.frame(
+  #   name = character(),
+  #   rank = character(),
+  #   id   = character(),
+  #   stringsAsFactors=FALSE
+  # ),
+  missing=NA
+
+  ncbi_apply(src, x, FUN, missing=missing, ...)
 }

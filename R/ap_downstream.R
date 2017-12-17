@@ -89,5 +89,14 @@ ncbi_downstream <- function(src, x, ...){
       })
   }
 
-  ncbi_apply(src, x, FUN, ...)
+  ## TODO: probably the Right missing value is this:
+  # missing = data.frame(
+  #   childtaxa_id   = character(),
+  #   childtaxa_name = character(),
+  #   rank           = character(),
+  #   stringsAsFactors=FALSE
+  # )
+  missing = NA
+
+  ncbi_apply(src, x, FUN, missing=missing, ...)
 }
