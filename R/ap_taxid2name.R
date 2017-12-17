@@ -55,7 +55,7 @@ ncbi_taxid2name <- function(src, x, ...){
     return(character(0))
   }
   query <- "SELECT tax_id, name_txt FROM names WHERE name_class == 'scientific name' AND tax_id IN (%s)"
-  query <- sprintf(query, paste(x, collapse=", "))
+  query <- sprintf(query, sql_integer_list(x))
   tbl <- sql_collect(src, query)
   as.character(tbl$name_txt[match(x, tbl$tax_id)])
 }

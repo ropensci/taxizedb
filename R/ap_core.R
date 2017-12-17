@@ -1,5 +1,29 @@
 ### Internal utilities
 
+# convert a vector to a comma separated string list suitable for SQL, e.g.
+# c("Arabidopsis", "Peridermium sp. 'Ysgr-4'") -> "'Arabidopsis', 'Peridermium sp. ''Ysgr-4'''"
+# Note that double quoting is the SQL convention for escaping quotes in strings
+sql_character_list <- function(x){
+  if(any(is.na(x))){
+    stop("Cannot pass NA into SQL query")
+  }
+  as.character(x) %>%
+    gsub(pattern="'", replacement="''") %>%
+    sub(pattern="(.*)", replacement="'\\1'", perl=TRUE) %>%
+    paste(collapse=", ")
+}
+
+sql_integer_list <- function(x){
+  if(any(is.na(x))){
+    stop("Cannot pass NA into SQL query")
+  }
+  x <- as.character(x)
+  if(!all(grepl('^[0-9]+$', x, perl=TRUE))){
+    stop("Found non-integer where integer required in SQL input")
+  }
+  paste(x, collapse=", ")
+}
+
 ap_vector_dispatch <- function(x, db, cmd, verbose=TRUE, empty=character(0), ...){
   if(is.null(x) || length(x) == 0){
     empty 

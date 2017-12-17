@@ -59,7 +59,7 @@ ncbi_downstream <- function(src, x, ...){
     ...
   ){
     cmd <- "SELECT tax_id, level, ancestor FROM hierarchy WHERE ancestor IN (%s)"
-    query <- sprintf(cmd, paste(x, collapse=", "))
+    query <- sprintf(cmd, sql_integer_list(x))
     sql_collect(src, query) %>%
       dplyr::mutate(
         rank = taxid2rank(.data$tax_id),

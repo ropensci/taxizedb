@@ -28,4 +28,12 @@ downstream(c(3700, 9605))
 
 # limit results to species
 downstream(c(3700, 9605), downto='species')
+
+# allow ambiguous nodes but no ambiguous species
+downstream(
+  c(3700, 9605),
+  downto='species',
+  ambiguous_nodes=FALSE,
+  ambiguous_species=TRUE
+)
 }

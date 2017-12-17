@@ -47,7 +47,7 @@ ncbi_classification <- function(src, x, ...){
   FUN <- function(src, x, ...){
     # Retrieve the hierarchy for each input taxon id
     cmd <- "SELECT tax_id, level, ancestor FROM hierarchy WHERE tax_id IN (%s)"
-    query <- sprintf(cmd, paste(x, collapse=", "))
+    query <- sprintf(cmd, sql_integer_list(x))
     tbl <- sql_collect(src, query)
     # If no IDs were found, return list of NA
     if(nrow(tbl) == 0){
@@ -68,7 +68,7 @@ ncbi_classification <- function(src, x, ...){
     # Add ranks (TODO: add taxid2rank function)
     merge({
       cmd <- "SELECT tax_id, rank FROM nodes WHERE tax_id IN (%s)"
-      query <- sprintf(cmd, paste(.$ancestor, collapse=", "))
+      query <- sprintf(cmd, sql_integer_list(.$ancestor))
       sql_collect(src, query)
     }, by.x='ancestor', by.y='tax_id') %>%
     dplyr::mutate(

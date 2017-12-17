@@ -55,7 +55,7 @@ ncbi_taxid2rank <- function(src, x, ...){
     return(character(0))
   }
   query <- "SELECT tax_id, rank FROM nodes WHERE tax_id IN (%s)"
-  query <- sprintf(query, paste(x, collapse=", "))
+  query <- sprintf(query, sql_integer_list(x))
   tbl <- sql_collect(src, query)
   as.character(tbl$rank[match(x, tbl$tax_id)])
 }
