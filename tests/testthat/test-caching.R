@@ -25,14 +25,8 @@ test_that("tdb_cache structure is as expected", {
 test_that("tdb_cache works as expected", {
   skip_on_cran()
 
-  # clear cache in case any in there
-  tdb_cache$delete_all()
-
-  # cache should be empty
-  expect_equal(length(tdb_cache$list()), 0)
-
-  # message on delete all
-  expect_message(tdb_cache$delete_all(), "no files found")
+  # cache list
+  expect_is(tdb_cache$list(), 'character')
 
   # message on delete all
   expect_error(tdb_cache$delete(), "argument \"files\" is missing")
@@ -40,12 +34,6 @@ test_that("tdb_cache works as expected", {
 
   # details, with no files
   expect_is(tdb_cache$details(), "cache_info")
-
-  # files is NULL
-  expect_null(tdb_cache$files())
-
-  # keys is NULL
-  expect_null(tdb_cache$keys())
 
   # key is NULL and errors well when file not found
   expect_error(tdb_cache$key(), "argument \"x\" is missing")
