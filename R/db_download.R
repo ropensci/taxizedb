@@ -125,41 +125,40 @@ db_download_ncbi <- function(verbose = TRUE){
   )
 
   mssg(verbose, 'building hierarchy table...')
-  # make child to parent id map
-  idmap <- as.character(ncbi_nodes$parent_tax_id)
-  names(idmap) <- as.character(ncbi_nodes$tax_id)
-  # set up root hierarchy table
-  hierarchy <- ncbi_nodes[, c('tax_id', 'parent_tax_id')]
-  hierarchy$level <- 0
-  hierarchy$hierarchy_string <- as.character(hierarchy$tax_id)
-  # temporary vector storing whether the hierarchy string has reached root
-  complete <- rep(FALSE, nrow(hierarchy))
-  # the root taxon ID
-  root_node <- 1L
-
-  # each iteration appends the parent id to the hierarchy_string and then
-  # replaces gets the new parent the loop breaks when all lineages have been
-  # traced to root
-  while(any(hierarchy$parent_tax_id != root_node)){
-    # add parent to hierarchy string
-    hierarchy$hierarchy_string[!complete] <-
-      with(
-        hierarchy[!complete, ],
-        paste(parent_tax_id, hierarchy_string, sep="-")
-      )
-    # bump level
-    hierarchy$level[!complete] <- hierarchy$level[!complete] + 1
-    # set whether root has been reached
-    complete <- hierarchy$parent_tax_id == root_node
-    # get new parents
-    hierarchy$parent_tax_id <- unname(idmap[as.character(hierarchy$parent_tax_id)])
+  # will hold a table for every taxonomic level ascending from leaf to root the
+  # length of this list will equal the depth of the taxonomic tree (e.g. 37
+  # currently)
+  hierarchs <- list()
+  # set up the base table with columns 'tax_id', 'ancestor', and 'level', where
+  # level is 1 for immediate parent
+  hierarchs[[1]] <- ncbi_nodes[, c('tax_id', 'parent_tax_id')] %>%
+    magrittr::set_names(c('tax_id', 'ancestor'))
+  hierarchs[[1]]$level <- 1
+  # make a child to parent map
+  child2parent <- ncbi_nodes$parent_tax_id
+  names(child2parent) <- ncbi_nodes$tax_id
+  # Iteratively replace the ancestor column with the ancestor parent until all
+  # lineages converge to root. Each iteration is stored in a new table with
+  # level incremented.
+  while(TRUE){
+    top <- tail(hierarchs, 1)[[1]]
+    incomplete <- top$ancestor != 1L # 1 is the taxonomy root id
+    top <- top[incomplete, ]
+    if(nrow(top) == 0){
+      break
+    }
+    hierarchs[[length(hierarchs)+1]] <- tibble::tibble(
+      tax_id = top$tax_id,
+      ancestor = child2parent[as.character(top$ancestor)],
+      level = rep(length(hierarchs) + 1, nrow(top))
+    )
   }
-  # remove the self-referential connection
-  hierarchy$hierarchy_string[hierarchy$hierarchy_string == "1-1"] <- "1"
-  # remove the now unneeded parent column
-  hierarchy$parent_tax_id <- NULL
-  # make level integrel
+  # Bind all levels into one table.
+  hierarchy <- do.call(rbind, hierarchs)
   hierarchy$level <- as.integer(hierarchy$level)
+
+
+  mssg(verbose, 'building SQLite database...')
 
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=final_file)
 
@@ -205,6 +204,9 @@ db_download_ncbi <- function(verbose = TRUE){
   )
   RSQLite::dbExecute(db,
     'CREATE INDEX tax_id_index_hierarchy ON hierarchy (tax_id)'
+  )
+  RSQLite::dbExecute(db,
+    'CREATE INDEX tax_id_ancestor_hierarchy ON hierarchy (ancestor)'
   )
 
   RSQLite::dbDisconnect(db)

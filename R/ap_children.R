@@ -34,20 +34,14 @@ gbif_children <- function(src, x, ...){
 
 ncbi_children <- function(src, x, ...){
 
-  # ambiguous terms (see taxize::ncbi_children.R)
-  ambiguous_regex <- paste0(c("unclassified", "environmental", "uncultured", "unknown",
-                       "unidentified", "candidate", "sp\\.", "s\\.l\\.", "sensu lato", "clone",
-                       "miscellaneous", "candidatus", "affinis", "aff\\.", "incertae sedis",
-                       "mixed", "samples", "libaries"), collapse="|")
-
   FUN <- function(src, x, ambiguous=FALSE, ...){
-    query <- "SELECT tax_id, parent_tax_id, rank FROM nodes where parent_tax_id IN (%s)"
-    query <- sprintf(query, paste(paste0("'", x, "'"), collapse=', '))
+    cmd <- "SELECT tax_id, parent_tax_id, rank FROM nodes where parent_tax_id IN (%s)"
+    query <- sprintf(cmd, sql_character_list(x))
     children <- sql_collect(src, query)
     # Retrive the names for each ancestral ID
     cmd <- "SELECT tax_id, name_txt FROM names WHERE name_class == 'scientific name' AND tax_id IN (%s)"
-    taxid_str <- paste(children$tax_id, collapse=", ")
-    children_names <- sql_collect(src, sprintf(cmd, taxid_str))
+    query <- sprintf(cmd, sql_integer_list(children$tax_id))
+    children_names <- sql_collect(src, query)
     # merge names and ids
     merge(children, children_names, by='tax_id') %>%
       dplyr::select(
@@ -66,7 +60,7 @@ ncbi_children <- function(src, x, ...){
           dplyr::arrange(-.data$childtaxa_id) %>%
           dplyr::mutate(childtaxa_id = as.character(.data$childtaxa_id))
         if(!ambiguous)
-          d <- d[!grepl(ambiguous_regex, d$childtaxa_name, perl=TRUE), ]
+          d <- d[!is_ambiguous(d$childtaxa_name), ]
         rownames(d) <- NULL
         d
       })

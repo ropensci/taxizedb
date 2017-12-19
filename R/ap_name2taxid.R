@@ -70,7 +70,7 @@ ncbi_name2taxid <- function(src, x, empty, ...){
 
   # FYI: The schema is set to support case insensitive matches
   query <- "SELECT name_txt, tax_id FROM names WHERE name_txt IN (%s)"
-  query <- sprintf(query, paste(paste0("'", s, "'"), collapse=', '))
+  query <- sprintf(query, sql_character_list(s))
   result <- sql_collect(src, query)
   # There may be ambiguities
   result$name_txt <- x[pmatch(tolower(result$name_txt), s, duplicates.ok=TRUE)]

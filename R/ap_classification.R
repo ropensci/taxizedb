@@ -46,8 +46,8 @@ ncbi_classification <- function(src, x, ...){
 
   FUN <- function(src, x, ...){
     # Retrieve the hierarchy for each input taxon id
-    cmd <- "SELECT * FROM hierarchy WHERE tax_id IN (%s)"
-    query <- sprintf(cmd, paste(x, collapse=", "))
+    cmd <- "SELECT tax_id, level, ancestor FROM hierarchy WHERE tax_id IN (%s)"
+    query <- sprintf(cmd, sql_integer_list(x))
     tbl <- sql_collect(src, query)
     # If no IDs were found, return list of NA
     if(nrow(tbl) == 0){
@@ -55,54 +55,51 @@ ncbi_classification <- function(src, x, ...){
       names(lineages) <- x
       return(lineages)
     }
-    lineages <-
-      tbl %>%
-      # Split the hierarchy_string, e.g.  1-123-23-134, into a nested list
-      dplyr::mutate(ancestor = strsplit(.data$hierarchy_string, '-')) %>%
-      # Unnest ancestors, making one row for each ancestor
-      tidyr::unnest(.data$ancestor) %>%
-      # Convert strings to integer IDs
-      dplyr::mutate(ancestor = as.integer(.data$ancestor)) %>%
-      # Add the level, where root == 1
-      dplyr::group_by(.data$tax_id) %>%
-      dplyr::mutate(level=1:n()) %>%
-      dplyr::ungroup() %>%
-      # Filter out the fields we need
-      dplyr::select(.data$tax_id, .data$level, .data$ancestor)
-    # Retrive the names for each ancestral ID
-    cmd <- "SELECT tax_id, name_txt FROM names WHERE name_class == 'scientific name' AND tax_id IN (%s)"
-    taxid_str <- paste(lineages$ancestor, collapse=", ")
-    ancestor_names <- sql_collect(src, sprintf(cmd, taxid_str))
-    # Retrive the rank for each ancestral ID
-    cmd <- "SELECT tax_id, rank FROM nodes WHERE tax_id IN (%s)"
-    ancestor_ranks <- sql_collect(src, sprintf(cmd, taxid_str))
-    # Merge in ancestor names and ranks.
-    merge(lineages, ancestor_names, by.x='ancestor', by.y='tax_id') %>%
-      merge(ancestor_ranks, by.x='ancestor', by.y='tax_id') %>%
-      dplyr::arrange(.data$tax_id, .data$level) %>%
+
+    # Add the query to the lineage as the lowest level
+    rbind(tbl, tibble::tibble(
+      tax_id   = x,
+      ancestor = x,
+      level    = rep(0L, length(x))
+    )) %>%
+    # NOTE: Remove the root node, for consistency with 'taxize'. The root
+    # node really is important, though, because viruses are a thing.
+    dplyr::filter(.data$ancestor != 1L) %>%
+    # Add ranks (TODO: add taxid2rank function)
+    merge({
+      cmd <- "SELECT tax_id, rank FROM nodes WHERE tax_id IN (%s)"
+      query <- sprintf(cmd, sql_integer_list(.$ancestor))
+      sql_collect(src, query)
+    }, by.x='ancestor', by.y='tax_id') %>%
+    dplyr::mutate(
+      # make taxon IDs character vectors (for consistency with taxize)
+      ancestor = as.character(.data$ancestor),
+      # add ancestor scientific name
+      name = taxid2name(.data$ancestor)
+    ) %>%
+    split(f=.$tax_id) %>%
+    lapply(function(d)
+      dplyr::arrange(d, -.data$level) %>%
       # NOTE: Here I drop the 'level' column. I do this because it is not present
       # in the taxize::classification output. However, without the level column,
       # the ancestor order is encoded only in the row order of the data.frame,
       # which is not robost.
       dplyr::select(
-        tax_id = .data$tax_id,
-        name   = .data$name_txt,
-        rank   = .data$rank,
-        id     = .data$ancestor
-      ) %>%
-      # Split the data.frame by input taxon ID
-      split(factor(.$tax_id)) %>%
-      lapply(function(x) {
-          x$tax_id = NULL
-          # NOTE: Remove the root node, for consistency with 'taxize'. The root
-          # node really is important, though, because viruses are a thing.
-          x <- x[x$name != 'root', ]
-          # To match the type in 'taxize':
-          x$id <- as.character(x$id)
-          rownames(x) <- NULL
-          x
-      })
+        name = .data$name,
+        rank = .data$rank,
+        id   = .data$ancestor
+      )
+    )
   }
 
-  ncbi_apply(src, x, FUN, ...)
+  ## TODO: probably the Right missing value is this:
+  # missing = data.frame(
+  #   name = character(),
+  #   rank = character(),
+  #   id   = character(),
+  #   stringsAsFactors=FALSE
+  # ),
+  missing=NA
+
+  ncbi_apply(src, x, FUN, missing=missing, ...)
 }

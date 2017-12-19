@@ -29,3 +29,18 @@ test_that("ambiguous NCBI children", {
       magrittr::set_rownames(NULL)
   )
 })
+
+test_that("missing values are consistent with taxize", {
+  empty_df <- data.frame(
+    childtaxa_id   = character(0),
+    childtaxa_name = character(0),
+    childtaxa_rank = character(0),
+    stringsAsFactors=FALSE
+  )
+  expect_equal(
+    taxizedb::children("asdfasdf", db='ncbi')[[1]],
+    empty_df
+    ## TODO: when taxize is updated, replace hard-coded empty_df with:
+    # taxize::children("asdfasdf", db='ncbi')[[1]]
+  )
+})

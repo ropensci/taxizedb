@@ -1,5 +1,29 @@
 ### Internal utilities
 
+# convert a vector to a comma separated string list suitable for SQL, e.g.
+# c("Arabidopsis", "Peridermium sp. 'Ysgr-4'") -> "'Arabidopsis', 'Peridermium sp. ''Ysgr-4'''"
+# Note that double quoting is the SQL convention for escaping quotes in strings
+sql_character_list <- function(x){
+  if(any(is.na(x))){
+    stop("Cannot pass NA into SQL query")
+  }
+  as.character(x) %>%
+    gsub(pattern="'", replacement="''") %>%
+    sub(pattern="(.*)", replacement="'\\1'", perl=TRUE) %>%
+    paste(collapse=", ")
+}
+
+sql_integer_list <- function(x){
+  if(any(is.na(x))){
+    stop("Cannot pass NA into SQL query")
+  }
+  x <- as.character(x)
+  if(!all(grepl('^[0-9]+$', x, perl=TRUE))){
+    stop("Found non-integer where integer required in SQL input")
+  }
+  paste(x, collapse=", ")
+}
+
 ap_vector_dispatch <- function(x, db, cmd, verbose=TRUE, empty=character(0), ...){
   if(is.null(x) || length(x) == 0){
     empty 
@@ -12,7 +36,7 @@ ap_vector_dispatch <- function(x, db, cmd, verbose=TRUE, empty=character(0), ...
 ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, ...){
   result <- if(is.null(x) || length(x) == 0){
     # For empty or NULL input, return empty list
-    list()
+    empty
   } else {
     FUN <- paste0(db, "_", cmd)
     run_with_db(FUN=get(FUN), db=db, x=x, ...)
@@ -54,6 +78,7 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   # If there isn't anything to consider, return a list of NA
   if(length(x) == 0){
     result <- as.list(as.logical(rep(NA, length(namemap))))
+    result <- lapply(result, function(x) missing)
     names(result) <- namemap
     return(result)
   }
@@ -80,4 +105,13 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   })
   result[is.na(names(result))] <- missing
   result
+}
+
+is_ambiguous <- function(scinames){
+  # ambiguous terms (see taxize::ncbi_children.R)
+  ambiguous_regex <- paste0(c("unclassified", "environmental", "uncultured", "unknown",
+                       "unidentified", "candidate", "sp\\.", "s\\.l\\.", "sensu lato", "clone",
+                       "miscellaneous", "candidatus", "affinis", "aff\\.", "incertae sedis",
+                       "mixed", "samples", "libaries"), collapse="|")
+  grepl(ambiguous_regex, scinames, perl=TRUE)
 }

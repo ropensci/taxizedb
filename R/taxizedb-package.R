@@ -7,6 +7,7 @@
 #' @importFrom dplyr tbl sql collect n
 #' @importFrom dbplyr src_dbi
 #' @importFrom rlang .data
+#' @importFrom utils tail
 #' @importFrom curl curl_download
 #' @importFrom magrittr %>%
 #' @name taxizedb-package
