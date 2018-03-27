@@ -227,6 +227,12 @@ db_download_itis <- function(verbose = TRUE){
   db_path <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql')
   final_file <- file.path(tdb_cache$cache_path_get(), 'ITIS.sql')
+
+  if(file.exists(final_file)){
+    mssg(verbose, "Database already exists, returning old file")
+    return(final_file)
+  }
+
   # make home dir if not already present
   tdb_cache$mkdir()
   # download data
@@ -257,6 +263,12 @@ db_download_tpl <- function(verbose = TRUE){
   db_path <- file.path(tdb_cache$cache_path_get(), 'plantlist.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'plantlist')
   final_file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sql')
+
+  if(file.exists(final_file)){
+    mssg(verbose, "Database already exists, returning old file")
+    return(final_file)
+  }
+
   # make home dir if not already present
   tdb_cache$mkdir()
   # download data
@@ -287,6 +299,12 @@ db_download_col <- function(verbose = TRUE){
   db_sql_out <- file.path(tdb_cache$cache_path_get(),
                           'colmysql/col2015ac_linux')
   final_file <- file.path(tdb_cache$cache_path_get(), 'col.sql')
+
+  if(file.exists(final_file)){
+    mssg(verbose, "Database already exists, returning old file")
+    return(final_file)
+  }
+
   # make home dir if not already present
   tdb_cache$mkdir()
   # download data
@@ -312,6 +330,12 @@ db_download_gbif <- function(verbose = TRUE){
   db_url <- 'https://s3-us-west-2.amazonaws.com/gbif-backbone/gbif.sqlite'
   db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
   final_file <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
+
+  if(file.exists(final_file)){
+    mssg(verbose, "Database already exists, returning old file")
+    return(final_file)
+  }
+
   tdb_cache$mkdir()
   mssg(verbose, 'downloading...')
   curl::curl_download(db_url, db_path, quiet = TRUE)
