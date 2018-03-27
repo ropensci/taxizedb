@@ -4,9 +4,7 @@ library(taxizedb)
 
 test_that("We can actually download, load, and query all databases", {
 
-  testthat::skip_on_travis()
-  testthat::skip_on_cran()
-  testthat::skip_on_appveyor()
+  testthat::skip_if_not(Sys.getenv("taxizedb_docker") == "test" )
 
 ## These should load from cache if we already have the download!
 gbif <- db_download_gbif()
