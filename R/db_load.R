@@ -82,10 +82,10 @@ db_load_itis <- function(path, user, pwd = NULL,
     stop("Make sure Postgres is on/running\n  ", psqlconn$message)
   }
   if (is.null(pwd)) {
-    cmd <- sprintf("psql %s %s -f %s", cl("-U ", user), cl("-h ", host), path)
+    cmd <- sprintf("psql %s %s %s -f %s", cl("-U ", user), cl("-h ", host), cl("-p ", port), path)
   } else {
-    cmd <- sprintf("PGPASSWORD=%s psql %s %s -f %s", pwd,
-                   cl("-U ", user), cl("-h ", host), path)
+    cmd <- sprintf("PGPASSWORD=%s psql %s %s %s -f %s", pwd,
+                   cl("-U ", user), cl("-h ", host), cl("-p ", port), path)
   }
   system(cmd)
   invisible(DBI::dbDisconnect(psqlconn))
@@ -124,10 +124,10 @@ db_load_tpl <- function(path, user, pwd = NULL,
   # create database
   DBI::dbSendQuery(psqlconn, "CREATE DATABASE plantlist;")
   if (is.null(pwd)) {
-    cmd <- sprintf("psql %s %s plantlist < %s", cl("-U ", user), cl("-h ", host), path)
+    cmd <- sprintf("psql %s %s %s plantlist < %s", cl("-U ", user), cl("-h ", host), cl("-p ", port), path)
   } else {
-    cmd <- sprintf("PGPASSWORD=%s psql %s %s plantlist < %s", pwd,
-            cl("-U ", user), cl("-h ", host), path)
+    cmd <- sprintf("PGPASSWORD=%s psql %s %s %s plantlist < %s", pwd,
+            cl("-U ", user), cl("-h ", host), cl("-p ", port), path)
   }
   message(cmd)
   system(cmd)
@@ -166,10 +166,10 @@ db_load_col <- function(path, user = "root", pwd = NULL,
   mssg(
     verbose,
     'creating MySQL database, this may take a while, get some coffee...')
-  system(sprintf("mysql %s %s %s -e 'CREATE DATABASE IF NOT EXISTS col';",
-                 cl("-h", host),
+  system(sprintf("mysql %s %s %s %s -e 'CREATE DATABASE IF NOT EXISTS col';",
+                 cl("-h", host), cl("-P ", port),
                  cl("-u ", user), paste0("-p'", pwd, "'")))
-  system(sprintf("mysql %s %s %s col < %s", cl("-h", host), cl("-u ", user), paste0("-p'", pwd, "'"),
+  system(sprintf("mysql %s %s %s %s col < %s", cl("-h", host), cl("-u ", user), cl("-P ", port), paste0("-p'", pwd, "'"),
                  path))
   mssg(verbose, "Done. see ?src_col")
 }
