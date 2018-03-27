@@ -9,11 +9,14 @@
 \alias{db_load_ncbi}
 \title{Load taxonomic databases}
 \usage{
-db_load_itis(path, user, pwd = NULL, verbose = TRUE)
+db_load_itis(path, user, pwd = NULL, host = "localhost", port = 5432L,
+  dbname = NULL, verbose = TRUE)
 
-db_load_tpl(path, user, pwd = NULL, verbose = TRUE)
+db_load_tpl(path, user, pwd = NULL, host = "localhost", port = 5432L,
+  dbname = NULL, verbose = TRUE)
 
-db_load_col(path, user = "root", pwd = NULL, verbose = TRUE)
+db_load_col(path, user = "root", pwd = NULL, host = "localhost",
+  port = 3306L, dbname = NULL, verbose = TRUE)
 
 db_load_gbif(verbose = TRUE)
 
@@ -25,6 +28,12 @@ db_load_ncbi(verbose = TRUE)
 \item{user}{(character) User name}
 
 \item{pwd}{(character) Password, if any}
+
+\item{host}{(character) Host address (assumes localhost, see DBI::dbConnect)}
+
+\item{port}{(character) NULL assumes database default port, see DBI::dbConnect}
+
+\item{dbname}{(character) database name, see DBI::dbConnect}
 
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
 }
