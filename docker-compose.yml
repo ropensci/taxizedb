@@ -11,7 +11,7 @@ services:
       environment:
           - POSTGRES_PASSWORD=password
 
-  rdflib:
+  r:
     image: rocker/tidyverse
     depends_on:
       - postgres
