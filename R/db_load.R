@@ -45,12 +45,11 @@
 #' x <- db_download_col()
 #' db_load_col(x, "<your user name>", "<your password>")
 #'
+#' ## These don't do anything under the hood. 
+#' ## They just exist for consistency with other databases that require loading
 #' # GBIF
-#' ## only checks if sqlite installed
 #' db_load_gbif()
-#'
 #' # NCBI
-#' ## only checks if sqlite installed
 #' db_load_ncbi()
 #' }
 
@@ -177,15 +176,15 @@ db_load_col <- function(path, user = "root", pwd = NULL,
 #' @export
 #' @rdname db_load
 db_load_gbif <- function(verbose = TRUE) {
-  mssg(verbose, 'checking if SQLite installed...')
-  db_installed("sqlite3")
+  #mssg(verbose, 'checking if SQLite installed...')
+  #db_installed("sqlite3")
   mssg(verbose, "Done. see ?src_gbif")
 }
 
 #' @export
 #' @rdname db_load
 db_load_ncbi <- function(verbose = TRUE) {
-  mssg(verbose, 'checking if SQLite installed...')
-  db_installed("sqlite3")
+  #mssg(verbose, 'checking if SQLite installed...')
+  #db_installed("sqlite3")
   mssg(verbose, "Done. see ?src_ncbi")
 }

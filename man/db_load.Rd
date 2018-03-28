@@ -82,12 +82,11 @@ and run the commands in your shell.
 x <- db_download_col()
 db_load_col(x, "<your user name>", "<your password>")
 
+## These don't do anything under the hood. 
+## They just exist for consistency with other databases that require loading
 # GBIF
-## only checks if sqlite installed
 db_load_gbif()
-
 # NCBI
-## only checks if sqlite installed
 db_load_ncbi()
 }
 }
