@@ -21,7 +21,7 @@
 #' @rdname src_taxizedb
 src_itis <- function(user, password, dbname = "ITIS", ...) {
   con <- DBI::dbConnect(RPostgreSQL::PostgreSQL(),
-                        dbname = dbname, user = user, password = password)
+                        dbname = dbname, user = user, password = password, ...)
   dbplyr::src_dbi(con)
 }
 
@@ -29,7 +29,7 @@ src_itis <- function(user, password, dbname = "ITIS", ...) {
 #' @rdname src_taxizedb
 src_tpl <- function(user, password, dbname = "plantlist", ...) {
   con <- DBI::dbConnect(RPostgreSQL::PostgreSQL(),
-                        dbname = dbname, user = user, password = password)
+                        dbname = dbname, user = user, password = password, ...)
   dbplyr::src_dbi(con)
 }
 

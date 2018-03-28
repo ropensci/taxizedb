@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    steps:
+      - checkout
+      - run: docker-compose run r R -f .circleci/test.R
+
+

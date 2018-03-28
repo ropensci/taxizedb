@@ -1,0 +1,21 @@
+version: '3'
+services:
+
+  mariadb:
+      image: mariadb
+      environment:
+          - MYSQL_ROOT_PASSWORD=password
+
+  postgres:
+      image: postgres
+      environment:
+          - POSTGRES_PASSWORD=password
+
+  rdflib:
+    image: rocker/tidyverse
+    depends_on:
+      - postgres
+      - mariadb
+
+
+
