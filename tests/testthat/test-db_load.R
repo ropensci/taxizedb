@@ -37,5 +37,5 @@ test_that("db_load fails as expected - more", {
                "Make sure Postgres is on/running")
 
   # doesn't fail, is just checking that sqlite installed
-  expect_message(db_load_gbif(), "checking if SQLite installed")
+  expect_message(db_load_gbif(), "Done")
 })
