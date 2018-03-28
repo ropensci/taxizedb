@@ -6,3 +6,4 @@
 .github
 ^cran-comments\.md$
 ^codemeta\.json$
+&docker-compose\.yml$
