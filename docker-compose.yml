@@ -13,6 +13,9 @@ services:
 
   r:
     image: rocker/tidyverse
+    volumes:
+      - .:/data
+    working_dir: /data
     depends_on:
       - postgres
       - mariadb
