@@ -4,6 +4,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker-compose run r R -f .circleci/test.R
-
+      - run:
+          command: docker-compose run r R -f .circleci/test.R
+          no_output_timeout: 3000
 
