@@ -7,10 +7,12 @@ test_that("unambiguous children", {
   #   taxizedb::children(3702, db='ncbi'),
   #   taxize::children(3702, db='ncbi')
   # )
-  expect_equal(
-    taxizedb::children(3701, db='ncbi'),
-    taxize::children(3701, db='ncbi')
-  )
+  vcr::use_cassette("children_unambiguous", {
+    expect_equal(
+      taxizedb::children(3701, db='ncbi'),
+      taxize::children(3701, db='ncbi')
+    )
+  }, preserve_exact_body_bytes = FALSE)
 
   ## TODO: these are not currently equal
   ## once changes in taxize are sorted out, we can restore this test
@@ -23,7 +25,7 @@ test_that("unambiguous children", {
   # )
 })
 
-test_that("ambiguous NCBI children", {
+# test_that("ambiguous NCBI children", {
   ## TODO: these are not currently equal
   ## once changes in taxize are sorted out, we can restore this test
   # expect_equal(
@@ -33,7 +35,7 @@ test_that("ambiguous NCBI children", {
   #     subset(childtaxa_rank != 'species') %>%
   #     magrittr::set_rownames(NULL)
   # )
-})
+# })
 
 test_that("missing values are consistent with taxize", {
   empty_df <- data.frame(
