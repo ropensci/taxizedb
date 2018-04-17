@@ -9,18 +9,21 @@
 \alias{db_download_gbif}
 \title{Download taxonomic databases}
 \usage{
-db_download_ncbi(verbose = TRUE)
+db_download_ncbi(verbose = TRUE, overwrite = FALSE)
 
-db_download_itis(verbose = TRUE)
+db_download_itis(verbose = TRUE, overwrite = FALSE)
 
-db_download_tpl(verbose = TRUE)
+db_download_tpl(verbose = TRUE, overwrite = FALSE)
 
-db_download_col(verbose = TRUE)
+db_download_col(verbose = TRUE, overwrite = FALSE)
 
-db_download_gbif(verbose = TRUE)
+db_download_gbif(verbose = TRUE, overwrite = FALSE)
 }
 \arguments{
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
+
+\item{overwrite}{(logical) If \code{TRUE} force an update by overwriting
+previously downloaded data. Default: \code{FALSE}}
 }
 \value{
 Path to the downloaded SQL database
@@ -39,6 +42,7 @@ to sql file
 \item The PlantList - PostgreSQL
 \item Catalogue of Life - MySQL
 \item GBIF - SQLite
+\item NCBI - SQLite
 }
 }
 

@@ -26,6 +26,15 @@ db_installed <- function(x) {
   }
 }
 
+assert <- function(x, y) {
+  if (!is.null(x)) {
+    if (!class(x) %in% y) {
+        stop(deparse(substitute(x)), " must be of class ",
+            paste0(y, collapse = ", "), call. = FALSE)
+    }
+  }
+}
+
 # db_on(x = 'psql')
 # db_on <- function(x) {
 #   tmp <- system("ps aux | grep postgres", intern = TRUE)
