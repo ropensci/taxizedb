@@ -10,6 +10,7 @@
 #' @importFrom utils tail
 #' @importFrom curl curl_download
 #' @importFrom magrittr %>%
+#' @importFrom stringr str_replace
 #' @name taxizedb-package
 #' @aliases taxizedb
 #' @docType package
