@@ -142,29 +142,29 @@ db_load_col <- function(path, user = "root", pwd = NULL,
   mssg(verbose, 'checking if `path` exists...')
   stopifnot(file.exists(path))
 
-  mssg(verbose, 'checking if MySQL installed...')
+  mssg(verbose, 'checking if MariaDB installed...')
   db_installed("mysql")
 
-  mssg(verbose, "checking if MySQL is running...")
+  mssg(verbose, "checking if MariaDB is running...")
 
   if (is.null(pwd)) {
     mysqlconn <- tryCatch(
-      DBI::dbConnect(RMySQL::MySQL(), user = user,
+      DBI::dbConnect(RMariaDB::MariaDB(), user = user,
                      host = host, port  = port, dbname = dbname), error = function(e) e)
   } else {
     mysqlconn <- tryCatch(
-      DBI::dbConnect(RMySQL::MySQL(), user = user, password = pwd,
+      DBI::dbConnect(RMariaDB::MariaDB(), user = user, password = pwd,
                      host = host, port  = port, dbname = dbname),
       error = function(e) e)
   }
   if (inherits(mysqlconn, "error")) {
-    stop("Make sure MySQL is on/running\n  ", mysqlconn$message)
+    stop("Make sure MariaDB is on/running\n  ", mysqlconn$message)
   }
   invisible(DBI::dbDisconnect(mysqlconn))
 
   mssg(
     verbose,
-    'creating MySQL database, this may take a while, get some coffee...')
+    'creating MariaDB database, this may take a while, get some coffee...')
   system(sprintf("mysql %s %s %s %s -e 'CREATE DATABASE IF NOT EXISTS col';",
                  cl("-h", host), cl("-P ", port),
                  cl("-u ", user), paste0("-p'", pwd, "'")))
