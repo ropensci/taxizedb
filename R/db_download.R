@@ -12,8 +12,17 @@
 #' \itemize{
 #'  \item ITIS - PostgreSQL
 #'  \item The PlantList - PostgreSQL
-#'  \item Catalogue of Life - MySQL
+#'  \item Catalogue of Life - MariaDB
 #'  \item GBIF - SQLite
+#' }
+#' 
+#' @section Links:
+#' \itemize{
+#'  \item ITIS - xx
+#'  \item The PlantList - xx
+#'  \item Catalogue of Life - 
+#'   via http://www.catalogueoflife.org/content/annual-checklist-archive
+#'  \item GBIF - xx
 #' }
 #'
 #' @seealso [tdb_cache]

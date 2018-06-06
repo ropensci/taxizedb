@@ -2,7 +2,7 @@
 #'
 #' @importFrom DBI dbConnect dbDisconnect dbSendQuery
 #' @importFrom RPostgreSQL PostgreSQL
-#' @importFrom RMySQL MySQL
+#' @importFrom RMariaDB MariaDB
 #' @importFrom RSQLite SQLite
 #' @importFrom dplyr tbl sql collect n
 #' @importFrom dbplyr src_dbi
