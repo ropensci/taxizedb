@@ -1,6 +1,6 @@
 db_download_wikidata <- function(verbose = TRUE){
   # FIXME: make sure to update the URL below
-  db_url <- 'http://doi.org/10.5281/zenodo.1211767/wikidata-taxon-info20171227.tsv.gz'
+  db_url <- 'https://zenodo.org/record/1213477/files/wikidata-taxon-info20171227.tsv.gz'
   
   txt_file <- file.path(tdb_cache$cache_path_get(), 'wikidata-taxon-info20171227.tsv.gz')
   final_file <- file.path(tdb_cache$cache_path_get(), 'wikidata.sqlite')
