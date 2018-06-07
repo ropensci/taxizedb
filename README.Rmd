@@ -106,6 +106,12 @@ COL
 src <- src_col()
 ```
 
+EOL
+
+```{r eval=FALSE}
+src <- src_eol()
+```
+
 ## query with SQL syntax
 
 ```{r eval=FALSE}

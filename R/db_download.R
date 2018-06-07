@@ -57,6 +57,11 @@
 #' # x <- db_download_ncbi()
 #' # db_load_ncbi()
 #' # src_ncbi(x)
+#' 
+#' # EOL
+#' # x <- db_download_eol()
+#' # db_load_eol()
+#' # src_eol(x)
 #' }
 
 #' @export
@@ -350,4 +355,85 @@ db_download_gbif <- function(verbose = TRUE){
   curl::curl_download(db_url, db_path, quiet = TRUE)
   mssg(verbose, 'all done...')
   return(db_path)
+}
+
+#' @export
+#' @rdname db_download
+db_download_eol <- function(verbose = TRUE){
+  db_url <- 'https://opendata.eol.org/dataset/b6bb0c9e-681f-4656-b6de-39aa3a82f2de/resource/bac4e11c-28ab-4038-9947-02d9f1b0329f/download/eoldynamichierarchywithlandmarks.zip'
+  
+  db_path <- file.path(tdb_cache$cache_path_get(), 'eoldynamichierarchyv1revised.zip')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'eoldynamichierarchywithlandmarks')
+  txt_file <- file.path(tdb_cache$cache_path_get(), 'eoldynamichierarchywithlandmarks/taxa.txt')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'eol.sqlite')
+
+  if (file.exists(final_file)) {
+    mssg(verbose, "Database already exists, returning old file")
+    return(final_file)
+  }
+
+  tdb_cache$mkdir()
+
+  # download
+  mssg(verbose, 'downloading...')
+  curl::curl_download(db_url, db_path, quiet = TRUE)
+
+  # unzip
+  mssg(verbose, 'unzipping...')
+  utils::unzip(db_path, exdir = db_path_file)
+
+  # load taxa.txt
+  taxa_txt <- readr::read_tsv(txt_file)
+
+  mssg(verbose, 'building SQLite database...')
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=final_file)
+
+  # Create table
+  RSQLite::dbExecute(conn=db, "
+    CREATE TABLE eol (
+      taxonID INTEGER,
+      acceptedNameUsageID INTEGER,
+      parentNameUsageID INTEGER,
+      scientificName TEXT,
+      taxonRank TEXT,
+      source TEXT,
+      taxonomicStatus TEXT,
+      canonicalName TEXT,
+      scientificNameAuthorship TEXT,
+      scientificNameID TEXT,
+      taxonRemarks TEXT,
+      namePublishedIn TEXT,
+      furtherInformationURL TEXT,
+      datasetID TEXT,
+      EOLid TEXT,
+      EOLidAnnotations TEXT,
+      Landmark TEXT
+    )
+    "
+  )
+
+  # Load tables
+  RSQLite::dbWriteTable(
+    conn   = db,
+    name   = 'eol',
+    value  = as.data.frame(taxa_txt),
+    append = TRUE
+  )
+
+  # Create indices on taxonID columns
+  RSQLite::dbExecute(db,
+    'CREATE INDEX taxonID_index ON eol (taxonID)'
+  )
+  RSQLite::dbExecute(db,
+    'CREATE INDEX EOLid_index ON eol (EOLid)'
+  )
+
+  RSQLite::dbDisconnect(db)
+
+  # cleanup
+  mssg(verbose, 'cleaning up...')
+  unlink(db_path)
+  unlink(db_path_file, recursive = TRUE)
+  mssg(verbose, 'all done...')
+  return(final_file)
 }

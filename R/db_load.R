@@ -24,6 +24,7 @@
 #'  \item the PlantList - PostgreSQL
 #'  \item Catalogue of Life - MySQL
 #'  \item GBIF - SQLite
+#'  \item EOL - SQLite
 #' }
 #'
 #'
@@ -51,6 +52,8 @@
 #' db_load_gbif()
 #' # NCBI
 #' db_load_ncbi()
+#' # EOL
+#' db_load_eol()
 #' }
 
 #' @export
@@ -187,4 +190,12 @@ db_load_ncbi <- function(verbose = TRUE) {
   #mssg(verbose, 'checking if SQLite installed...')
   #db_installed("sqlite3")
   mssg(verbose, "Done. see ?src_ncbi")
+}
+
+#' @export
+#' @rdname db_load
+db_load_eol <- function(verbose = TRUE) {
+  #mssg(verbose, 'checking if SQLite installed...')
+  #db_installed("sqlite3")
+  mssg(verbose, "Done. see ?src_eol")
 }

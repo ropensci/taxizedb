@@ -7,6 +7,7 @@
 \alias{db_download_tpl}
 \alias{db_download_col}
 \alias{db_download_gbif}
+\alias{db_download_eol}
 \title{Download taxonomic databases}
 \usage{
 db_download_ncbi(verbose = TRUE)
@@ -18,6 +19,8 @@ db_download_tpl(verbose = TRUE)
 db_download_col(verbose = TRUE)
 
 db_download_gbif(verbose = TRUE)
+
+db_download_eol(verbose = TRUE)
 }
 \arguments{
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
@@ -86,6 +89,11 @@ and run the commands in your shell.
 # x <- db_download_ncbi()
 # db_load_ncbi()
 # src_ncbi(x)
+
+# EOL
+# x <- db_download_eol()
+# db_load_eol()
+# src_eol(x)
 }
 }
 \seealso{

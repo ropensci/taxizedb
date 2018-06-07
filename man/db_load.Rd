@@ -7,6 +7,7 @@
 \alias{db_load_col}
 \alias{db_load_gbif}
 \alias{db_load_ncbi}
+\alias{db_load_eol}
 \title{Load taxonomic databases}
 \usage{
 db_load_itis(path, user, pwd = NULL, host = "localhost", port = 5432L,
@@ -21,6 +22,8 @@ db_load_col(path, user = "root", pwd = NULL, host = "localhost",
 db_load_gbif(verbose = TRUE)
 
 db_load_ncbi(verbose = TRUE)
+
+db_load_eol(verbose = TRUE)
 }
 \arguments{
 \item{path}{(character) path to the \code{.sql} database file}
@@ -58,6 +61,7 @@ for the user if neither are true.
 \item the PlantList - PostgreSQL
 \item Catalogue of Life - MySQL
 \item GBIF - SQLite
+\item EOL - SQLite
 }
 }
 
@@ -88,5 +92,7 @@ db_load_col(x, "<your user name>", "<your password>")
 db_load_gbif()
 # NCBI
 db_load_ncbi()
+# EOL
+db_load_eol()
 }
 }
