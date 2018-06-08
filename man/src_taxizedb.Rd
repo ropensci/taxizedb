@@ -7,6 +7,7 @@
 \alias{src_col}
 \alias{src_gbif}
 \alias{src_ncbi}
+\alias{src_wikidata}
 \title{src - dplyr src objects}
 \usage{
 src_itis(user, password, dbname = "ITIS", ...)
@@ -18,6 +19,8 @@ src_col(user = "root", password = NULL, dbname = "col", ...)
 src_gbif(path)
 
 src_ncbi(path)
+
+src_wikidata(path)
 }
 \arguments{
 \item{user}{(character) user name}
@@ -45,5 +48,6 @@ src - dplyr src objects
 # src_col()
 # src_gbif()
 # src_ncbi()
+# src_wikidata()
 }
 }

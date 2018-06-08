@@ -24,6 +24,7 @@
 #'  \item the PlantList - PostgreSQL
 #'  \item Catalogue of Life - MySQL
 #'  \item GBIF - SQLite
+#'  \item Wikidata - SQLite
 #' }
 #'
 #'
@@ -187,4 +188,10 @@ db_load_ncbi <- function(verbose = TRUE) {
   #mssg(verbose, 'checking if SQLite installed...')
   #db_installed("sqlite3")
   mssg(verbose, "Done. see ?src_ncbi")
+}
+
+#' @export
+#' @rdname db_load
+db_load_wikidata <- function(verbose = TRUE) {
+  mssg(verbose, "Done. see ?src_wikidata")
 }
