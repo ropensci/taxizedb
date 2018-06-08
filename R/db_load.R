@@ -188,3 +188,9 @@ db_load_ncbi <- function(verbose = TRUE) {
   #db_installed("sqlite3")
   mssg(verbose, "Done. see ?src_ncbi")
 }
+
+#' @export
+#' @rdname db_load
+db_load_wikidata <- function(verbose = TRUE) {
+  mssg(verbose, "Done. see ?src_wikidata")
+}

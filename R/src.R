@@ -56,3 +56,11 @@ src_ncbi <- function(path) {
   con <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=path)
   dbplyr::src_dbi(con, auto_disconnect=TRUE)
 }
+
+#' @export
+#' @rdname src_taxizedb
+src_wikidata <- function(path) {
+  stopifnot(file.exists(path))
+  con <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=path)
+  dbplyr::src_dbi(con, auto_disconnect=TRUE)
+}

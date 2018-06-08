@@ -8,4 +8,5 @@
 ^codemeta\.json$
 &docker-compose\.yml$
 ^.circleci$
-
+docker-compose.yml
+notes-wikidata.txt

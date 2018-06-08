@@ -7,6 +7,7 @@
 \alias{db_load_col}
 \alias{db_load_gbif}
 \alias{db_load_ncbi}
+\alias{db_load_wikidata}
 \title{Load taxonomic databases}
 \usage{
 db_load_itis(path, user, pwd = NULL, host = "localhost", port = 5432L,
@@ -21,6 +22,8 @@ db_load_col(path, user = "root", pwd = NULL, host = "localhost",
 db_load_gbif(verbose = TRUE)
 
 db_load_ncbi(verbose = TRUE)
+
+db_load_wikidata(verbose = TRUE)
 }
 \arguments{
 \item{path}{(character) path to the \code{.sql} database file}
