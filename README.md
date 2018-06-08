@@ -23,6 +23,7 @@ version. Taxonomic DB's supported thus far:
 * COL - they provide a SQL dump
 * Theplantlist - we make a SQL database from CSV files they provide
 * GBIF taxonomic backbone - we make a SQL database from darwin core archive
+* Wikidata taxonomic data - from <https://zenodo.org/record/1213477>
 
 Get in touch [in the issues](https://github.com/ropensci/taxizedb/issues) with
 any ideas on new data sources.
