@@ -48,5 +48,6 @@ src - dplyr src objects
 # src_col()
 # src_gbif()
 # src_ncbi()
+# src_wikidata()
 }
 }

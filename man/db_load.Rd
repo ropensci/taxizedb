@@ -61,6 +61,7 @@ for the user if neither are true.
 \item the PlantList - PostgreSQL
 \item Catalogue of Life - MySQL
 \item GBIF - SQLite
+\item Wikidata - SQLite
 }
 }
 

@@ -42,6 +42,7 @@ to sql file
 \item The PlantList - PostgreSQL
 \item Catalogue of Life - MariaDB
 \item GBIF - SQLite
+\item Wikidata - SQLite
 }
 }
 
@@ -53,6 +54,7 @@ to sql file
 \item Catalogue of Life -
 via http://www.catalogueoflife.org/content/annual-checklist-archive
 \item GBIF - xx
+\item Wikidata - via https://zenodo.org/record/1213477
 }
 }
 
@@ -89,6 +91,11 @@ and run the commands in your shell.
 # x <- db_download_ncbi()
 # db_load_ncbi()
 # src_ncbi(x)
+
+# Wikidata
+# x <- db_download_wikidata()
+# db_load_wikidata()
+# src_wikidata(x)
 }
 }
 \seealso{
