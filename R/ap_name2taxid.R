@@ -66,7 +66,11 @@ ncbi_name2taxid <- function(src, x, empty, ...){
   # 'Arabidopsis_thaliana' is included, but the same is NOT done for humans.
   # However, underscores are supported when querying through entrez, which
   # implies they are replacing underscores with spaces. So I do the same.
-  s = gsub('_', ' ', tolower(x))
+  # Some oganisms have underscores originally, so skip replacing if there are 
+  # already spaces. 
+  s = tolower(x)
+  has_no_space = !grepl(" ", s)
+  s[has_no_space] = gsub('_', ' ', s[has_no_space])
 
   # FYI: The schema is set to support case insensitive matches
   query <- "SELECT name_txt, tax_id FROM names WHERE name_txt IN (%s)"
