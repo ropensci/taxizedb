@@ -3,6 +3,18 @@
 #' \code{name2taxid} returns a vector and dies if there are any ambiguous
 #' names. \code{name2taxid_map} returns a data.frame mapping names to ids.
 #'
+#' @section NCBI database:
+#'
+#' The NCBI taxonomy database includes common names, synonyms and misspellings.
+#' However, the database is a little inconsistent. For some species, such as
+#' Arabidopsis thaliana, the misspelling Arabidopsis_thaliana is included, but
+#' the same is NOT done for humans. However, underscores are supported when
+#' querying through entrez, as is done in taxize, which implies entrez is
+#' replacing underscores with spaces. So I do the same. A corner case appears
+#' when an organism uses underscores as part of the name, not just a standin
+#' for space ("haloarchaeon 3A1_DGR"). To deal with this case, we replace
+#' underscores with spaces ONLY if there are not spaces in the original name. 
+#'
 #' @param x Vector of taxon keys for the given database
 #' @param db The database to search
 #' @param verbose Print verbose messages
