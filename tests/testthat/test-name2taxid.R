@@ -21,6 +21,15 @@ test_that("name2taxid works for ambiguous cases", {
   expect_equal(name2taxid(tax_names, out_type='summary'), expected_df, out_type='summary') 
 })
 
+test_that("name2taxid correctly handles space/underscore", {
+  # "Homo_sapiens" is not in the SQL names table, but "Homo sapiens" is.
+  # taxizedb will replace the underscore with a space.
+  expect_equal(name2taxid("Homo_sapiens"), name2taxid("Homo sapiens"))
+  # Here the underscore is an not just a standin for a space. taxizedb replaces
+  # underscores with spaces EXCEPT when a space is already present in the name:
+  expect_equal(name2taxid("haloarchaeon 3A1_DGR"), "1071085")
+})
+
 test_that("name2taxid(out_type='uid') dies if ambiguous", {
   expect_error(name2taxid("Bacteria", out_type='uid'))
 })
