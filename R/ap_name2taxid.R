@@ -60,17 +60,10 @@ ncbi_name2taxid <- function(src, x, empty, ...){
   if(length(x) == 0){
     return(empty)
   }
-  # The NCBI taxonomy database includes common names, synonyms and
-  # misspellings. However, the database is a little inconsistent here. For
-  # some species, such as Arabidopsis thaliana, the misspelling
-  # 'Arabidopsis_thaliana' is included, but the same is NOT done for humans.
-  # However, underscores are supported when querying through entrez, which
-  # implies they are replacing underscores with spaces. So I do the same.
-  # Some oganisms have underscores originally, so skip replacing if there are 
-  # already spaces. 
-  s = tolower(x)
-  has_no_space = !grepl(" ", s)
-  s[has_no_space] = gsub('_', ' ', s[has_no_space])
+
+  s <- tolower(x) # x is saved to preserve the input name (e.g. an alternative spelling)
+  has_no_space <- !grepl(" ", s)
+  s[has_no_space] <- gsub("_", " ", s[has_no_space])
 
   # FYI: The schema is set to support case insensitive matches
   query <- "SELECT name_txt, tax_id FROM names WHERE name_txt IN (%s)"
