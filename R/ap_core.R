@@ -60,7 +60,7 @@ run_with_db <- function(FUN, db, ...){
   FUN(src, ...)
 }
 
-ncbi_apply <- function(src, x, FUN, missing=NA, ...){
+ncbi_apply <- function(src, x, FUN, missing=NA, die_if_ambiguous=TRUE, ...){
   # preserve original names (this is important when x is a name vector)
   namemap <- x
   names(namemap) <- x
@@ -68,6 +68,27 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   is_named <- !(grepl('^[0-9]+$', x, perl=TRUE) | is.na(x))
   # If x is not integrel, then we assume it is a name.
   if(any(is_named)){
+
+    # This is not a pretty solution, since it makes an unnecessary call to the database
+    if(die_if_ambiguous){
+      # get a table mapping names to taxa
+      d <- name2taxid(x[is_named], db='ncbi', out_type="summary")
+      # find duplicated elements (ambiguous taxa)
+      dups <- unique(d$name_txt[duplicated(d$name_txt)])
+      # die if there are any
+      if(length(dups) > 0){
+        msg <- "The following taxa map to multiple taxonomy ids: "
+        msg <- dplyr::group_by(d, .data$name_txt) %>%
+          dplyr::filter(length(.data$name_txt) > 1) %>%
+          dplyr::summarize(taxids = paste(.data$tax_id, collapse="|")) %>% {
+            paste("    ", .$name_txt, " - ", .$taxids, collapse="\n")
+          } %>%
+          paste(msg, ., sep="\n")
+        stop(msg)
+      }
+    }
+
+    # get a table mapping names to taxa
     x[is_named] <- name2taxid(x[is_named], db='ncbi')
     names(namemap)[is_named] <- x[is_named]
   }

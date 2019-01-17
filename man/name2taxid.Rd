@@ -4,8 +4,8 @@
 \alias{name2taxid}
 \title{Convert species names to taxon IDs}
 \usage{
-name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid", "summary"),
-  ...)
+name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid",
+  "summary"), ...)
 }
 \arguments{
 \item{x}{Vector of taxon keys for the given database}

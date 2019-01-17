@@ -10,8 +10,8 @@
 \alias{db_load_wikidata}
 \title{Load taxonomic databases}
 \usage{
-db_load_itis(path, user, pwd = NULL, host = "localhost", port = 5432L,
-  dbname = NULL, verbose = TRUE)
+db_load_itis(path, user, pwd = NULL, host = "localhost",
+  port = 5432L, dbname = NULL, verbose = TRUE)
 
 db_load_tpl(path, user, pwd = NULL, host = "localhost", port = 5432L,
   dbname = NULL, verbose = TRUE)
