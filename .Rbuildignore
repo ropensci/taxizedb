@@ -10,3 +10,4 @@
 ^.circleci$
 docker-compose.yml
 notes-wikidata.txt
+^Makefile$
