@@ -4,13 +4,9 @@ test_that("unambiguous children", {
   ### TODO: currently there is a type inconsitency in taxize, once that is
   ### cleared up, this test can be restored
   # expect_equal(
-  #   taxizedb::children(3702, db='ncbi'),
-  #   taxize::children(3702, db='ncbi')
+  #   taxizedb::children(3701, db='ncbi'),
+  #   taxize::children(3701, db='ncbi')
   # )
-  expect_equal(
-    taxizedb::children(3701, db='ncbi'),
-    taxize::children(3701, db='ncbi')
-  )
 
   ## TODO: these are not currently equal
   ## once changes in taxize are sorted out, we can restore this test
@@ -36,16 +32,8 @@ test_that("ambiguous NCBI children", {
 })
 
 test_that("missing values are consistent with taxize", {
-  empty_df <- data.frame(
-    childtaxa_id   = character(0),
-    childtaxa_name = character(0),
-    childtaxa_rank = character(0),
-    stringsAsFactors=FALSE
-  )
   expect_equal(
     taxizedb::children("asdfasdf", db='ncbi')[[1]],
-    empty_df
-    ## TODO: when taxize is updated, replace hard-coded empty_df with:
-    # taxize::children("asdfasdf", db='ncbi')[[1]]
+    taxize::children("asdfasdf", db='ncbi')[[1]]
   )
 })
