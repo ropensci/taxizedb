@@ -1,6 +1,8 @@
 taxizedb
 ========
 
+
+
 [![cran checks](https://cranchecks.info/badges/worst/taxizedb)](https://cranchecks.info/pkgs/taxizedb)
 [![Build Status](https://travis-ci.org/ropensci/taxizedb.svg?branch=master)](https://travis-ci.org/ropensci/taxizedb)
 [![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/taxizedb)
@@ -18,8 +20,9 @@ to do requests to a local SQL database.
 Not all taxonomic databases are publicly available, or possible to mash into a SQLized
 version. Taxonomic DB's supported thus far:
 
+* NCBI - they provide a SQL dump
 * ITIS - they provide a SQL dump
-* COL - they provide a SQL dump
+* COL - we make a SQL database from darwin core archive
 * Theplantlist - we make a SQL database from CSV files they provide
 * GBIF taxonomic backbone - we make a SQL database from darwin core archive
 * Wikidata taxonomic data - from <https://zenodo.org/record/1213477>
@@ -30,8 +33,12 @@ any ideas on new data sources.
 This package for each data sources performs the following tasks:
 
 * Download database - `db_download_*`
-* Load database into SQL - `db_load_*`
 * Create `dplyr` SQL backend - `src_*`
+
+All databases are SQLite.
+
+Using the src connection, use `dplyr`, etc. to do operations downstream. Or create
+your own database connection to the sqlite file.
 
 ## install
 
@@ -55,64 +62,61 @@ library("taxizedb")
 library("dplyr")
 ```
 
-## start your SQL DBs
-
-Remember to start your PostgreSQL database for ITIS and ThePlantList and your MySQL database for COL
-
-## Download and load DBs
+## Download DBs
 
 ITIS
 
 
 ```r
-x <- db_download_itis()
-db_load_itis(x)
+db_download_itis()
 ```
 
 The Plant List (TPL)
 
 
 ```r
-x <- db_download_tpl()
-db_load_tpl(x)
+db_download_tpl()
 ```
 
 Catalogue of Life (COL)
 
 
 ```r
-x <- db_download_col()
-db_load_col(x)
+db_download_col()
 ```
 
 ## connect to the DBs
+
+By default `src_*` functions use a path to the cached database file.
+You can alternatively pass in your own path if you've put it 
+somewhere else.
 
 ITIS
 
 
 ```r
-src <- src_itis(user = "<user name>", password = "<password>")
+src_itis <- src_itis()
 ```
 
 TPL
 
 
 ```r
-src <- src_tpl()
+src_tpl <- src_tpl()
 ```
 
 COL
 
 
 ```r
-src <- src_col()
+src_col <- src_col()
 ```
 
 ## query with SQL syntax
 
 
 ```r
-sql_collect(src, "select * from hierarchy limit 5")
+sql_collect(src_itis, "select * from hierarchy limit 5")
 #> # A tibble: 5 x 5
 #>                     hierarchy_string    tsn parent_tsn level childrencount
 #> *                              <chr>  <int>      <int> <int>         <int>
@@ -126,15 +130,7 @@ sql_collect(src, "select * from hierarchy limit 5")
 
 ```r
 # or pipe the src to sql_collect
-src %>% sql_collect("select * from hierarchy limit 5")
-#> # A tibble: 5 x 5
-#>                     hierarchy_string    tsn parent_tsn level childrencount
-#> *                              <chr>  <int>      <int> <int>         <int>
-#> 1                             202422 202422          0     0        154282
-#> 2                      202422-846491 846491     202422     1          2666
-#> 3               202422-846491-660046 660046     846491     2          2654
-#> 4        202422-846491-660046-846497 846497     660046     3             7
-#> 5 202422-846491-660046-846497-846508 846508     846497     4             6
+src_itis %>% sql_collect("select * from hierarchy limit 5")
 ```
 
 ## use dplyr verbs
@@ -143,7 +139,7 @@ get a `tbl`
 
 
 ```r
-hiers <- src %>% tbl("hierarchy")
+hiers <- src_itis %>% tbl("hierarchy")
 #> # Source:   table<hierarchy> [?? x 5]
 #> # Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
 #>                                              hierarchy_string    tsn parent_tsn level childrencount
@@ -165,7 +161,7 @@ select certain fields
 
 
 ```r
-hiers %>% select(tsn, level)
+hiers %>% select(TSN, level)
 #> # Source:   lazy query [?? x 2]
 #> # Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
 #>       tsn level
@@ -350,6 +346,8 @@ taxid2rank(2)
 * Please [report any issues or bugs](https://github.com/ropensci/taxizedb/issues).
 * License: MIT
 * Get citation information for `taxizedb` in R doing `citation(package = 'taxizedb')`
-* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+* Please note that this project is released with a [Contributor Code of Conduct][coc]. By participating in this project you agree to abide by its terms.
 
 [![ropensci](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
+
+[coc]: https://github.com/ropensci/taxizedb/blob/master/CODE_OF_CONDUCT.md
