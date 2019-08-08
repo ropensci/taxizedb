@@ -9,10 +9,10 @@ test_that("taxizedb::classification == taxize::classification", {
 
   ## TODO: none of those are equivalent
   ## slight differences in each
-  # expect_equal(
-  #   taxize::classification(taxa_ids, db='ncbi'),
-  #   taxizedb::classification(taxa_ids, db='ncbi')
-  # )
+  expect_equal(
+    taxize::classification(taxa_ids, db='ncbi'),
+    taxizedb::classification(taxa_ids, db='ncbi')
+  )
   # expect_equal(
   #   taxize::classification(taxa_names, db='ncbi'),
   #   taxizedb::classification(taxa_names, db='ncbi')

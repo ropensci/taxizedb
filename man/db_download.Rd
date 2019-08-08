@@ -38,8 +38,8 @@ to sql file
 \section{Supported}{
 
 \itemize{
-\item ITIS - PostgreSQL
-\item The PlantList - PostgreSQL
+\item ITIS - SQLite
+\item The PlantList - SQLite
 \item Catalogue of Life - MariaDB
 \item GBIF - SQLite
 \item Wikidata - SQLite
@@ -68,34 +68,28 @@ and run the commands in your shell.
 \examples{
 \dontrun{
 # ITIS
-# x <- db_download_itis()
-# db_load_itis(x)
+# db_download_itis()
 # src_itis()
 
 # Plantlist
-# x <- db_download_tpl()
-# db_load_tpl(x, "sacmac")
+# db_download_tpl()
 # src_tpl()
 
 # COL
-# x <- db_download_col()
-# db_load_col(x)
+# db_download_col()
 # src_col()
 
 # GBIF
-# x <- db_download_gbif()
-# db_load_gbif()
-# src_gbif(x)
+# db_download_gbif()
+# src_gbif()
 
 # NCBI
-# x <- db_download_ncbi()
-# db_load_ncbi()
-# src_ncbi(x)
+# db_download_ncbi()
+# src_ncbi()
 
 # Wikidata
-# x <- db_download_wikidata()
-# db_load_wikidata()
-# src_wikidata(x)
+# db_download_wikidata()
+# src_wikidata()
 }
 }
 \seealso{

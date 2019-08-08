@@ -5,7 +5,7 @@ Description: Tools for working with 'taxonomic' databases, including
     utilities for downloading databases, loading them into various
     'SQL' databases, cleaning up files, and providing a 'SQL' connection
     that can be used to do 'SQL' queries directly or used in 'dplyr'.
-Version: 0.1.7.9602
+Version: 0.1.9.9100
 Authors@R: c(
     person("Scott", "Chamberlain", email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
     person("Zebulun", "Arendsee", role = "aut")
@@ -15,11 +15,10 @@ BugReports: https://github.com/ropensci/taxizedb/issues
 License: MIT + file LICENSE
 LazyData: TRUE
 Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
 Imports:
     curl (>= 2.4),
     DBI (>= 0.6-1),
-    RPostgreSQL (>= 0.4.1),
-    RMariaDB (>= 1.0.6),
     RSQLite (>= 1.1.2),
     dplyr (>= 0.7.0),
     tibble,

@@ -10,8 +10,8 @@
 #'
 #' @section Supported:
 #' \itemize{
-#'  \item ITIS - PostgreSQL
-#'  \item The PlantList - PostgreSQL
+#'  \item ITIS - SQLite
+#'  \item The PlantList - SQLite
 #'  \item Catalogue of Life - MariaDB
 #'  \item GBIF - SQLite
 #'  \item Wikidata - SQLite
@@ -36,34 +36,28 @@
 #'
 #' @examples \dontrun{
 #' # ITIS
-#' # x <- db_download_itis()
-#' # db_load_itis(x)
+#' # db_download_itis()
 #' # src_itis()
 #'
 #' # Plantlist
-#' # x <- db_download_tpl()
-#' # db_load_tpl(x, "sacmac")
+#' # db_download_tpl()
 #' # src_tpl()
 #'
 #' # COL
-#' # x <- db_download_col()
-#' # db_load_col(x)
+#' # db_download_col()
 #' # src_col()
 #'
 #' # GBIF
-#' # x <- db_download_gbif()
-#' # db_load_gbif()
-#' # src_gbif(x)
+#' # db_download_gbif()
+#' # src_gbif()
 #'
 #' # NCBI
-#' # x <- db_download_ncbi()
-#' # db_load_ncbi()
-#' # src_ncbi(x)
+#' # db_download_ncbi()
+#' # src_ncbi()
 #' 
 #' # Wikidata
-#' # x <- db_download_wikidata()
-#' # db_load_wikidata()
-#' # src_wikidata(x)
+#' # db_download_wikidata()
+#' # src_wikidata()
 #' }
 
 #' @export
@@ -239,12 +233,12 @@ db_download_ncbi <- function(verbose = TRUE){
 #' @rdname db_download
 db_download_itis <- function(verbose = TRUE){
   # paths
-  db_url <- 'https://www.itis.gov/downloads/itisPostgreSql.zip'
-  db_path <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql.zip')
-  db_path_file <- file.path(tdb_cache$cache_path_get(), 'itisPostgreSql')
-  final_file <- file.path(tdb_cache$cache_path_get(), 'ITIS.sql')
+  db_url <- 'https://itis.gov/downloads/itisSqlite.zip'
+  db_path <- file.path(tdb_cache$cache_path_get(), 'itisSqlite.zip')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'itisSqlite')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'ITIS.sqlite')
 
-  if(file.exists(final_file)){
+  if (file.exists(final_file)) {
     mssg(verbose, "Database already exists, returning old file")
     return(final_file)
   }
@@ -260,9 +254,9 @@ db_download_itis <- function(verbose = TRUE){
   # get file path
   dirs <- list.dirs(db_path_file, full.names = TRUE)
   dir_date <- dirs[ dirs != db_path_file ]
-  db_path <- list.files(dir_date, pattern = ".sql", full.names = TRUE)
+  sql_path <- list.files(dir_date, pattern = ".sqlite", full.names = TRUE)
   # move database
-  file.rename(db_path, final_file)
+  file.rename(sql_path, final_file)
   # cleanup
   mssg(verbose, 'cleaning up...')
   unlink(db_path)
@@ -274,13 +268,12 @@ db_download_itis <- function(verbose = TRUE){
 #' @export
 #' @rdname db_download
 db_download_tpl <- function(verbose = TRUE){
-  # paths
-  db_url <- 'https://github.com/ropensci/taxizedbs/blob/master/theplantlist/plantlist.zip?raw=true' #nolint
+  db_url <- "https://taxize-dbs.s3-us-west-2.amazonaws.com/plantlist.zip" #nolint
   db_path <- file.path(tdb_cache$cache_path_get(), 'plantlist.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'plantlist')
-  final_file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sql')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sqlite')
 
-  if(file.exists(final_file)){
+  if (file.exists(final_file)) {
     mssg(verbose, "Database already exists, returning old file")
     return(final_file)
   }
@@ -294,67 +287,63 @@ db_download_tpl <- function(verbose = TRUE){
   mssg(verbose, 'unzipping...')
   utils::unzip(db_path, exdir = db_path_file)
   # move database
-  file.rename(file.path(db_path_file, "plantlist.sql"), final_file)
+  file.rename(file.path(db_path_file, "plantlist.sqlite"), final_file)
   # cleanup
   mssg(verbose, 'cleaning up...')
   unlink(db_path)
   unlink(db_path_file, recursive = TRUE)
   # return path
-  return( final_file )
+  return(final_file)
 }
 
 #' @export
 #' @rdname db_download
 db_download_col <- function(verbose = TRUE){
-  # paths
-  db_url <- 'http://www.catalogueoflife.org/services/res/col2015ac_linux.tar.gz'
-  db_path <- file.path(tdb_cache$cache_path_get(), 'col2015ac_linux.tar.gz')
-  db_path_file <- file.path(tdb_cache$cache_path_get(), 'colmysql')
-  db_sql_path <- file.path(tdb_cache$cache_path_get(),
-                           '/colmysql/col2015ac_linux/col2015ac.sql.tar.gz')
-  db_sql_out <- file.path(tdb_cache$cache_path_get(),
-                          'colmysql/col2015ac_linux')
-  final_file <- file.path(tdb_cache$cache_path_get(), 'col.sql')
+  db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/col.zip'
+  db_path <- file.path(tdb_cache$cache_path_get(), 'col.sqlite')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'col.zip')
 
-  if(file.exists(final_file)){
+  if (file.exists(db_path)) {
     mssg(verbose, "Database already exists, returning old file")
-    return(final_file)
+    return(db_path)
   }
 
-  # make home dir if not already present
   tdb_cache$mkdir()
-  # download data
   mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
-  # unzip
+  curl::curl_download(db_url, db_path_file, quiet = TRUE)
+
   mssg(verbose, 'unzipping...')
-  #unzip(db_path, exdir = db_path_file)
-  utils::untar(db_path, exdir = db_sql_out)
-  utils::untar(db_sql_path, exdir = db_sql_out)
-  # move database
-  file.rename(file.path(db_sql_out, "col2015ac.sql"), final_file)
-  # cleanup
+  utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
+
   mssg(verbose, 'cleaning up...')
-  unlink(db_path)
-  unlink(db_path_file, recursive = TRUE)
-  return( final_file )
+  unlink(db_path_file)
+
+  mssg(verbose, 'all done...')
+  return(db_path)
 }
 
 #' @export
 #' @rdname db_download
 db_download_gbif <- function(verbose = TRUE){
-  db_url <- 'https://s3-us-west-2.amazonaws.com/gbif-backbone/gbif.sqlite'
+  db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/gbif.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
-  final_file <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'gbif.zip')
 
-  if(file.exists(final_file)){
+  if (file.exists(db_path)) {
     mssg(verbose, "Database already exists, returning old file")
-    return(final_file)
+    return(db_path)
   }
 
   tdb_cache$mkdir()
   mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
+  curl::curl_download(db_url, db_path_file, quiet = TRUE)
+
+  mssg(verbose, 'unzipping...')
+  utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
+
+  mssg(verbose, 'cleaning up...')
+  unlink(db_path_file)
+
   mssg(verbose, 'all done...')
   return(db_path)
 }
