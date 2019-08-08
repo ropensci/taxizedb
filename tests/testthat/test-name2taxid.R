@@ -14,7 +14,7 @@ test_that("name2taxid", {
 
 test_that("name2taxid works for ambiguous cases", {
   tax_names <- c('pig', 'Bacteria', 'horse')
-  expected_df <- tibble::data_frame(
+  expected_df <- tibble::tibble(
     name_txt = c("pig", "Bacteria", "Bacteria", "horse"),
     tax_id = c("9823", "2", "629395", "9796")
   )
@@ -41,6 +41,6 @@ test_that("name2taxid works with duplicates", {
 test_that("name2taxid summary works", {
   expect_equal(
     name2taxid('dragon', out_type='summary'),
-    tibble::data_frame(name_txt=character(), tax_id=character())
+    tibble::tibble(name_txt=character(), tax_id=character())
   ) 
 })

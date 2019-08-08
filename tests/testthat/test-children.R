@@ -34,6 +34,6 @@ test_that("ambiguous NCBI children", {
 test_that("missing values are consistent with taxize", {
   expect_equal(
     taxizedb::children("asdfasdf", db='ncbi')[[1]],
-    taxize::children("asdfasdf", db='ncbi')[[1]]
+    taxize::children("asdfasdf", db='ncbi', verbose = FALSE)[[1]]
   )
 })

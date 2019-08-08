@@ -32,7 +32,7 @@ name2taxid <- function(x, db='ncbi', verbose=TRUE, out_type=c("uid", "summary"),
     db      = db,
     cmd     = 'name2taxid',
     verbose = verbose,
-    empty   = tibble::data_frame(name_txt=character(), tax_id=character()),
+    empty   = tibble::tibble(name_txt=character(), tax_id=character()),
     ...
   )
   if(identical(out_type[1], "summary")){
