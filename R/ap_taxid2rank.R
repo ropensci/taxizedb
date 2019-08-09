@@ -1,12 +1,15 @@
 #' Convert taxon IDs to scientific ranks
 #'
-#' @param x Vector of taxon keys (name or id) for the given database
-#' @param db The database to search
-#' @param verbose Print verbose messages
-#' @param warn If TRUE, raise a warning if any taxon IDs can not be found
-#' @param ... Additional arguments passed to database specific classification functions.
-#' @return character vector of ranks
 #' @export
+#' @param x (character) Vector of taxon keys (name or id) for the given
+#' database
+#' @param db (character) The database to search
+#' @param verbose (logical) Print verbose messages
+#' @param warn (logical) If `TRUE`, raise a warning if any taxon IDs can not
+#' be found
+#' @param ... Additional arguments passed to database specific classification
+#' functions
+#' @return character vector of ranks
 #' @examples
 #' \dontrun{
 #' taxid2rank(c(3701, 9606))

@@ -1,7 +1,8 @@
 ### Internal utilities
 
 # convert a vector to a comma separated string list suitable for SQL, e.g.
-# c("Arabidopsis", "Peridermium sp. 'Ysgr-4'") -> "'Arabidopsis', 'Peridermium sp. ''Ysgr-4'''"
+# c("Arabidopsis", "Peridermium sp. 'Ysgr-4'") -> "'Arabidopsis',
+# 'Peridermium sp. ''Ysgr-4'''"
 # Note that double quoting is the SQL convention for escaping quotes in strings
 sql_character_list <- function(x){
   if(any(is.na(x))){

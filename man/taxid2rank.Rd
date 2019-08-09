@@ -7,15 +7,18 @@
 taxid2rank(x, db = "ncbi", verbose = TRUE, warn = TRUE, ...)
 }
 \arguments{
-\item{x}{Vector of taxon keys (name or id) for the given database}
+\item{x}{(character) Vector of taxon keys (name or id) for the given
+database}
 
-\item{db}{The database to search}
+\item{db}{(character) The database to search}
 
-\item{verbose}{Print verbose messages}
+\item{verbose}{(logical) Print verbose messages}
 
-\item{warn}{If TRUE, raise a warning if any taxon IDs can not be found}
+\item{warn}{(logical) If \code{TRUE}, raise a warning if any taxon IDs can not
+be found}
 
-\item{...}{Additional arguments passed to database specific classification functions.}
+\item{...}{Additional arguments passed to database specific classification
+functions}
 }
 \value{
 character vector of ranks

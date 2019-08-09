@@ -1,13 +1,13 @@
 #' Retrieve immediate descendents of a taxon
 #'
-#' @param x Vector of taxon keys for the given database
-#' @param db The database to search
-#' @param verbose Print verbose messages
+#' @export
+#' @param x (character) Vector of taxon keys for the given database
+#' @param db (character) The database to search
+#' @param verbose (logical) Print verbose messages
 #' @param ... Additional arguments passed to database specific function.
 #' @return list of data.frames with the columns: childtaxa_id,  childtaxa_name,
 #' childtaxa_rank. This is exactly equivalent to the output of
-#' 'taxize::children. 
-#' @export
+#' `taxize::children()`
 #' @examples
 #' \dontrun{
 #' children(c(3700, 2))

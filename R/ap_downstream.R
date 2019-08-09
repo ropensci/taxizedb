@@ -1,14 +1,15 @@
 #' Retrieve all taxa descending from a vector of taxa
 #'
-#' This function is nearly equivalent to the taxize::downstream function.
+#' This function is nearly equivalent to the `taxize::downstream()` function
 #'
-#' @param x Vector of taxon keys for the given database
-#' @param db The database to search
-#' @param verbose Print verbose messages
-#' @param ... Additional arguments passed to database specific downstream functions.
-#' @return list of data.frames with the columns: childtaxa_id, childtaxa_name,
-#' and rank. This is exactly equivalent to the output of 'taxize::downstream'. 
 #' @export
+#' @param x (character) Vector of taxon keys for the given database
+#' @param db (character) The database to search
+#' @param verbose (logical) Print verbose messages
+#' @param ... Additional arguments passed to database specific downstream
+#' functions
+#' @return list of data.frames with the columns: childtaxa_id, childtaxa_name,
+#' and rank. This is exactly equivalent to the output of `taxize::downstream()`
 #' @examples
 #' # get descendents from all ranks
 #' downstream(c(3700, 9605))

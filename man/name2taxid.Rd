@@ -8,20 +8,21 @@ name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid",
   "summary"), ...)
 }
 \arguments{
-\item{x}{Vector of taxon keys for the given database}
+\item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{The database to search}
+\item{db}{(character) The database to search}
 
-\item{verbose}{Print verbose messages}
+\item{verbose}{(logical) Print verbose messages}
 
-\item{out_type}{character "uid" for an ID vector, "summary" for a table with
-columns 'tax_id' and 'tax_name'.}
+\item{out_type}{(logical) character "uid" for an ID vector, "summary" for a
+table with columns 'tax_id' and 'tax_name'.}
 
-\item{...}{Additional arguments passed to database specific classification functions.}
+\item{...}{Additional arguments passed to database specific classification
+functions.}
 }
 \description{
-\code{name2taxid} returns a vector and dies if there are any ambiguous
-names. \code{name2taxid_map} returns a data.frame mapping names to ids.
+\code{name2taxid()} returns a vector and dies if there are any ambiguous
+names. \code{name2taxid_map()} returns a data.frame mapping names to ids
 }
 \section{NCBI database}{
 

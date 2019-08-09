@@ -7,10 +7,10 @@
 sql_collect(src, query, ...)
 }
 \arguments{
-\item{src}{An \code{src} object, result of calling \code{\link[=src_itis]{src_itis()}},
+\item{src}{(src) An \code{src} object, result of calling \code{\link[=src_itis]{src_itis()}},
 \code{\link[=src_col]{src_col()}}, or \code{\link[=src_tpl]{src_tpl()}}}
 
-\item{query}{A SQL query}
+\item{query}{(character) A SQL query}
 
 \item{...}{further args passed on to \code{\link[dplyr:tbl]{dplyr::tbl()}}}
 }

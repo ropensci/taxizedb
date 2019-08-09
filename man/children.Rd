@@ -7,18 +7,18 @@
 children(x, db = "ncbi", verbose = TRUE, ...)
 }
 \arguments{
-\item{x}{Vector of taxon keys for the given database}
+\item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{The database to search}
+\item{db}{(character) The database to search}
 
-\item{verbose}{Print verbose messages}
+\item{verbose}{(logical) Print verbose messages}
 
 \item{...}{Additional arguments passed to database specific function.}
 }
 \value{
 list of data.frames with the columns: childtaxa_id,  childtaxa_name,
 childtaxa_rank. This is exactly equivalent to the output of
-'taxize::children.
+\code{taxize::children()}
 }
 \description{
 Retrieve immediate descendents of a taxon

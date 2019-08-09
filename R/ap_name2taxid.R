@@ -1,7 +1,7 @@
 #' Convert species names to taxon IDs
 #'
-#' \code{name2taxid} returns a vector and dies if there are any ambiguous
-#' names. \code{name2taxid_map} returns a data.frame mapping names to ids.
+#' `name2taxid()` returns a vector and dies if there are any ambiguous
+#' names. `name2taxid_map()` returns a data.frame mapping names to ids
 #'
 #' @section NCBI database:
 #'
@@ -15,24 +15,27 @@
 #' for space ("haloarchaeon 3A1_DGR"). To deal with this case, we replace
 #' underscores with spaces ONLY if there are not spaces in the original name. 
 #'
-#' @param x Vector of taxon keys for the given database
-#' @param db The database to search
-#' @param verbose Print verbose messages
-#' @param out_type character "uid" for an ID vector, "summary" for a table with
-#'        columns 'tax_id' and 'tax_name'.
-#' @param ... Additional arguments passed to database specific classification functions.
 #' @export
+#' @param x (character) Vector of taxon keys for the given database
+#' @param db (character) The database to search
+#' @param verbose (logical) Print verbose messages
+#' @param out_type (logical) character "uid" for an ID vector, "summary" for a
+#' table with columns 'tax_id' and 'tax_name'.
+#' @param ... Additional arguments passed to database specific classification
+#' functions.
 #' @examples
 #' \dontrun{
 #' name2taxid(c('Arabidopsis thaliana', 'pig'))
 #' }
-name2taxid <- function(x, db='ncbi', verbose=TRUE, out_type=c("uid", "summary"), ...){
+name2taxid <- function(x, db='ncbi', verbose=TRUE,
+  out_type=c("uid", "summary"), ...) {
+
   result <- ap_vector_dispatch(
     x       = x,
     db      = db,
     cmd     = 'name2taxid',
     verbose = verbose,
-    empty   = tibble::tibble(name_txt=character(), tax_id=character()),
+    empty   = tibble::tibble(name_txt = character(), tax_id = character()),
     ...
   )
   if(identical(out_type[1], "summary")){
@@ -73,7 +76,8 @@ ncbi_name2taxid <- function(src, x, empty, ...){
     return(empty)
   }
 
-  s <- tolower(x) # x is saved to preserve the input name (e.g. an alternative spelling)
+  # x is saved to preserve the input name (e.g. an alternative spelling)
+  s <- tolower(x)
   has_no_space <- !grepl(" ", s)
   s[has_no_space] <- gsub("_", " ", s[has_no_space])
 
@@ -86,7 +90,8 @@ ncbi_name2taxid <- function(src, x, empty, ...){
 
   # sort results first according to input order of names and second by taxon
   # order (which matters only for ambiguous entries)
-  result <- result[order(factor(result$name_txt, levels=unique(x)), result$tax_id), ]
+  result <- result[order(factor(result$name_txt, levels=unique(x)),
+    result$tax_id), ]
   result$tax_id <- as.character(result$tax_id)
   # There can be repeated rows, for example 'Bacteria' and 'bacteria' are both
   # are converted into 'Bacteria', but they point to the same taxon id.

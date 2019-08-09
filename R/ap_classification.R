@@ -1,17 +1,18 @@
 #' Retrieve the taxonomic hierarchies from local database
 #'
-#' This function is equivalent to the taxize::classification function, except
-#' that it uses a local database (so is much faster) and is currently
+#' This function is equivalent to the `taxize::classification()` function,
+#' except that it uses a local database (so is much faster) and is currently
 #' restricted to handling NCBI taxa. The output is identical to
-#' taxize::classification.
+#' `taxize::classification()`
 #'
-#' @param x Vector of taxon keys for the given database
-#' @param db The database to search
-#' @param verbose Print verbose messages
-#' @param ... Additional arguments passed to database specific classification functions.
-#' @return list of data.frames with the columns: name, rank, and id. This is
-#' exactly equivalent to the output of 'taxize::classification'. 
 #' @export
+#' @param x character) Vector of taxon keys for the given database
+#' @param db character) The database to search
+#' @param verbose (logical) Print verbose messages
+#' @param ... Additional arguments passed to database specific classification
+#' functions.
+#' @return list of data.frames with the columns: name, rank, and id. This is
+#' exactly equivalent to the output of `taxize::classification()`
 #' @examples
 #' \dontrun{
 #' classification(c(3702, 9606))

@@ -4,36 +4,31 @@
 #' @name db_download
 #' @param verbose (logical) Print messages. Default: `TRUE`
 #'
-#' @return Path to the downloaded SQL database
+#' @return (character) path to the downloaded SQL database
 #' @details Downloads sql database, cleans up unneeded files, returns path
 #' to sql file
 #'
 #' @section Supported:
-#' \itemize{
-#'  \item ITIS - SQLite
-#'  \item The PlantList - SQLite
-#'  \item Catalogue of Life - MariaDB
-#'  \item GBIF - SQLite
-#'  \item Wikidata - SQLite
-#' }
+#' All are using SQLite as the database
+#' 
+#' - NCBI
+#' - ITIS
+#' - The PlantList
+#' - Catalogue of Life
+#' - GBIF
+#' - Wikidata
 #' 
 #' @section Links:
-#' \itemize{
-#'  \item ITIS - xx
-#'  \item The PlantList - xx
-#'  \item Catalogue of Life - 
+#' 
+#' - NCBI: ftp://ftp.ncbi.nih.gov/pub/taxonomy/
+#' - ITIS: https://www.itis.gov/downloads/index.html
+#' - The PlantList - http://www.theplantlist.org/
+#' - Catalogue of Life: 
 #'   via http://www.catalogueoflife.org/content/annual-checklist-archive
-#'  \item GBIF - xx
-#'  \item Wikidata - via https://zenodo.org/record/1213477
-#' }
+#' - GBIF: http://rs.gbif.org/datasets/backbone/
+#' - Wikidata: https://zenodo.org/record/1213477
 #'
 #' @seealso [tdb_cache]
-#'
-#' @section Beware:
-#' COL database loading takes a long time, e.g., 30 minutes. you may
-#' want to run it in a separate R session, or just look at the db_load_col fxn
-#' and run the commands in your shell.
-#'
 #' @examples \dontrun{
 #' # ITIS
 #' # db_download_itis()
@@ -62,7 +57,7 @@
 
 #' @export
 #' @rdname db_download
-db_download_ncbi <- function(verbose = TRUE){
+db_download_ncbi <- function(verbose = TRUE) {
   # set paths
   db_url <- 'ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip'
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'taxdump.zip')
@@ -150,7 +145,7 @@ db_download_ncbi <- function(verbose = TRUE){
   # Iteratively replace the ancestor column with the ancestor parent until all
   # lineages converge to root. Each iteration is stored in a new table with
   # level incremented.
-  while(TRUE){
+  while(TRUE) {
     top <- tail(hierarchs, 1)[[1]]
     incomplete <- top$ancestor != 1L # 1 is the taxonomy root id
     top <- top[incomplete, ]
@@ -231,7 +226,7 @@ db_download_ncbi <- function(verbose = TRUE){
 
 #' @export
 #' @rdname db_download
-db_download_itis <- function(verbose = TRUE){
+db_download_itis <- function(verbose = TRUE) {
   # paths
   db_url <- 'https://itis.gov/downloads/itisSqlite.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'itisSqlite.zip')
@@ -267,7 +262,7 @@ db_download_itis <- function(verbose = TRUE){
 
 #' @export
 #' @rdname db_download
-db_download_tpl <- function(verbose = TRUE){
+db_download_tpl <- function(verbose = TRUE) {
   db_url <- "https://taxize-dbs.s3-us-west-2.amazonaws.com/plantlist.zip" #nolint
   db_path <- file.path(tdb_cache$cache_path_get(), 'plantlist.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'plantlist')
@@ -298,7 +293,7 @@ db_download_tpl <- function(verbose = TRUE){
 
 #' @export
 #' @rdname db_download
-db_download_col <- function(verbose = TRUE){
+db_download_col <- function(verbose = TRUE) {
   db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/col.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'col.sqlite')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'col.zip')
@@ -324,7 +319,7 @@ db_download_col <- function(verbose = TRUE){
 
 #' @export
 #' @rdname db_download
-db_download_gbif <- function(verbose = TRUE){
+db_download_gbif <- function(verbose = TRUE) {
   db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/gbif.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'gbif.zip')
@@ -350,7 +345,7 @@ db_download_gbif <- function(verbose = TRUE){
 
 #' @export
 #' @rdname db_download
-db_download_wikidata <- function(verbose = TRUE){
+db_download_wikidata <- function(verbose = TRUE) {
   db_url <- 'https://zenodo.org/record/1213477/files/wikidata-taxon-info20171227.tsv.gz'
   
   txt_file <- file.path(tdb_cache$cache_path_get(), 'wikidata-taxon-info20171227.tsv.gz')

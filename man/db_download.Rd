@@ -26,7 +26,7 @@ db_download_wikidata(verbose = TRUE)
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
 }
 \value{
-Path to the downloaded SQL database
+(character) path to the downloaded SQL database
 }
 \description{
 Download taxonomic databases
@@ -37,32 +37,28 @@ to sql file
 }
 \section{Supported}{
 
+All are using SQLite as the database
 \itemize{
-\item ITIS - SQLite
-\item The PlantList - SQLite
-\item Catalogue of Life - MariaDB
-\item GBIF - SQLite
-\item Wikidata - SQLite
+\item NCBI
+\item ITIS
+\item The PlantList
+\item Catalogue of Life
+\item GBIF
+\item Wikidata
 }
 }
 
 \section{Links}{
 
 \itemize{
-\item ITIS - xx
-\item The PlantList - xx
-\item Catalogue of Life -
+\item NCBI: ftp://ftp.ncbi.nih.gov/pub/taxonomy/
+\item ITIS: https://www.itis.gov/downloads/index.html
+\item The PlantList - http://www.theplantlist.org/
+\item Catalogue of Life:
 via http://www.catalogueoflife.org/content/annual-checklist-archive
-\item GBIF - xx
-\item Wikidata - via https://zenodo.org/record/1213477
+\item GBIF: http://rs.gbif.org/datasets/backbone/
+\item Wikidata: https://zenodo.org/record/1213477
 }
-}
-
-\section{Beware}{
-
-COL database loading takes a long time, e.g., 30 minutes. you may
-want to run it in a separate R session, or just look at the db_load_col fxn
-and run the commands in your shell.
 }
 
 \examples{

@@ -7,20 +7,21 @@
 downstream(x, db = "ncbi", verbose = TRUE, ...)
 }
 \arguments{
-\item{x}{Vector of taxon keys for the given database}
+\item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{The database to search}
+\item{db}{(character) The database to search}
 
-\item{verbose}{Print verbose messages}
+\item{verbose}{(logical) Print verbose messages}
 
-\item{...}{Additional arguments passed to database specific downstream functions.}
+\item{...}{Additional arguments passed to database specific downstream
+functions}
 }
 \value{
 list of data.frames with the columns: childtaxa_id, childtaxa_name,
-and rank. This is exactly equivalent to the output of 'taxize::downstream'.
+and rank. This is exactly equivalent to the output of \code{taxize::downstream()}
 }
 \description{
-This function is nearly equivalent to the taxize::downstream function.
+This function is nearly equivalent to the \code{taxize::downstream()} function
 }
 \examples{
 # get descendents from all ranks

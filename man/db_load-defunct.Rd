@@ -22,6 +22,9 @@ db_load_ncbi(...)
 
 db_load_wikidata(...)
 }
+\arguments{
+\item{...}{ignored}
+}
 \description{
 Use \link{db_download} then \link{src_taxizedb}
 }

@@ -3,6 +3,7 @@
 #' Use [db_download] then [src_taxizedb]
 #'
 #' @export
+#' @param ... ignored
 #' @name db_load-defunct
 
 #' @export
