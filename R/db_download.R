@@ -3,31 +3,9 @@
 #' @export
 #' @name db_download
 #' @param verbose (logical) Print messages. Default: `TRUE`
-#'
 #' @return (character) path to the downloaded SQL database
 #' @details Downloads sql database, cleans up unneeded files, returns path
 #' to sql file
-#'
-#' @section Supported:
-#' All are using SQLite as the database
-#' 
-#' - NCBI
-#' - ITIS
-#' - The PlantList
-#' - Catalogue of Life
-#' - GBIF
-#' - Wikidata
-#' 
-#' @section Links:
-#' 
-#' - NCBI: ftp://ftp.ncbi.nih.gov/pub/taxonomy/
-#' - ITIS: https://www.itis.gov/downloads/index.html
-#' - The PlantList - http://www.theplantlist.org/
-#' - Catalogue of Life: 
-#'   via http://www.catalogueoflife.org/content/annual-checklist-archive
-#' - GBIF: http://rs.gbif.org/datasets/backbone/
-#' - Wikidata: https://zenodo.org/record/1213477
-#'
 #' @seealso [tdb_cache]
 #' @examples \dontrun{
 #' # ITIS
@@ -49,7 +27,7 @@
 #' # NCBI
 #' # db_download_ncbi()
 #' # src_ncbi()
-#' 
+#'
 #' # Wikidata
 #' # db_download_wikidata()
 #' # src_wikidata()
@@ -347,7 +325,7 @@ db_download_gbif <- function(verbose = TRUE) {
 #' @rdname db_download
 db_download_wikidata <- function(verbose = TRUE) {
   db_url <- 'https://zenodo.org/record/1213477/files/wikidata-taxon-info20171227.tsv.gz'
-  
+
   txt_file <- file.path(tdb_cache$cache_path_get(), 'wikidata-taxon-info20171227.tsv.gz')
   final_file <- file.path(tdb_cache$cache_path_get(), 'wikidata.sqlite')
 
@@ -363,7 +341,7 @@ db_download_wikidata <- function(verbose = TRUE) {
   curl::curl_download(db_url, txt_file, quiet = TRUE)
 
   # load taxa.txt
-  taxa_txt <- readr::read_tsv(txt_file, skip = 1, 
+  taxa_txt <- readr::read_tsv(txt_file, skip = 1,
     col_names = c('wikidata_id', 'scientific_name', 'rank_id', 'parent_id', 'external_ids'))
 
   mssg(verbose, 'building SQLite database...')

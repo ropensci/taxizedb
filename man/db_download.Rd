@@ -35,32 +35,6 @@ Download taxonomic databases
 Downloads sql database, cleans up unneeded files, returns path
 to sql file
 }
-\section{Supported}{
-
-All are using SQLite as the database
-\itemize{
-\item NCBI
-\item ITIS
-\item The PlantList
-\item Catalogue of Life
-\item GBIF
-\item Wikidata
-}
-}
-
-\section{Links}{
-
-\itemize{
-\item NCBI: ftp://ftp.ncbi.nih.gov/pub/taxonomy/
-\item ITIS: https://www.itis.gov/downloads/index.html
-\item The PlantList - http://www.theplantlist.org/
-\item Catalogue of Life:
-via http://www.catalogueoflife.org/content/annual-checklist-archive
-\item GBIF: http://rs.gbif.org/datasets/backbone/
-\item Wikidata: https://zenodo.org/record/1213477
-}
-}
-
 \examples{
 \dontrun{
 # ITIS

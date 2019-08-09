@@ -8,9 +8,69 @@
 \description{
 Taxonomic databases interface
 }
+\section{Supported data sources and database structure}{
+
+All are using SQLite as the database
+\itemize{
+\item NCBI: text files are provided by NCBI, which we stitch into a sqlite db
+\item ITIS: they provide a sqlite dump, which we use here
+\item The PlantList: created from stitching together csv files. this
+source is no longer updated as far as we can tell. they say they've
+moved focus to the World Flora Online
+\item Catalogue of Life: created from Darwin Core Archive dump.
+\item GBIF: created from Darwin Core Archive dump. right now we only have
+the taxonomy table (called gbif), but will add the other tables in the
+darwin core archive later
+\item Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata.
+On Zenodo, created by Joritt Poelen of GLOBI.
+}
+}
+
+\section{Update schedule for databases}{
+
+\itemize{
+\item NCBI: since \code{db_download_ncbi} creates the database when the function
+is called, it's updated whenever you run the function
+\item ITIS: since ITIS provides the sqlite database as a download, you can
+delete the old file and run \code{db_download_itis} to get a new dump;
+they I think update the dumps every month or so
+\item The PlantList: no longer updated, so you shouldn't need to download
+this after the first download
+\item Catalogue of Life: we have a script that we run on a server once
+per month to stitch together the sqlite database from the DCA, so
+updated once per month, but we're not sure how frequently COL updates
+their DCA dumps
+\item GBIF: we have a script that we run on a server once
+per month to stitch together the sqlite database from the DCA, so
+updated once per month, but we're not sure how frequently GBIF updates
+their DCA dumps
+\item Wikidata: last updated April 6, 2018. Scripts are available to
+update the data if you prefer to do it yourself.
+}
+}
+
+\section{Links}{
+
+\itemize{
+\item NCBI: ftp://ftp.ncbi.nih.gov/pub/taxonomy/
+\item ITIS: https://www.itis.gov/downloads/index.html
+\item The PlantList - http://www.theplantlist.org/
+\item Catalogue of Life:
+via http://www.catalogueoflife.org/content/annual-checklist-archive
+\item GBIF: http://rs.gbif.org/datasets/backbone/
+\item Wikidata: https://zenodo.org/record/1213477
+}
+}
+
 \examples{
 \dontrun{
 library(dplyr)
+
+# data source: NCBI
+db_download_ncbi()
+src <- src_ncbi()
+df <- tbl(src, "names")
+filter(df, name_class == "scientific name")
 
 # data source: ITIS
 ## download ITIS database
@@ -55,6 +115,12 @@ src <- src_gbif()
 ## do queries
 df <- tbl(src, "gbif")
 select(df, taxonID, scientificName)
+
+# data source: Wikidata
+db_download_wikidata()
+src <- src_wikidata()
+df <- tbl(src, "wikidata")
+filter(df, rank_id == "Q7432")
 }
 }
 \keyword{package}

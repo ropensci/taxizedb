@@ -5,11 +5,11 @@
 db_path <- function(db) {
   file <- switch(
     db,
-    itis = "itis.sqlite",
-    tpl = "tpl.sqlite",
+    itis = "ITIS.sqlite",
+    tpl = "plantlist.sqlite",
     col = "col.sqlite",
     gbif = "gbif.sqlite",
-    ncbi = "ncbi.sqlite",
+    ncbi = "NCBI.sql",
     wikidata = "wikidata.sqlite",
     stop("must be one of itis, tpl, col, gbif, ncbi, wikidata",
       call. = FALSE)

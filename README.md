@@ -20,12 +20,47 @@ to do requests to a local SQL database.
 Not all taxonomic databases are publicly available, or possible to mash into a SQLized
 version. Taxonomic DB's supported thus far:
 
-* NCBI - they provide a SQL dump
-* ITIS - they provide a SQL dump
-* COL - we make a SQL database from darwin core archive
-* Theplantlist - we make a SQL database from CSV files they provide
-* GBIF taxonomic backbone - we make a SQL database from darwin core archive
-* Wikidata taxonomic data - from <https://zenodo.org/record/1213477>
+- NCBI: text files are provided by NCBI, which we stitch into a sqlite db
+- ITIS: they provide a sqlite dump, which we use here
+- The PlantList: created from stitching together csv files. this
+ source is no longer updated as far as we can tell. they say they've
+ moved focus to the World Flora Online
+- Catalogue of Life: created from Darwin Core Archive dump.
+- GBIF: created from Darwin Core Archive dump. right now we only have
+ the taxonomy table (called gbif), but will add the other tables in the
+ darwin core archive later
+- Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata. 
+ On Zenodo, created by Joritt Poelen of GLOBI.
+
+Update schedule for databases:
+
+- NCBI: since `db_download_ncbi` creates the database when the function
+ is called, it's updated whenever you run the function
+- ITIS: since ITIS provides the sqlite database as a download, you can
+ delete the old file and run `db_download_itis` to get a new dump;
+ they I think update the dumps every month or so
+- The PlantList: no longer updated, so you shouldn't need to download
+ this after the first download
+- Catalogue of Life: we have a script that we run on a server once
+ per month to stitch together the sqlite database from the DCA, so
+ updated once per month, but we're not sure how frequently COL updates
+ their DCA dumps
+- GBIF: we have a script that we run on a server once
+ per month to stitch together the sqlite database from the DCA, so
+ updated once per month, but we're not sure how frequently GBIF updates
+ their DCA dumps
+- Wikidata: last updated April 6, 2018. Scripts are available to 
+ update the data if you prefer to do it yourself.
+
+ Links:
+
+- NCBI: ftp://ftp.ncbi.nih.gov/pub/taxonomy/
+- ITIS: https://www.itis.gov/downloads/index.html
+- The PlantList - http://www.theplantlist.org/
+- Catalogue of Life:
+   via http://www.catalogueoflife.org/content/annual-checklist-archive
+- GBIF: http://rs.gbif.org/datasets/backbone/
+- Wikidata: https://zenodo.org/record/1213477
 
 Get in touch [in the issues](https://github.com/ropensci/taxizedb/issues) with
 any ideas on new data sources.
