@@ -5,7 +5,7 @@ Description: Tools for working with 'taxonomic' databases, including
     utilities for downloading databases, loading them into various
     'SQL' databases, cleaning up files, and providing a 'SQL' connection
     that can be used to do 'SQL' queries directly or used in 'dplyr'.
-Version: 0.1.9.9130
+Version: 0.1.9.92
 Authors@R: c(
     person("Scott", "Chamberlain", email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
     person("Zebulun", "Arendsee", role = "aut")
@@ -16,6 +16,7 @@ License: MIT + file LICENSE
 LazyData: TRUE
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
+Language: en-US
 Imports:
     curl (>= 2.4),
     DBI (>= 0.6-1),
@@ -29,7 +30,6 @@ Imports:
     magrittr (>= 1.5),
     hoardr (>= 0.1.0)
 Suggests:
-    roxygen2 (>= 6.0.1),
     testthat,
     taxize
 RoxygenNote: 7.0.2
