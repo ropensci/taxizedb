@@ -9,7 +9,7 @@ taxid2name(x, db = "ncbi", verbose = TRUE, warn = TRUE, ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search}
+\item{db}{(character) The database to search, one of ncbi or itis}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -28,5 +28,6 @@ Convert taxon IDs to scientific names
 \examples{
 \dontrun{
 taxid2name(c(3702, 9606))
+taxid2name(c(154395, 154357, 23041, 154396), db = "itis")
 }
 }

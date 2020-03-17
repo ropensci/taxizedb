@@ -17,7 +17,7 @@
 #'
 #' @export
 #' @param x (character) Vector of taxon keys for the given database
-#' @param db (character) The database to search
+#' @param db (character) The database to search, one of ncbi or itis
 #' @param verbose (logical) Print verbose messages
 #' @param out_type (logical) character "uid" for an ID vector, "summary" for a
 #' table with columns 'tax_id' and 'tax_name'.
@@ -26,6 +26,10 @@
 #' @examples
 #' \dontrun{
 #' name2taxid(c('Arabidopsis thaliana', 'pig'))
+#' name2taxid(c('Arabidopsis thaliana', 'pig'), out_type="summary")
+#' name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis")
+#' name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis",
+#'   out_type="summary")
 #' }
 name2taxid <- function(x, db='ncbi', verbose=TRUE,
   out_type=c("uid", "summary"), ...) {
@@ -35,20 +39,20 @@ name2taxid <- function(x, db='ncbi', verbose=TRUE,
     db      = db,
     cmd     = 'name2taxid',
     verbose = verbose,
-    empty   = tibble::tibble(name_txt = character(), tax_id = character()),
+    empty   = tibble::tibble(name = character(), id = character()),
     ...
   )
   if(identical(out_type[1], "summary")){
     result
   } else if (identical(out_type[1], "uid")) {
-    ids <- result$tax_id
-    if(any(duplicated(result$name_txt))){
+    ids <- result$id
+    if(any(duplicated(result$name))){
       stop("Some of the input names are ambiguous, try setting out_type to 'summary'")
     }
     if(is.null(x) || length(result) == 0){
       rep(NA_character_, length(x))
     } else {
-      as.character(result$tax_id[match(x, result$name_txt)])
+      as.character(result$id[match(x, result$name)])
     }
   } else {
     stop("The out_type value '", out_type, "' is not supported")
@@ -56,25 +60,17 @@ name2taxid <- function(x, db='ncbi', verbose=TRUE,
 }
 
 itis_name2taxid <- function(src, x, empty, ...){
-  stop("The ITIS database is currently not supported")
-}
-
-tpl_name2taxid <- function(src, x, empty, ...){
-  stop("The TPL database is currently not supported")
-}
-
-col_name2taxid <- function(src, x, empty, ...){
-  stop("The COL database is currently not supported")
-}
-
-gbif_name2taxid <- function(src, x, empty, ...){
-  stop("The GBIF database is currently not supported")
+  if (length(x) == 0) return(empty)
+  query <- "SELECT tsn,complete_name FROM taxonomic_units WHERE complete_name IN ('%s')"
+  query <- sprintf(query, paste0(x, collapse = "','"))
+  result <- sql_collect(src, query)
+  vars <- c(id = "tsn", name = "complete_name")
+  result <- dplyr::rename(result, vars)
+  result
 }
 
 ncbi_name2taxid <- function(src, x, empty, ...){
-  if(length(x) == 0){
-    return(empty)
-  }
+  if (length(x) == 0) return(empty)
 
   # x is saved to preserve the input name (e.g. an alternative spelling)
   s <- tolower(x)
@@ -96,5 +92,19 @@ ncbi_name2taxid <- function(src, x, empty, ...){
   # There can be repeated rows, for example 'Bacteria' and 'bacteria' are both
   # are converted into 'Bacteria', but they point to the same taxon id.
   result <- dplyr::distinct(result)
+  vars <- c(id = "tax_id", name = "name_txt")
+  result <- dplyr::rename(result, vars)
   result
+}
+
+tpl_name2taxid <- function(src, x, empty, ...){
+  stop("The TPL database is currently not supported")
+}
+
+col_name2taxid <- function(src, x, empty, ...){
+  stop("The COL database is currently not supported")
+}
+
+gbif_name2taxid <- function(src, x, empty, ...){
+  stop("The GBIF database is currently not supported")
 }

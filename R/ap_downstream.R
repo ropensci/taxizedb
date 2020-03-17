@@ -4,7 +4,7 @@
 #'
 #' @export
 #' @param x (character) Vector of taxon keys for the given database
-#' @param db (character) The database to search
+#' @param db (character) The database to search, one of ncbi or itis
 #' @param verbose (logical) Print verbose messages
 #' @param ... Additional arguments passed to database specific downstream
 #' functions
@@ -24,6 +24,14 @@
 #'   ambiguous_nodes=FALSE,
 #'   ambiguous_species=TRUE
 #' )
+#' 
+#' # ITIS
+#' (id <- name2taxid('Aves', db = "itis"))
+#' downstream(id, db = "itis", downto = "family")
+#' downstream(id, db = "itis", downto = "genus")
+#' (id <- name2taxid('Bombus', db = "itis"))
+#' downstream(id, db = "itis", downto = "species")
+#' children(id, db = "itis")
 downstream <- function(x, db='ncbi', verbose=TRUE, ...){
   ap_dispatch(
     x       = x,
@@ -34,7 +42,51 @@ downstream <- function(x, db='ncbi', verbose=TRUE, ...){
 }
 
 itis_downstream <- function(src, x, ...){
-  stop("The ITIS database is currently not supported")
+  FUN <- function(x, src, downto = NULL, ...) {
+    downtoid <- itis_rankname2taxid(src, downto)
+    stop_ <- "not"
+    notout <- data.frame(rank_name = "")
+    out <- list()
+    iter <- 0
+    while (stop_ == "not") {
+      iter <- iter + 1
+      if (!nchar(as.character(notout$rank_name[[1]])) > 0) {
+        temp <- children(as.character(x), db = "itis")[[1]]
+      } else {
+        temp <- notout
+      }
+      
+      tt <- temp
+      if (!all(tolower(temp$rank_name) == tolower(downto))) {
+        tt <- dplyr::bind_rows(children(temp$tsn, db = "itis"))
+      }
+      
+      if (NROW(tt[tt$rank_id == downtoid, ]) > 0) {
+        out[[iter]] <- tt[tt$rank_id == downtoid, ]
+      }
+
+      if (NROW(tt[!tt$rank_id == downtoid, ]) > 0) {
+        notout <- tt[!tt$rank_id %in% downtoid, ]
+      } else {
+        notout <- data.frame(rank_name = downto, stringsAsFactors = FALSE)
+      }
+
+      if (length(notout$rank_name) > 0)
+        notout$rank_name <- tolower(notout$rank_name)
+      if (all(notout$rank_name == tolower(downto))) {
+        stop_ <- "fam"
+      } else {
+        tsns <- notout$tsn
+        stop_ <- "not"
+      }
+    }
+    tmp <- dplyr::bind_rows(out)
+    tmp$rank_id <- NULL
+    tmp$rank_name <- tolower(tmp$rank_name)
+    stats::setNames(tmp, tolower(names(tmp)))
+  }
+  missing = NA
+  stats::setNames(lapply(x, FUN, src = src, ...), x)
 }
 
 tpl_downstream <- function(src, x, ...){
@@ -100,4 +152,10 @@ ncbi_downstream <- function(src, x, ...){
   missing = NA
 
   ncbi_apply(src, x, FUN, missing=missing, ...)
+}
+
+itis_rankname2taxid <- function(src, x) {
+  ranks <- unique(sql_collect(src,
+    'select rank_id,rank_name from taxon_unit_types'))
+  ranks[tolower(ranks$rank_name) %in% tolower(x), ]$rank_id
 }

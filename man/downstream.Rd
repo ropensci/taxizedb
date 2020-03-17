@@ -9,7 +9,7 @@ downstream(x, db = "ncbi", verbose = TRUE, ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search}
+\item{db}{(character) The database to search, one of ncbi or itis}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -37,4 +37,12 @@ downstream(
   ambiguous_nodes=FALSE,
   ambiguous_species=TRUE
 )
+
+# ITIS
+(id <- name2taxid('Aves', db = "itis"))
+downstream(id, db = "itis", downto = "family")
+downstream(id, db = "itis", downto = "genus")
+(id <- name2taxid('Bombus', db = "itis"))
+downstream(id, db = "itis", downto = "species")
+children(id, db = "itis")
 }

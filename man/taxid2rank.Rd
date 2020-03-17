@@ -10,7 +10,7 @@ taxid2rank(x, db = "ncbi", verbose = TRUE, warn = TRUE, ...)
 \item{x}{(character) Vector of taxon keys (name or id) for the given
 database}
 
-\item{db}{(character) The database to search}
+\item{db}{(character) The database to search, one of ncbi or itis}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -21,7 +21,7 @@ be found}
 functions}
 }
 \value{
-character vector of ranks
+character vector of ranks in the same order as the inputs
 }
 \description{
 Convert taxon IDs to scientific ranks
@@ -29,5 +29,6 @@ Convert taxon IDs to scientific ranks
 \examples{
 \dontrun{
 taxid2rank(c(3701, 9606))
+taxid2rank(c(154395, 154357, 23041, 154396), db="itis")
 }
 }

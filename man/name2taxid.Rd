@@ -9,7 +9,7 @@ name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid", "summary"), ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search}
+\item{db}{(character) The database to search, one of ncbi or itis}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -40,5 +40,9 @@ underscores with spaces ONLY if there are not spaces in the original name.
 \examples{
 \dontrun{
 name2taxid(c('Arabidopsis thaliana', 'pig'))
+name2taxid(c('Arabidopsis thaliana', 'pig'), out_type="summary")
+name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis")
+name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis",
+  out_type="summary")
 }
 }

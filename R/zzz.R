@@ -25,3 +25,5 @@ db_installed <- function(x) {
   nf))
   }
 }
+
+sm <- function(x) suppressMessages(x)

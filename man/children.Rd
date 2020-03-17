@@ -9,7 +9,7 @@ children(x, db = "ncbi", verbose = TRUE, ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search}
+\item{db}{(character) The database to search, one of ncbi or itis}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -26,5 +26,6 @@ Retrieve immediate descendents of a taxon
 \examples{
 \dontrun{
 children(c(3700, 2))
+children(c(154395, 154357), db="itis")
 }
 }

@@ -52,9 +52,11 @@ ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, .
   result 
 }
 
-run_with_db <- function(FUN, db, ...){
-  src <- if(db == 'ncbi'){
-    src_ncbi(db_download_ncbi(verbose=FALSE))
+run_with_db <- function(FUN, db, ...) {
+  src <- if(db == 'ncbi') {
+    src_ncbi(db_download_ncbi(verbose = FALSE))
+  } else if (db == "itis") {
+    src_itis(db_download_itis(verbose = FALSE))
   } else {
     stop("Database '", db, "' is not supported")
   }
@@ -75,14 +77,14 @@ ncbi_apply <- function(src, x, FUN, missing=NA, die_if_ambiguous=TRUE, ...){
       # get a table mapping names to taxa
       d <- name2taxid(x[is_named], db='ncbi', out_type="summary")
       # find duplicated elements (ambiguous taxa)
-      dups <- unique(d$name_txt[duplicated(d$name_txt)])
+      dups <- unique(d$name[duplicated(d$name)])
       # die if there are any
       if(length(dups) > 0){
         msg <- "The following taxa map to multiple taxonomy ids: "
-        msg <- dplyr::group_by(d, .data$name_txt) %>%
-          dplyr::filter(length(.data$name_txt) > 1) %>%
+        msg <- dplyr::group_by(d, .data$name) %>%
+          dplyr::filter(length(.data$name) > 1) %>%
           dplyr::summarize(taxids = paste(.data$tax_id, collapse="|")) %>% {
-            paste("    ", .$name_txt, " - ", .$taxids, collapse="\n")
+            paste("    ", .$name, " - ", .$taxids, collapse="\n")
           } %>%
           paste(msg, ., sep="\n")
         stop(msg)
