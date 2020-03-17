@@ -9,7 +9,7 @@ classification(x, db = "ncbi", verbose = TRUE, ...)
 \arguments{
 \item{x}{character) Vector of taxon keys for the given database}
 
-\item{db}{character) The database to search}
+\item{db}{character) The database to search, one of ncbi or itis}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -22,12 +22,12 @@ exactly equivalent to the output of \code{taxize::classification()}
 }
 \description{
 This function is equivalent to the \code{taxize::classification()} function,
-except that it uses a local database (so is much faster) and is currently
-restricted to handling NCBI taxa. The output is identical to
-\code{taxize::classification()}
+except that it uses a local database (so is much faster). The output is
+identical to \code{taxize::classification()}
 }
 \examples{
 \dontrun{
 classification(c(3702, 9606))
+classification(x=c(154395, 154357), db="itis")
 }
 }

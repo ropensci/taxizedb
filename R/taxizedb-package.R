@@ -119,5 +119,5 @@
 #' filter(df, rank_id == "Q7432")
 #' }
 # Needed for use of . in magrittr pipelines
-utils::globalVariables(c(".", "rank_id", "rank_name"))
+utils::globalVariables(c(".", "rank_id", "rank_name", "kingdom_id"))
 NULL

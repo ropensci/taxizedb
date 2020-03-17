@@ -30,7 +30,6 @@ itis_children <- function(src, x, ...){
     tmp <- unique(dplyr::left_join(child_df, 
       dplyr::select(ranks, rank_id, rank_name), by = "rank_id"))
     tmp$rank_name <- tolower(tmp$rank_name)
-    # tmp$rank_id <- NULL
     return(tmp)
   }
   stats::setNames(lapply(x, FUN, src = src), x)

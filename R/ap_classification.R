@@ -1,13 +1,12 @@
 #' Retrieve the taxonomic hierarchies from local database
 #'
 #' This function is equivalent to the `taxize::classification()` function,
-#' except that it uses a local database (so is much faster) and is currently
-#' restricted to handling NCBI taxa. The output is identical to
-#' `taxize::classification()`
+#' except that it uses a local database (so is much faster). The output is
+#' identical to `taxize::classification()`
 #'
 #' @export
 #' @param x character) Vector of taxon keys for the given database
-#' @param db character) The database to search
+#' @param db character) The database to search, one of ncbi or itis
 #' @param verbose (logical) Print verbose messages
 #' @param ... Additional arguments passed to database specific classification
 #' functions.
@@ -16,6 +15,7 @@
 #' @examples
 #' \dontrun{
 #' classification(c(3702, 9606))
+#' classification(x=c(154395, 154357), db="itis")
 #' }
 classification <- function(x, db='ncbi', verbose=TRUE, ...){
   ap_dispatch(
@@ -28,7 +28,27 @@ classification <- function(x, db='ncbi', verbose=TRUE, ...){
 }
 
 itis_classification <- function(src, x, ...){
-  stop("The ITIS database is currently not supported")
+  FUN <- function(x, src, ...) {
+    ranks <- unique(sql_collect(src, 'select * from taxon_unit_types'))
+    z <-
+      sql_collect(src, sprintf("select * from hierarchy where TSN = '%s'", x))
+    hiers <- strsplit(z$hierarchy_string, "-")[[1]]
+    parents_query <- sprintf(
+      "SELECT tsn,rank_id,complete_name,kingdom_id FROM taxonomic_units WHERE tsn IN ('%s')",
+      paste0(hiers, collapse = "','"))
+    parents_df <- sql_collect(src, parents_query)
+    ranks_filt <- dplyr::filter(ranks, kingdom_id == unique(parents_df$kingdom_id))
+    ranks_filt <- dplyr::select(ranks_filt, rank_id, rank_name)
+    tmp <- dplyr::left_join(dplyr::select(parents_df, -kingdom_id), ranks_filt,
+      by = "rank_id")
+    tmp <- tmp[order(tmp$rank_id), ]
+    tmp$rank_name <- tolower(tmp$rank_name)
+    tmp$rank_id <- NULL
+    tmp <- data.frame(name = tmp$complete_name, rank = tmp$rank_name,
+      id = as.character(tmp$tsn), stringsAsFactors = FALSE)
+    return(tmp)
+  }
+  stats::setNames(lapply(x, FUN, src = src), x)
 }
 
 tpl_classification <- function(src, x, ...){
