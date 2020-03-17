@@ -93,7 +93,7 @@ install.packages("taxizedb")
 dev version
 
 ```{r eval=FALSE}
-devtools::install_github("ropensci/taxizedb")
+remotes::install_github("ropensci/taxizedb")
 ```
 
 ```{r}

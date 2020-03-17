@@ -88,7 +88,7 @@ dev version
 
 
 ```r
-devtools::install_github("ropensci/taxizedb")
+remotes::install_github("ropensci/taxizedb")
 ```
 
 
