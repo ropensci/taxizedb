@@ -1,4 +1,5 @@
-#' Taxonomic databases interface
+#' @title taxizedb
+#' @description Taxonomic databases interface
 #'
 #' @importFrom DBI dbConnect dbDisconnect dbSendQuery
 #' @importFrom RSQLite SQLite
@@ -118,5 +119,5 @@
 #' filter(df, rank_id == "Q7432")
 #' }
 # Needed for use of . in magrittr pipelines
-utils::globalVariables(c("."))
+utils::globalVariables(c(".", "rank_id", "rank_name"))
 NULL

@@ -4,7 +4,10 @@
 \name{taxizedb-package}
 \alias{taxizedb-package}
 \alias{taxizedb}
-\title{Taxonomic databases interface}
+\title{taxizedb}
+\description{
+Taxonomic databases interface
+}
 \section{Supported data sources and database structure}{
 
 All are using SQLite as the database

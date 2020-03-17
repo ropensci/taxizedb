@@ -12,7 +12,7 @@
 #' and rank. This is exactly equivalent to the output of `taxize::downstream()`
 #' @examples
 #' # get descendents from all ranks
-#' downstream(c(3700, 9605))
+#' # downstream(c(3700, 9605)) # takes a while
 #'
 #' # limit results to species
 #' downstream(c(3700, 9605), downto='species')
@@ -31,7 +31,6 @@
 #' downstream(id, db = "itis", downto = "genus")
 #' (id <- name2taxid('Bombus', db = "itis"))
 #' downstream(id, db = "itis", downto = "species")
-#' children(id, db = "itis")
 downstream <- function(x, db='ncbi', verbose=TRUE, ...){
   ap_dispatch(
     x       = x,
