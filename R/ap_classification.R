@@ -32,6 +32,7 @@ itis_classification <- function(src, x, ...){
     ranks <- unique(sql_collect(src, 'select * from taxon_unit_types'))
     z <-
       sql_collect(src, sprintf("select * from hierarchy where TSN = '%s'", x))
+    if (NROW(z) == 0) return(data.frame(NULL))
     hiers <- strsplit(z$hierarchy_string, "-")[[1]]
     parents_query <- sprintf(
       "SELECT tsn,rank_id,complete_name,kingdom_id FROM taxonomic_units WHERE tsn IN ('%s')",

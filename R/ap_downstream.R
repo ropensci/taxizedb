@@ -42,6 +42,7 @@ downstream <- function(x, db='ncbi', verbose=TRUE, ...){
 
 itis_downstream <- function(src, x, ...){
   FUN <- function(x, src, downto = NULL, ...) {
+    if (taxid2rank(x, db = "itis") == downto) return(data.frame(NULL))
     downtoid <- itis_rankname2taxid(src, downto)
     stop_ <- "not"
     notout <- data.frame(rank_name = "")
@@ -57,7 +58,15 @@ itis_downstream <- function(src, x, ...){
       
       tt <- temp
       if (!all(tolower(temp$rank_name) == tolower(downto))) {
-        tt <- dplyr::bind_rows(children(temp$tsn, db = "itis"))
+        temp <- temp[temp$rank_id < downtoid, ]
+        tt <- tt[tt$rank_id == downtoid, ]
+        if (NROW(temp) > 0) {
+          res <- children(temp$tsn, db = "itis")
+          if (any(vapply(res, function(z) NROW(z) > 0, logical(1)))) {
+            res <- Filter(function(z) NROW(z) > 0, res)
+            tt <- dplyr::bind_rows(tt, dplyr::bind_rows(res))
+          }
+        }
       }
       
       if (NROW(tt[tt$rank_id == downtoid, ]) > 0) {
