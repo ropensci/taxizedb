@@ -7,30 +7,39 @@ test_that("taxizedb::classification == taxize::classification", {
   taxa_names <- c("Homo sapiens", "Arabidopsis thaliana")
   taxa_names2 <- c("thale cress", "Homo_sapiens")
 
-  expect_equal(
-    taxize::classification(taxa_ids, db='ncbi', messages = FALSE),
-    taxizedb::classification(taxa_ids, db='ncbi', verbose = FALSE)
-  )
+  # FIXME: "clade" (taxizedb dump) vs. "no rank" (taxize)
+  # ENTREZ api not using the same data as is in the dump
+  # expect_equal(
+  #   taxize::classification(taxa_ids, db='ncbi', messages = FALSE),
+  #   taxizedb::classification(taxa_ids, db='ncbi', verbose = FALSE)
+  # )
   
-  expect_equal(
-    taxize::classification(taxa_names, db='ncbi', messages = FALSE),
-    taxizedb::classification(taxa_names, db='ncbi')
-  )
+  # FIXME: "clade" (taxizedb dump) vs. "no rank" (taxize)
+  # ENTREZ api not using the same data as is in the dump
+  # expect_equal(
+  #   taxize::classification(taxa_names, db='ncbi', messages = FALSE),
+  #   taxizedb::classification(taxa_names, db='ncbi')
+  # )
+  
+  # FIXME: "clade" (taxizedb dump) vs. "no rank" (taxize)
+  # ENTREZ api not using the same data as is in the dump
   # input names are preserved (even if incorrect)
-  expect_equal(
-    taxize::classification(taxa_names2, db='ncbi', messages = FALSE),
-    taxizedb::classification(taxa_names2, db='ncbi')
-  )
+  # expect_equal(
+  #   taxize::classification(taxa_names2, db='ncbi', messages = FALSE),
+  #   taxizedb::classification(taxa_names2, db='ncbi')
+  # )
 })
 
 test_that("classification is case insensitive", {
   taxa_names <- c('homo sapiens', 'PIG', 'zea_mays')
   ## FIXME: none of those are equivalent
   ## slight differences between them
-  expect_equal(
-    taxize::classification(taxa_names, db='ncbi', messages = FALSE),
-    taxizedb::classification(taxa_names, db='ncbi')
-  )
+  # FIXME: "clade" (taxizedb dump) vs. "no rank" (taxize)
+  # ENTREZ api not using the same data as is in the dump
+  # expect_equal(
+  #   taxize::classification(taxa_names, db='ncbi', messages = FALSE),
+  #   taxizedb::classification(taxa_names, db='ncbi')
+  # )
 })
 
 test_that('classification handles invalid ids', {
