@@ -18,7 +18,7 @@ sql_collect(src, query, ...)
 Query and get data back into a data.frame
 }
 \details{
-we run \code{\link[dplyr:tbl]{dplyr::tbl()}}, then \code{\link[dplyr:collect]{dplyr::collect()}}
+we run \code{\link[dplyr:tbl]{dplyr::tbl()}}, then \code{\link[dplyr:compute]{dplyr::collect()}}
 }
 \examples{
 \dontrun{
