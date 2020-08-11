@@ -1,5 +1,6 @@
 context("classification")
 
+skip_if_not_installed("taxize")
 library(taxize, quietly = TRUE, warn.conflicts = FALSE)
 
 test_that("taxizedb::classification == taxize::classification", {

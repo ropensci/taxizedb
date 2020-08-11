@@ -1,5 +1,5 @@
 context("children")
-
+skip_if_not_installed("taxize")
 test_that("unambiguous children", {
   ### TODO: currently there is a type inconsitency in taxize, once that is
   ### cleared up, this test can be restored
