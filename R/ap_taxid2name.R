@@ -9,8 +9,7 @@
 #' @param ... Additional arguments passed to database specific classification
 #' functions
 #' @return character vector of scientific names
-#' @examples
-#' \dontrun{
+#' @examples \dontrun{
 #' taxid2name(c(3702, 9606))
 #' taxid2name(c(154395, 154357, 23041, 154396), db = "itis")
 #' }

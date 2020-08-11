@@ -23,8 +23,7 @@
 #' table with columns 'tax_id' and 'tax_name'.
 #' @param ... Additional arguments passed to database specific classification
 #' functions.
-#' @examples
-#' \dontrun{
+#' @examples \dontrun{
 #' name2taxid(c('Arabidopsis thaliana', 'pig'))
 #' name2taxid(c('Arabidopsis thaliana', 'pig'), out_type="summary")
 #' name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis")

@@ -10,8 +10,7 @@
 #' @param ... Additional arguments passed to database specific classification
 #' functions
 #' @return character vector of ranks in the same order as the inputs
-#' @examples
-#' \dontrun{
+#' @examples \dontrun{
 #' taxid2rank(c(3701, 9606))
 #' taxid2rank(c(154395, 154357, 23041, 154396), db="itis")
 #' }

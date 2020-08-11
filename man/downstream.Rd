@@ -24,6 +24,7 @@ and rank. This is exactly equivalent to the output of \code{taxize::downstream()
 This function is nearly equivalent to the \code{taxize::downstream()} function
 }
 \examples{
+\dontrun{
 # get descendents from all ranks
 # downstream(c(3700, 9605)) # takes a while
 
@@ -44,4 +45,5 @@ downstream(id, db = "itis", downto = "family")
 downstream(id, db = "itis", downto = "genus")
 (id <- name2taxid('Bombus', db = "itis"))
 downstream(id, db = "itis", downto = "species")
+}
 }
