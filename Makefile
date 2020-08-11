@@ -3,18 +3,10 @@ RSCRIPT = Rscript --no-init-file
 
 all: move rmd2md
 
-move:
-		cp inst/vign/crul.md vignettes;\
-		cp inst/vign/how-to-use-crul.md vignettes;\
-		cp inst/vign/async.md vignettes;\
-		cp inst/vign/curl-options.md vignettes
-
-rmd2md:
-		cd vignettes;\
-		mv crul.md crul.Rmd;\
-		mv how-to-use-crul.md how-to-use-crul.Rmd;\
-		mv async.md async.Rmd;\
-		mv curl-options.md curl-options.Rmd
+vign:
+	cd vignettes;\
+	${RSCRIPT} -e "Sys.setenv(NOT_CRAN='true'); knitr::knit('taxizedb.Rmd.og', output = 'taxizedb.Rmd')";\
+	cd ..
 
 install: doc build
 	R CMD INSTALL . && rm *.tar.gz
@@ -26,7 +18,7 @@ doc:
 	${RSCRIPT} -e "devtools::document()"
 
 eg:
-	${RSCRIPT} -e "devtools::run_examples()"
+	${RSCRIPT} -e "devtools::run_examples(run = TRUE)"
 
 check: build
 	_R_CHECK_CRAN_INCOMING_=FALSE R CMD CHECK --as-cran --no-manual `ls -1tr ${PACKAGE}*gz | tail -n1`
