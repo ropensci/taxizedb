@@ -7,7 +7,8 @@ Description: Tools for working with 'taxonomic' databases, including
     that can be used to do 'SQL' queries directly or used in 'dplyr'.
 Version: 0.1.9.94
 Authors@R: c(
-    person("Scott", "Chamberlain", email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
+    person("Scott", "Chamberlain",
+        email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
     person("Zebulun", "Arendsee", role = "aut")
     )
 URL: https://docs.ropensci.org/taxizedb, https://github.com/ropensci/taxizedb
