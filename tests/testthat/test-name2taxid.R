@@ -1,5 +1,6 @@
 context("name2taxid")
 
+skip_on_cran()
 src <- src_ncbi(db_download_ncbi())
 
 test_that("name2taxid", {

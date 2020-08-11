@@ -1,6 +1,8 @@
 context("cache")
 
 test_that("tdb_cache structure is as expected", {
+  skip_on_cran()
+  
   expect_is(tdb_cache, "HoardClient")
   expect_is(tdb_cache, "R6")
   expect_is(tdb_cache$cache_path_get, "function")

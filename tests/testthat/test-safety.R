@@ -1,5 +1,7 @@
 context("SQL safety")
 
+skip_on_cran()
+
 test_that("Quotes are handled", {
   # without escapes, the "cow', 'pig" string is interpreted a two values
   expect_equivalent(name2taxid("cow', 'pig"), NA_character_)

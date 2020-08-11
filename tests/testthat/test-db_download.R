@@ -1,6 +1,6 @@
 context("db_download")
-
 test_that("db_download - are functions", {
+  skip_on_cran()
   expect_is(db_download_col, "function")
   expect_is(db_download_gbif, "function")
   expect_is(db_download_itis, "function")

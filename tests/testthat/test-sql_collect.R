@@ -1,5 +1,7 @@
 context("sql_collect")
 
+skip_on_cran()
+
 library(dplyr, quietly = TRUE, warn.conflicts = FALSE)
 library(DBI, quietly = TRUE, warn.conflicts = FALSE)
 library(RSQLite, quietly = TRUE, warn.conflicts = FALSE)

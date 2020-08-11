@@ -1,5 +1,7 @@
 context("taxid2name")
 
+skip_on_cran()
+
 test_that("taxid2name", {
   expect_equal(taxid2name(3702), 'Arabidopsis thaliana')
   # check duplicates

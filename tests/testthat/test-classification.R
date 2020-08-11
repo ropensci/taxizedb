@@ -1,5 +1,5 @@
 context("classification")
-
+skip_on_cran()
 skip_if_not_installed("taxize")
 library(taxize, quietly = TRUE, warn.conflicts = FALSE)
 

@@ -1,3 +1,5 @@
+skip_on_cran()
+
 library(dplyr)
 library(dbplyr)
 library(taxizedb)

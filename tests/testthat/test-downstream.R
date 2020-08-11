@@ -1,5 +1,7 @@
 context("downstream")
 
+skip_on_cran()
+
 test_that("taxizedb::downstream matches taxize::downstream", {
   # FIXME, these are no longer equal
   # expect_equal(

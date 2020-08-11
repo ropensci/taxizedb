@@ -1,5 +1,7 @@
 context("src")
 
+skip_on_cran()
+
 test_that("src structure is as expected", {
   expect_is(src_itis, "function")
   expect_is(src_gbif, "function")
