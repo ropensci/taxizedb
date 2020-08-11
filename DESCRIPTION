@@ -23,7 +23,6 @@ Imports:
     RSQLite (>= 1.1.2),
     dplyr (>= 0.7.0),
     tibble,
-    tidyr,
     rlang,
     readr (>= 1.1.1),
     dbplyr (>= 1.0.0),
