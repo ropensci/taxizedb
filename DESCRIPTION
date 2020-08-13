@@ -5,13 +5,13 @@ Description: Tools for working with 'taxonomic' databases, including
     utilities for downloading databases, loading them into various
     'SQL' databases, cleaning up files, and providing a 'SQL' connection
     that can be used to do 'SQL' queries directly or used in 'dplyr'.
-Version: 0.1.9.98
+Version: 0.2.0
 Authors@R: c(
     person("Scott", "Chamberlain",
         email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
     person("Zebulun", "Arendsee", role = "aut")
     )
-URL: https://docs.ropensci.org/taxizedb, https://github.com/ropensci/taxizedb
+URL: https://ropensci.github.io/taxizedb/, https://github.com/ropensci/taxizedb
 BugReports: https://github.com/ropensci/taxizedb/issues
 License: MIT + file LICENSE
 LazyData: TRUE
