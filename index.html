@@ -128,19 +128,35 @@
 </li>
 </ul>
 <p>Get in touch <a href="https://github.com/ropensci/taxizedb/issues">in the issues</a> with any ideas on new data sources.</p>
+<p>All databases are SQLite.</p>
 </div>
 <div id="package-api" class="section level2">
 <h2 class="hasAnchor">
 <a href="#package-api" class="anchor"></a>Package API</h2>
 <p>This package for each data sources performs the following tasks:</p>
 <ul>
-<li>Download database - <code>db_download_*</code>
+<li>Downloaded taxonomic databases <code>db_download_*</code>
 </li>
-<li>Create <code>dplyr</code> SQL backend - <code>src_*</code>
+<li>Create <code>dplyr</code> SQL backend via <code><a href="https://dbplyr.tidyverse.org/reference/src_dbi.html">dbplyr::src_dbi</a></code> - <code>src_*</code>
+</li>
+<li>Query and get data back into a data.frame - <code>sql_collect</code>
+</li>
+<li>Manage cached database files - <code>tdb_cache</code>
+</li>
+<li>Retrieve immediate descendents of a taxon - <code>children</code>
+</li>
+<li>Retrieve the taxonomic hierarchies from local database - <code>classification</code>
+</li>
+<li>Retrieve all taxa descending from a vector of taxa - <code>downstream</code>
+</li>
+<li>Convert species names to taxon IDs - <code>name2taxid</code>
+</li>
+<li>Convert taxon IDs to species names - <code>taxid2name</code>
+</li>
+<li>Convert taxon IDs to ranks - <code>taxid2rank</code>
 </li>
 </ul>
-<p>All databases are SQLite.</p>
-<p>Using the src connection, use <code>dplyr</code>, etc. to do operations downstream. Or create your own database connection to the sqlite file.</p>
+<p>You can use the <code>src</code> connections with <code>dplyr</code>, etc. to do operations downstream. Or use the database connection to do raw SQL queries.</p>
 </div>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
