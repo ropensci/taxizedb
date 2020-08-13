@@ -13,18 +13,16 @@ test_that("We can actually download, load, and query all databases", {
   col <- db_download_col()
   ncbi <- db_download_ncbi()
 
-  gbif <- "~/.cache/R/taxizedb/gbif.sqlite"
-  itis <- "~/.cache/R/taxizedb/ITIS.sql"      #POSTGRES
-  tpl  <- "~/.cache/R/taxizedb/plantlist.sql" # POSTGRES
-  col <-  "~/.cache/R/taxizedb/col.sql" # MySQL
-  ncbi <- "~/.cache/R/taxizedb/NCBI.sql" # SQLITE?
-
-  ## NOTE FIXME argument should be called password, not pwd, to be consistent with src_ and DBI
+  gbif <- "~/.cache/R/taxizedb/gbif.sqlite"      # SQLITE
+  itis <- "~/.cache/R/taxizedb/ITIS.sqlite"      # SQLITE
+  tpl  <- "~/.cache/R/taxizedb/plantlist.sqlite" # SQLITE
+  col <-  "~/.cache/R/taxizedb/col.sqlite"       # SQLITE
+  ncbi <- "~/.cache/R/taxizedb/NCBI.sql"      # SQLITE?
+  wfo <-  "~/.cache/R/taxizedb/wfo.sqlite"       # SQLITE
 
   ## Load the actual data:
-
-  col_db <- src_col(host="mariadb", user="root", password="password")
-  tpl_db <- src_tpl(user = "postgres", password = "password", host = "postgres")
+  col_db <- src_col()
+  tpl_db <- src_tpl()
 
   gbif_db <- src_gbif(gbif)
   ncbi_db <- src_ncbi(ncbi)

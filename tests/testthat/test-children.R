@@ -37,7 +37,7 @@ test_that("children works for ITIS", {
   expect_is(res, "children")
   expect_is(unclass(res), "list")
   expect_is(res[[1]], "tbl")
-  expect_named(res[[1]], c("id", "name", "rank"))
+  expect_named(res[[1]], c("id", "rank_id", "name", "rank"))
   expect_match(res[[1]]$name, "Apis")
   expect_equal(unique(res[[1]]$rank), "species")
 })

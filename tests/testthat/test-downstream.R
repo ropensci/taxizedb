@@ -1,15 +1,17 @@
 context("downstream")
 
 skip_on_cran()
+skip_on_cran()
 
-test_that("taxizedb::downstream matches taxize::downstream", {
+test_that("taxizedb::downstream matches taxize::downstream - NCBI", {
   arab_id <- name2taxid('Arabidopsis')
-  expect_gt(
-    NROW(taxize::downstream('Arabidopsis', db='ncbi', downto='species',
-      messages = FALSE)[[1]]),
-    NROW(taxizedb::downstream(arab_id, db='ncbi', downto='species')[[1]])
-  )
+  tax <- taxize::downstream('Arabidopsis', db='ncbi', downto='species',
+    messages = FALSE)[[1]]
+  taxdb <- taxizedb::downstream(arab_id, db='ncbi', downto='species')[[1]]
+  expect_gt(NROW(tax), NROW(taxdb))
+})
 
+test_that("taxizedb::downstream matches taxize::downstream - ITIS", {
   arab_id_itis <- name2taxid('Arabidopsis', db="itis")
   expect_equal(
     NROW(taxize::downstream('Arabidopsis', db='itis', downto='species',
