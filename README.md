@@ -10,15 +10,19 @@ taxizedb
 [![cran version](https://www.r-pkg.org/badges/version/taxizedb)](https://cran.r-project.org/package=taxizedb)
 [![DOI](https://zenodo.org/badge/53961466.svg)](https://zenodo.org/badge/latestdoi/53961466)
 
-`taxizedb` - Tools for Working with Taxonomic Databases on your Machine
+`taxizedb` - Tools for Working with Taxonomic Databases on your machine
+
+Docs: <https://ropensci.github.io/taxizedb/>
 
 [taxize](https://github.com/ropensci/taxize) is a heavily used taxonomic toolbelt
 package in R - However, it makes web requests for nearly all methods. That is fine
 for most cases, but when the user has many, many names it is much more efficient
 to do requests to a local SQL database.
 
+## Data sources
+
 Not all taxonomic databases are publicly available, or possible to mash into a SQLized
-version. Taxonomic DB's supported thus far:
+version. Taxonomic DB's supported:
 
 - NCBI: text files are provided by NCBI, which we stitch into a sqlite db
 - ITIS: they provide a sqlite dump, which we use here
@@ -31,26 +35,27 @@ version. Taxonomic DB's supported thus far:
  darwin core archive later
 - Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata. 
  On Zenodo, created by Joritt Poelen of GLOBI.
+- World Flora Online: http://www.worldfloraonline.org/
 
 Update schedule for databases:
 
 - NCBI: since `db_download_ncbi` creates the database when the function
- is called, it's updated whenever you run the function
+is called, it's updated whenever you run the function
 - ITIS: since ITIS provides the sqlite database as a download, you can
- delete the old file and run `db_download_itis` to get a new dump;
- they I think update the dumps every month or so
+delete the old file and run `db_download_itis` to get a new dump;
+they I think update the dumps every month or so
 - The PlantList: no longer updated, so you shouldn't need to download
- this after the first download
-- Catalogue of Life: we have a script that we run on a server once
- per month to stitch together the sqlite database from the DCA, so
- updated once per month, but we're not sure how frequently COL updates
- their DCA dumps
-- GBIF: we have a script that we run on a server once
- per month to stitch together the sqlite database from the DCA, so
- updated once per month, but we're not sure how frequently GBIF updates
- their DCA dumps
+this after the first download. hosted on Amazon S3
+- Catalogue of Life: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest COL data into a SQLite database thats hosted on
+Amazon S3
+- GBIF: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest GBIF data into a SQLite database thats hosted on
+Amazon S3
 - Wikidata: last updated April 6, 2018. Scripts are available to 
- update the data if you prefer to do it yourself.
+update the data if you prefer to do it yourself.
+- World Flora Online: since `db_download_wfo` creates the database when
+the function is called, it's updated whenever you run the function
 
  Links:
 
@@ -58,12 +63,15 @@ Update schedule for databases:
 - ITIS: https://www.itis.gov/downloads/index.html
 - The PlantList - http://www.theplantlist.org/
 - Catalogue of Life:
-   via http://www.catalogueoflife.org/content/annual-checklist-archive
+  - latest monthly edition via http://www.catalogueoflife.org/DCA_Export/archive.php
 - GBIF: http://rs.gbif.org/datasets/backbone/
 - Wikidata: https://zenodo.org/record/1213477
+- World Flora Online: http://www.worldfloraonline.org/
 
 Get in touch [in the issues](https://github.com/ropensci/taxizedb/issues) with
 any ideas on new data sources.
+
+## Package API
 
 This package for each data sources performs the following tasks:
 
