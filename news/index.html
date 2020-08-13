@@ -125,11 +125,31 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>NEW FEATURES</h2>
 <ul>
-<li>support for the NCBI taxonomy database added</li>
-<li>gains ports of <code>taxize</code> functions to <code>taxizedb</code> (NCBI &amp; ITIS supported): <code>children</code>, <code>classification</code>, <code>downstream</code>. beware when both <code>taxize</code> and <code>taxizedb</code> loaded in the same R session to namespace calls to these three functions.</li>
-<li>gains mapping functions: <code>name2taxid</code> (scientific or common name to taxonomy ID); <code>taxid2name</code> (taxonomy ID to scientific name); <code>taxid2rank</code> (taxonomy ID to rank)</li>
-<li>
+<li>gains 3 new data sources: NCBI taxonomy, World Flora Online, Wikidata (<a href='https://github.com/ropensci/taxizedb/issues/18'>#18</a>) (<a href='https://github.com/ropensci/taxizedb/issues/49'>#49</a>) (<a href='https://github.com/ropensci/taxizedb/issues/37'>#37</a>)</li>
+<li>gains ports of <code>taxize</code> functions to <code>taxizedb</code> (NCBI &amp; ITIS supported): <code>children</code>, <code>classification</code>, <code>downstream</code>. beware when both <code>taxize</code> and <code>taxizedb</code> loaded in the same R session to namespace calls to these three functions (<a href='https://github.com/ropensci/taxizedb/issues/19'>#19</a>) (<a href='https://github.com/ropensci/taxizedb/issues/25'>#25</a>) (<a href='https://github.com/ropensci/taxizedb/issues/44'>#44</a>) (<a href='https://github.com/ropensci/taxizedb/issues/48'>#48</a>)</li>
+<li>gains mapping functions: <code>name2taxid</code> (scientific or common name to taxonomy ID); <code>taxid2name</code> (taxonomy ID to scientific name); <code>taxid2rank</code> (taxonomy ID to rank) (<a href='https://github.com/ropensci/taxizedb/issues/41'>#41</a>) (<a href='https://github.com/ropensci/taxizedb/issues/42'>#42</a>)</li>
+<li>intro vignette added (<a href='https://github.com/ropensci/taxizedb/issues/17'>#17</a>)</li>
+<li>GBIF and COL data sources are not updated daily in the repos <a href="https://github.com/ropenscilabs/gbif-backbone-sql" class="uri">https://github.com/ropenscilabs/gbif-backbone-sql</a> and <a href="https://github.com/ropenscilabs/col-sql/" class="uri">https://github.com/ropenscilabs/col-sql/</a> via GithHub Actions. See those repos for details (<a href='https://github.com/ropensci/taxizedb/issues/26'>#26</a>)</li>
+<li>update package level manual file (<code>?taxizedb-package</code>) with details on each data source, their update schedules, and examples</li>
+<li>all data sources now use SQLite as the database storage engine. passwords/ports/usernames/etc are no longer needed! note that some <code>db_download*</code> functions download already created SQLite databases, whereas for other data sources the database is built locally on your machine from other data formats downloaded (see also <a href='https://github.com/ropensci/taxizedb/issues/36'>#36</a>, <a href='https://github.com/ropensci/taxizedb/issues/46'>#46</a>)</li>
+<li>a copy of the taxonomic ranks information from taxize package was ported over for internal use to be able to make <code><a href="../reference/downstream.html">downstream()</a></code> work for most data sources</li>
+</ul>
+</div>
+<div id="minor-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements" class="anchor"></a>MINOR IMPROVEMENTS</h2>
+<ul>
+<li>remove check for whether SQLite is installed (<a href='https://github.com/ropensci/taxizedb/issues/5'>#5</a> <a href='https://github.com/ropensci/taxizedb/issues/29'>#29</a>)</li>
+<li>all <code>src_*</code> functions now only have two paramters: <code>path</code> and <code>...</code>. where path by default figures out the path for you using the function <code><a href="../reference/db_path.html">db_path()</a></code>, and <code>...</code> allows the user to pass on parameters to <code><a href="https://dbi.r-dbi.org/reference/dbConnect.html">DBI::dbConnect</a></code>
 </li>
+</ul>
+</div>
+<div id="defunct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#defunct" class="anchor"></a>DEFUNCT</h2>
+<ul>
+<li>
+<code>db_load()</code> is now defunct. Now just use <code>db_download*</code> then <code>src*</code> for your data source (see also <a href='https://github.com/ropensci/taxizedb/issues/43'>#43</a>)</li>
 </ul>
 </div>
 </div>
