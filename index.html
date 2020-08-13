@@ -79,9 +79,13 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#taxizedb" class="anchor"></a>taxizedb</h1></div>
 
-<p><code>taxizedb</code> - Tools for Working with Taxonomic Databases on your Machine</p>
+<p><code>taxizedb</code> - Tools for Working with Taxonomic Databases on your machine</p>
+<p>Docs: <a href="https://ropensci.github.io/taxizedb/" class="uri">https://ropensci.github.io/taxizedb/</a></p>
 <p><a href="https://github.com/ropensci/taxize">taxize</a> is a heavily used taxonomic toolbelt package in R - However, it makes web requests for nearly all methods. That is fine for most cases, but when the user has many, many names it is much more efficient to do requests to a local SQL database.</p>
-<p>Not all taxonomic databases are publicly available, or possible to mash into a SQLized version. Taxonomic DB’s supported thus far:</p>
+<div id="data-sources" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-sources" class="anchor"></a>Data sources</h2>
+<p>Not all taxonomic databases are publicly available, or possible to mash into a SQLized version. Taxonomic DB’s supported:</p>
 <ul>
 <li>NCBI: text files are provided by NCBI, which we stitch into a sqlite db</li>
 <li>ITIS: they provide a sqlite dump, which we use here</li>
@@ -89,15 +93,18 @@
 <li>Catalogue of Life: created from Darwin Core Archive dump.</li>
 <li>GBIF: created from Darwin Core Archive dump. right now we only have the taxonomy table (called gbif), but will add the other tables in the darwin core archive later</li>
 <li>Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata. On Zenodo, created by Joritt Poelen of GLOBI.</li>
+<li>World Flora Online: <a href="http://www.worldfloraonline.org/" class="uri">http://www.worldfloraonline.org/</a>
+</li>
 </ul>
 <p>Update schedule for databases:</p>
 <ul>
 <li>NCBI: since <code>db_download_ncbi</code> creates the database when the function is called, it’s updated whenever you run the function</li>
 <li>ITIS: since ITIS provides the sqlite database as a download, you can delete the old file and run <code>db_download_itis</code> to get a new dump; they I think update the dumps every month or so</li>
-<li>The PlantList: no longer updated, so you shouldn’t need to download this after the first download</li>
-<li>Catalogue of Life: we have a script that we run on a server once per month to stitch together the sqlite database from the DCA, so updated once per month, but we’re not sure how frequently COL updates their DCA dumps</li>
-<li>GBIF: we have a script that we run on a server once per month to stitch together the sqlite database from the DCA, so updated once per month, but we’re not sure how frequently GBIF updates their DCA dumps</li>
+<li>The PlantList: no longer updated, so you shouldn’t need to download this after the first download. hosted on Amazon S3</li>
+<li>Catalogue of Life: a GitHub Actions job runs once a day at 00:00 UTC, building the lastest COL data into a SQLite database thats hosted on Amazon S3</li>
+<li>GBIF: a GitHub Actions job runs once a day at 00:00 UTC, building the lastest GBIF data into a SQLite database thats hosted on Amazon S3</li>
 <li>Wikidata: last updated April 6, 2018. Scripts are available to update the data if you prefer to do it yourself.</li>
+<li>World Flora Online: since <code>db_download_wfo</code> creates the database when the function is called, it’s updated whenever you run the function</li>
 </ul>
 <p>Links:</p>
 <ul>
@@ -107,14 +114,24 @@
 </li>
 <li>The PlantList - <a href="http://www.theplantlist.org/" class="uri">http://www.theplantlist.org/</a>
 </li>
-<li>Catalogue of Life: via <a href="http://www.catalogueoflife.org/content/annual-checklist-archive" class="uri">http://www.catalogueoflife.org/content/annual-checklist-archive</a>
+<li>Catalogue of Life:
+<ul>
+<li>latest monthly edition via <a href="http://www.catalogueoflife.org/DCA_Export/archive.php" class="uri">http://www.catalogueoflife.org/DCA_Export/archive.php</a>
+</li>
+</ul>
 </li>
 <li>GBIF: <a href="http://rs.gbif.org/datasets/backbone/" class="uri">http://rs.gbif.org/datasets/backbone/</a>
 </li>
 <li>Wikidata: <a href="https://zenodo.org/record/1213477" class="uri">https://zenodo.org/record/1213477</a>
 </li>
+<li>World Flora Online: <a href="http://www.worldfloraonline.org/" class="uri">http://www.worldfloraonline.org/</a>
+</li>
 </ul>
 <p>Get in touch <a href="https://github.com/ropensci/taxizedb/issues">in the issues</a> with any ideas on new data sources.</p>
+</div>
+<div id="package-api" class="section level2">
+<h2 class="hasAnchor">
+<a href="#package-api" class="anchor"></a>Package API</h2>
 <p>This package for each data sources performs the following tasks:</p>
 <ul>
 <li>Download database - <code>db_download_*</code>
@@ -124,6 +141,7 @@
 </ul>
 <p>All databases are SQLite.</p>
 <p>Using the src connection, use <code>dplyr</code>, etc. to do operations downstream. Or create your own database connection to the sqlite file.</p>
+</div>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>install</h2>
