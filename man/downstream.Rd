@@ -9,7 +9,8 @@ downstream(x, db = "ncbi", verbose = TRUE, ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search, one of ncbi or itis}
+\item{db}{(character) The database to search, one of ncbi, itis,
+gbif, col, or wfo}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -40,10 +41,22 @@ downstream(
 )
 
 # ITIS
-(id <- name2taxid('Aves', db = "itis"))
+id <- name2taxid('Aves', db = "itis")
 downstream(id, db = "itis", downto = "family")
 downstream(id, db = "itis", downto = "genus")
-(id <- name2taxid('Bombus', db = "itis"))
+id <- name2taxid('Bombus', db = "itis")
 downstream(id, db = "itis", downto = "species")
+
+# COL
+id <- name2taxid('Chordata', db = "col")
+downstream(id, db = "col", downto = "family")
+
+# GBIF
+id <- name2taxid('Pinaceae', db = "gbif")
+downstream(id, db = "gbif", downto = "genus")
+
+# World Flora Online
+id <- name2taxid('Pinaceae', db = "wfo")
+downstream(id, db = "wfo", downto = "species")
 }
 }

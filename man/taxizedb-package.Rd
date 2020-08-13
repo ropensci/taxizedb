@@ -17,12 +17,15 @@ All are using SQLite as the database
 \item The PlantList: created from stitching together csv files. this
 source is no longer updated as far as we can tell. they say they've
 moved focus to the World Flora Online
-\item Catalogue of Life: created from Darwin Core Archive dump.
+\item Catalogue of Life: created from Darwin Core Archive dump. Using the
+latest monthly edition via
+http://www.catalogueoflife.org/DCA_Export/archive.php
 \item GBIF: created from Darwin Core Archive dump. right now we only have
 the taxonomy table (called gbif), but will add the other tables in the
 darwin core archive later
 \item Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata.
 On Zenodo, created by Joritt Poelen of GLOBI.
+\item World Flora Online: http://www.worldfloraonline.org/
 }
 }
 
@@ -36,16 +39,16 @@ delete the old file and run \code{db_download_itis} to get a new dump;
 they I think update the dumps every month or so
 \item The PlantList: no longer updated, so you shouldn't need to download
 this after the first download
-\item Catalogue of Life: we have a script that we run on a server once
-per month to stitch together the sqlite database from the DCA, so
-updated once per month, but we're not sure how frequently COL updates
-their DCA dumps
-\item GBIF: we have a script that we run on a server once
-per month to stitch together the sqlite database from the DCA, so
-updated once per month, but we're not sure how frequently GBIF updates
-their DCA dumps
+\item Catalogue of Life: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest COL data into a SQLite database thats hosted on
+Amazon S3
+\item GBIF: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest COL data into a SQLite database thats hosted on
+Amazon S3
 \item Wikidata: last updated April 6, 2018. Scripts are available to
 update the data if you prefer to do it yourself.
+\item World Flora Online: since \code{db_download_wfo} creates the database when
+the function is called, it's updated whenever you run the function
 }
 }
 
@@ -59,6 +62,7 @@ update the data if you prefer to do it yourself.
 via http://www.catalogueoflife.org/content/annual-checklist-archive
 \item GBIF: http://rs.gbif.org/datasets/backbone/
 \item Wikidata: https://zenodo.org/record/1213477
+\item World Flora Online: http://www.worldfloraonline.org/
 }
 }
 
@@ -98,7 +102,7 @@ src <- src_tpl()
 tpl <- tbl(src, "tpl")
 filter(tpl, Family == "Pinaceae")
 
-# data source: catalogue of life
+# data source: Catalogue of Life
 ## download col datababase
 db_download_col()
 ## connec to the col database
@@ -121,6 +125,12 @@ db_download_wikidata()
 src <- src_wikidata()
 df <- tbl(src, "wikidata")
 filter(df, rank_id == "Q7432")
+
+# data source: World Flora Online
+db_download_wfo()
+src <- src_wfo()
+df <- tbl(src, "wfo")
+filter(df, taxonID == "wfo-0000000010")
 }
 }
 \keyword{package}

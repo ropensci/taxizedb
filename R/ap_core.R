@@ -35,7 +35,9 @@ ap_vector_dispatch <- function(x, db, cmd, verbose=TRUE, empty=character(0), ...
 }
 
 ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, ...){
-  result <- if(is.null(x) || length(x) == 0){
+  assert(db, "character")
+  assert(verbose, "logical")
+  result <- if(is.null(x) || length(x) == 0) {
     # For empty or NULL input, return empty list
     empty
   } else {
@@ -57,6 +59,14 @@ run_with_db <- function(FUN, db, ...) {
     src_ncbi(db_download_ncbi(verbose = FALSE))
   } else if (db == "itis") {
     src_itis(db_download_itis(verbose = FALSE))
+  } else if (db == "wfo") {
+    src_itis(db_download_wfo(verbose = FALSE))
+  } else if (db == "gbif") {
+    src_itis(db_download_gbif(verbose = FALSE))
+  } else if (db == "col") {
+    src_itis(db_download_col(verbose = FALSE))
+  } else if (db == "tpl") {
+    src_itis(db_download_tpl(verbose = FALSE))
   } else {
     stop("Database '", db, "' is not supported")
   }

@@ -4,7 +4,8 @@
 #'
 #' @export
 #' @param x (character) Vector of taxon keys for the given database
-#' @param db (character) The database to search, one of ncbi or itis
+#' @param db (character) The database to search, one of ncbi, itis, 
+#' gbif, col, or wfo
 #' @param verbose (logical) Print verbose messages
 #' @param ... Additional arguments passed to database specific downstream
 #' functions
@@ -26,17 +27,30 @@
 #' )
 #' 
 #' # ITIS
-#' (id <- name2taxid('Aves', db = "itis"))
+#' id <- name2taxid('Aves', db = "itis")
 #' downstream(id, db = "itis", downto = "family")
 #' downstream(id, db = "itis", downto = "genus")
-#' (id <- name2taxid('Bombus', db = "itis"))
+#' id <- name2taxid('Bombus', db = "itis")
 #' downstream(id, db = "itis", downto = "species")
+#' 
+#' # COL
+#' id <- name2taxid('Chordata', db = "col")
+#' downstream(id, db = "col", downto = "family")
+#' 
+#' # GBIF
+#' id <- name2taxid('Pinaceae', db = "gbif")
+#' downstream(id, db = "gbif", downto = "genus")
+#' 
+#' # World Flora Online
+#' id <- name2taxid('Pinaceae', db = "wfo")
+#' downstream(id, db = "wfo", downto = "species")
 #' }
 downstream <- function(x, db='ncbi', verbose=TRUE, ...){
   ap_dispatch(
     x       = x,
     db      = db,
     cmd     = 'downstream',
+    verbose = verbose,
     ...
   )
 }
@@ -94,20 +108,151 @@ itis_downstream <- function(src, x, ...){
     tmp$rank_name <- tolower(tmp$rank_name)
     stats::setNames(tmp, tolower(names(tmp)))
   }
-  missing = NA
   stats::setNames(lapply(x, FUN, src = src, ...), x)
 }
 
 tpl_downstream <- function(src, x, ...){
-  stop("The TPL database is currently not supported")
+  stop("The TPL database is not supported")
 }
 
 col_downstream <- function(src, x, ...){
-  stop("The COL database is currently not supported")
+  FUN <- function(x, src, downto = NULL, ...) {
+    if (taxid2rank(x, db = "col") == downto) return(data.frame(NULL))
+    downtoid <- txdb_which_rank(downto)
+    stop_ <- "not"
+    notout <- data.frame(rank = "")
+    out <- list()
+    iter <- 0
+    while (stop_ == "not") {
+      iter <- iter + 1
+      if (!all(tolower(notout$rank) == tolower(downto))) {
+        res <- children(x, db = "col")
+        if (any(vapply(res, function(z) NROW(z) > 0, logical(1)))) {
+          res <- Filter(function(z) NROW(z) > 0, res)
+          tt <- dplyr::bind_rows(res)
+        }
+      }
+      
+      tt_rank_ids <- txdb_which_rank_v(tt$rank)
+      if (NROW(tt[tt_rank_ids == downtoid, ]) > 0) {
+        out[[iter]] <- tt[tt_rank_ids == downtoid, ]
+      }
+
+      if (NROW(tt[!tt_rank_ids == downtoid, ]) > 0) {
+        notout <- tt[!tt_rank_ids %in% downtoid, ]
+      } else {
+        notout <- data.frame(rank = downto, stringsAsFactors = FALSE)
+      }
+
+      if (length(notout$rank) > 0) {
+        notout$rank <- tolower(notout$rank)
+      }
+      if (all(notout$rank == tolower(downto))) {
+        stop_ <- "fam"
+      } else {
+        x <- notout$id
+        stop_ <- "not"
+      }
+    }
+    tmp <- dplyr::bind_rows(out)
+    tmp$rank <- tolower(tmp$rank)
+    stats::setNames(tmp, tolower(names(tmp)))
+  }
+  stats::setNames(lapply(x, FUN, src = src, ...), x)
+}
+
+wfo_downstream <- function(src, x, ...){
+  FUN <- function(x, src, downto = NULL, ...) {
+    if (taxid2rank(x, db = "wfo") == downto) return(data.frame(NULL))
+    downtoid <- txdb_which_rank(downto)
+    stop_ <- "not"
+    notout <- data.frame(rank = "")
+    out <- list()
+    iter <- 0
+    while (stop_ == "not") {
+      iter <- iter + 1
+      if (!all(tolower(notout$rank) == tolower(downto))) {
+        res <- children(x, db = "wfo")
+        if (any(vapply(res, function(z) NROW(z) > 0, logical(1)))) {
+          res <- Filter(function(z) NROW(z) > 0, res)
+          tt <- dplyr::bind_rows(res)
+          tt <- txdb_prune_too_low(tt, downto)
+        }
+      }
+      
+      tt_rank_ids <- txdb_which_rank_v(tt$rank)
+      if (NROW(tt[tt_rank_ids == downtoid, ]) > 0) {
+        out[[iter]] <- tt[tt_rank_ids == downtoid, ]
+      }
+
+      if (NROW(tt[!tt_rank_ids == downtoid, ]) > 0) {
+        notout <- tt[!tt_rank_ids %in% downtoid, ]
+      } else {
+        notout <- data.frame(rank = downto, stringsAsFactors = FALSE)
+      }
+
+      if (length(notout$rank) > 0) {
+        notout$rank <- tolower(notout$rank)
+      }
+      if (all(notout$rank == tolower(downto))) {
+        stop_ <- "fam"
+      } else {
+        x <- notout$id
+        stop_ <- "not"
+      }
+    }
+    tmp <- dplyr::bind_rows(out)
+    tmp$rank <- tolower(tmp$rank)
+    stats::setNames(tmp, tolower(names(tmp)))
+  }
+  stats::setNames(lapply(x, FUN, src = src, ...), x)
 }
 
 gbif_downstream <- function(src, x, ...){
-  stop("The GBIF database is currently not supported")
+  FUN <- function(x, src, downto = NULL, ...) {
+    if (taxid2rank(x, db = "gbif") == downto) return(data.frame(NULL))
+    downtoid <- txdb_which_rank(downto)
+    stop_ <- "not"
+    notout <- data.frame(rank = "")
+    out <- list()
+    iter <- 0
+    while (stop_ == "not") {
+      iter <- iter + 1
+      if (!all(tolower(notout$rank) == tolower(downto))) {
+        res <- children(x, db = "gbif")
+        if (any(vapply(res, function(z) NROW(z) > 0, logical(1)))) {
+          res <- Filter(function(z) NROW(z) > 0, res)
+          tt <- dplyr::bind_rows(res)
+          tt <- txdb_prune_too_low(tt, downto)
+        }
+      }
+      
+      tt_rank_ids <- txdb_which_rank_v(tt$rank)
+      if (NROW(tt[tt_rank_ids == downtoid, ]) > 0) {
+        out[[iter]] <- tt[tt_rank_ids == downtoid, ]
+      }
+
+      if (NROW(tt[!tt_rank_ids == downtoid, ]) > 0) {
+        notout <- tt[!tt_rank_ids %in% downtoid, ]
+      } else {
+        notout <- data.frame(rank = downto, stringsAsFactors = FALSE)
+      }
+
+      if (length(notout$rank) > 0) {
+        notout$rank <- tolower(notout$rank)
+      }
+      if (all(notout$rank == tolower(downto))) {
+        stop_ <- "fam"
+      } else {
+        x <- notout$id
+        stop_ <- "not"
+      }
+    }
+    tmp <- dplyr::bind_rows(out)
+    tmp$rank <- tolower(tmp$rank)
+    stats::setNames(tmp, tolower(names(tmp)))
+  }
+  stats::setNames(lapply(x, FUN, src = src, ...), x)
 }
 
 ncbi_downstream <- function(src, x, ...){

@@ -9,7 +9,8 @@ name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid", "summary"), ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search, one of ncbi or itis}
+\item{db}{(character) The database to search, one of ncbi, itis, gbif,
+wfo, or tpl}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -43,6 +44,15 @@ name2taxid(c('Arabidopsis thaliana', 'pig'))
 name2taxid(c('Arabidopsis thaliana', 'pig'), out_type="summary")
 name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis")
 name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis",
-  out_type="summary")
+ out_type="summary")
+name2taxid(x=c('Arabidopsis thaliana', 'Quercus kelloggii'), db = "wfo")
+name2taxid(x=c('Arabidopsis thaliana', 'Quercus kelloggii'), db = "wfo",
+ out_type="summary")
+name2taxid("Austrobaileyaceae", db = "wfo")
+name2taxid("Quercus kelloggii", db = "gbif")
+name2taxid(c("Quercus", "Fabaceae", "Animalia"), db = "gbif")
+name2taxid(c("Abies", "Pinales", "Tracheophyta"), db = "col")
+name2taxid(c("Abies mangifica", "Acanthopale aethiogermanica",
+  "Acanthopale albosetulosa"), db = "tpl")
 }
 }

@@ -6,16 +6,20 @@
 #'
 #' @export
 #' @param x character) Vector of taxon keys for the given database
-#' @param db character) The database to search, one of ncbi or itis
+#' @param db character) The database to search, one of ncbi, itis,
+#' gbif, col, or wfo
 #' @param verbose (logical) Print verbose messages
 #' @param ... Additional arguments passed to database specific classification
 #' functions.
 #' @return list of data.frames with the columns: name, rank, and id. This is
 #' exactly equivalent to the output of `taxize::classification()`
-#' @examples
-#' \dontrun{
+#' @examples \dontrun{
 #' classification(c(3702, 9606))
-#' classification(x=c(154395, 154357), db="itis")
+#' classification(c(154395, 154357), db="itis")
+#' classification(c("wfo-0000291463", "wfo-7000000057"), db="wfo")
+#' classification(2878586, db="gbif")
+#' classification(c(2878586, 2704179), db="gbif")
+#' classification(3960765, db="col") # Abies
 #' }
 classification <- function(x, db='ncbi', verbose=TRUE, ...){
   ap_dispatch(
@@ -52,16 +56,106 @@ itis_classification <- function(src, x, ...){
   stats::setNames(lapply(x, FUN, src = src), x)
 }
 
+wfo_classification <- function(src, x, ...) {
+  FUN <- function(x, src, ...) {
+    cols <- "taxonID,taxonRank,scientificName,parentNameUsageID"
+    z <- sql_collect(src,
+      sprintf("select %s from wfo where taxonID = '%s'", cols, x))
+    if (NROW(z) == 0) return(data.frame(NULL))
+    if (is.na(z$parentNameUsageID)) return(data.frame(NULL))
+    out <- list(z)
+    i <- 1
+    not_done <- TRUE
+    while (not_done) {
+      i <- i + 1
+      parents_query <- sprintf(
+        "SELECT %s FROM wfo WHERE taxonID IN ('%s')", cols,
+        paste0(z$parentNameUsageID, collapse = "','"))
+      z <- sql_collect(src, parents_query)
+      out[[i]] <- z
+      if (is.na(z$parentNameUsageID)) not_done <- FALSE
+    }
+    df <- dplyr::bind_rows(out)
+    df$parentNameUsageID <- NULL
+    df$taxonRank <- tolower(df$taxonRank)
+    df <- dplyr::rename(df, id = 'taxonID', rank = 'taxonRank', name = 'scientificName')
+    df <- dplyr::select(df, name, rank, id)
+    data.frame(dplyr::arrange(df, desc(id)))
+  }
+  stats::setNames(lapply(x, FUN, src = src), x)
+}
+
 tpl_classification <- function(src, x, ...){
-  stop("The TPL database is currently not supported")
+  stop("The TPL database is not supported")
 }
 
 col_classification <- function(src, x, ...){
-  stop("The COL database is currently not supported")
+  FUN <- function(x, src, ...) {
+    cols <- "taxonID,taxonRank,scientificName,parentNameUsageID"
+    z <- sql_collect(src,
+      sprintf("select %s from taxa where taxonID = '%s'", cols, x))
+    if (NROW(z) == 0) return(data.frame(NULL))
+    if (is.na(z$parentNameUsageID)) return(data.frame(NULL))
+    out <- list(z)
+    i <- 1
+    not_done <- TRUE
+    while (not_done) {
+      i <- i + 1
+      parents_query <- sprintf(
+        "SELECT %s FROM taxa WHERE taxonID IN ('%s')", cols,
+        paste0(z$parentNameUsageID, collapse = "','"))
+      z <- sql_collect(src, parents_query)
+      out[[i]] <- z
+      if (is.na(z$parentNameUsageID) || !nzchar(z$parentNameUsageID))
+        not_done <- FALSE
+    }
+    # drop parentNameUsageID b/c sometimes conflicting classes cause 
+    # bind_rows to fail
+    out <- lapply(out, function(w) {
+      w$parentNameUsageID <- NULL
+      return(w)
+    })
+    df <- dplyr::bind_rows(out)
+    df$taxonRank <- tolower(df$taxonRank)
+    df <- dplyr::rename(df, id = 'taxonID', rank = 'taxonRank', name = 'scientificName')
+    df <- dplyr::select(df, name, rank, id)
+    df <- df[order(rev(row.names(df))),]
+    data.frame(df)
+  }
+  stats::setNames(lapply(x, FUN, src = src), x)
 }
 
-gbif_classification <- function(src, x, ...){
-  stop("The GBIF database is currently not supported")
+gbif_classification <- function(src, x, ...) {
+  FUN <- function(x, src, ...) {
+    cols <- "taxonID,taxonRank,scientificName,parentNameUsageID"
+    z <- sql_collect(src,
+      sprintf("select %s from gbif where taxonID = '%s'", cols, x))
+    if (NROW(z) == 0) return(data.frame(NULL))
+    if (is.na(z$parentNameUsageID)) return(data.frame(NULL))
+    out <- list(z)
+    i <- 1
+    not_done <- TRUE
+    while (not_done) {
+      i <- i + 1
+      parents_query <- sprintf(
+        "SELECT %s FROM gbif WHERE taxonID IN ('%s')", cols,
+        paste0(z$parentNameUsageID, collapse = "','"))
+      z <- sql_collect(src, parents_query)
+      out[[i]] <- z
+      if (NROW(z) == 0)
+        not_done <- FALSE
+      else
+        if (is.na(z$parentNameUsageID)) not_done <- FALSE
+    }
+    df <- dplyr::bind_rows(out)
+    df$parentNameUsageID <- NULL
+    df$taxonRank <- tolower(df$taxonRank)
+    df <- dplyr::rename(df, id = 'taxonID', rank = 'taxonRank', name = 'scientificName')
+    df <- dplyr::select(df, name, rank, id)
+    df <- df[order(rev(row.names(df))),]
+    data.frame(df)
+  }
+  stats::setNames(lapply(x, FUN, src = src), x)
 }
 
 ncbi_classification <- function(src, x, ...){

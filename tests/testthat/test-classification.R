@@ -116,3 +116,19 @@ test_that('classification handles mixed inputs', {
   )
   expect_equal(unname(which(is.na(lineage))), c(4,6,7))
 })
+
+test_that('classification fails well', {
+  # tpl not supported
+  expect_error(
+    classification("Poa annua", db = "tpl"),
+    "TPL database is not supported"
+  )
+  # abc does not exist
+  expect_error(
+    classification("Poa annua", db = "abc"),
+    "Database 'abc' is not supported"
+  )
+  # param types
+  expect_error(classification("Poa annua", db=5), "class character")
+  expect_error(classification("Poa annua", verbose = 5), "class logical")
+})

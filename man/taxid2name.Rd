@@ -9,7 +9,8 @@ taxid2name(x, db = "ncbi", verbose = TRUE, warn = TRUE, ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search, one of ncbi or itis}
+\item{db}{(character) The database to search, one of ncbi, itis, gbif,
+col, wfo, or tpl}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -29,5 +30,11 @@ Convert taxon IDs to scientific names
 \dontrun{
 taxid2name(c(3702, 9606))
 taxid2name(c(154395, 154357, 23041, 154396), db = "itis")
+taxid2name(c('wfo-0000541830', 'wfo-0000291463'), db = "wfo")
+taxid2name("wfo-7000000057", db="wfo")
+taxid2name(2877951, db="gbif")
+taxid2name(c(2877951, 5386), db="gbif")
+taxid2name(c(3960765, 3953606, 3953010), db="col")
+taxid2name(c("kew-2614538", "kew-2895433", "kew-2615007"), db="tpl")
 }
 }

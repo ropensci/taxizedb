@@ -9,16 +9,16 @@ children(x, db = "ncbi", verbose = TRUE, ...)
 \arguments{
 \item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{(character) The database to search, one of ncbi or itis}
+\item{db}{(character) The database to search, one of ncbi, itis, gbif,
+col, or wfo}
 
 \item{verbose}{(logical) Print verbose messages}
 
 \item{...}{Additional arguments passed to database specific function.}
 }
 \value{
-list of data.frames with the columns: childtaxa_id,  childtaxa_name,
-childtaxa_rank. This is exactly equivalent to the output of
-\code{taxize::children()}
+list of tibbles with the columns: id, name, rank. This is exactly
+equivalent to the output of \code{taxize::children()}
 }
 \description{
 Retrieve immediate descendents of a taxon
@@ -27,5 +27,8 @@ Retrieve immediate descendents of a taxon
 \dontrun{
 children(c(3700, 2))
 children(c(154395, 154357), db="itis")
+children("wfo-4000032377", db="wfo")
+children(2877951, db="gbif")
+children(3960765, db="col") # Abies
 }
 }

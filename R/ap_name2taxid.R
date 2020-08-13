@@ -17,7 +17,8 @@
 #'
 #' @export
 #' @param x (character) Vector of taxon keys for the given database
-#' @param db (character) The database to search, one of ncbi or itis
+#' @param db (character) The database to search, one of ncbi, itis, gbif,
+#' wfo, or tpl
 #' @param verbose (logical) Print verbose messages
 #' @param out_type (logical) character "uid" for an ID vector, "summary" for a
 #' table with columns 'tax_id' and 'tax_name'.
@@ -28,7 +29,16 @@
 #' name2taxid(c('Arabidopsis thaliana', 'pig'), out_type="summary")
 #' name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis")
 #' name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis",
-#'   out_type="summary")
+#'  out_type="summary")
+#' name2taxid(x=c('Arabidopsis thaliana', 'Quercus kelloggii'), db = "wfo")
+#' name2taxid(x=c('Arabidopsis thaliana', 'Quercus kelloggii'), db = "wfo",
+#'  out_type="summary")
+#' name2taxid("Austrobaileyaceae", db = "wfo")
+#' name2taxid("Quercus kelloggii", db = "gbif")
+#' name2taxid(c("Quercus", "Fabaceae", "Animalia"), db = "gbif")
+#' name2taxid(c("Abies", "Pinales", "Tracheophyta"), db = "col")
+#' name2taxid(c("Abies mangifica", "Acanthopale aethiogermanica",
+#'   "Acanthopale albosetulosa"), db = "tpl")
 #' }
 name2taxid <- function(x, db='ncbi', verbose=TRUE,
   out_type=c("uid", "summary"), ...) {
@@ -96,14 +106,34 @@ ncbi_name2taxid <- function(src, x, empty, ...){
   result
 }
 
+wfo_name2taxid <- function(src, x, empty, ...){
+  if (length(x) == 0) return(empty)
+  query <- "SELECT taxonID,scientificName FROM wfo WHERE scientificName IN ('%s')"
+  query <- sprintf(query, paste0(x, collapse = "','"))
+  result <- sql_collect(src, query)
+  dplyr::rename(result, id = "taxonID", name = "scientificName")
+}
+
 tpl_name2taxid <- function(src, x, empty, ...){
-  stop("The TPL database is currently not supported")
+  if (length(x) == 0) return(empty)
+  query <- "SELECT id,scientificname FROM tpl WHERE scientificname IN ('%s')"
+  query <- sprintf(query, paste0(x, collapse = "','"))
+  result <- sql_collect(src, query)
+  dplyr::rename(result, id = "id", name = "scientificname")
 }
 
 col_name2taxid <- function(src, x, empty, ...){
-  stop("The COL database is currently not supported")
+  if (length(x) == 0) return(empty)
+  query <- "SELECT taxonID,scientificName FROM taxa WHERE scientificName IN ('%s')"
+  query <- sprintf(query, paste0(x, collapse = "','"))
+  result <- sql_collect(src, query)
+  dplyr::rename(result, id = "taxonID", name = "scientificName")
 }
 
 gbif_name2taxid <- function(src, x, empty, ...){
-  stop("The GBIF database is currently not supported")
+  if (length(x) == 0) return(empty)
+  query <- "SELECT taxonID,canonicalName FROM gbif WHERE canonicalName IN ('%s')"
+  query <- sprintf(query, paste0(x, collapse = "','"))
+  result <- sql_collect(src, query)
+  dplyr::rename(result, id = "taxonID", name = "canonicalName")
 }

@@ -9,7 +9,8 @@ classification(x, db = "ncbi", verbose = TRUE, ...)
 \arguments{
 \item{x}{character) Vector of taxon keys for the given database}
 
-\item{db}{character) The database to search, one of ncbi or itis}
+\item{db}{character) The database to search, one of ncbi, itis,
+gbif, col, or wfo}
 
 \item{verbose}{(logical) Print verbose messages}
 
@@ -28,6 +29,10 @@ identical to \code{taxize::classification()}
 \examples{
 \dontrun{
 classification(c(3702, 9606))
-classification(x=c(154395, 154357), db="itis")
+classification(c(154395, 154357), db="itis")
+classification(c("wfo-0000291463", "wfo-7000000057"), db="wfo")
+classification(2878586, db="gbif")
+classification(c(2878586, 2704179), db="gbif")
+classification(3960765, db="col") # Abies
 }
 }
