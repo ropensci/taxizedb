@@ -71,17 +71,24 @@ the function is called, it's updated whenever you run the function
 Get in touch [in the issues](https://github.com/ropensci/taxizedb/issues) with
 any ideas on new data sources.
 
+All databases are SQLite.
+
 ## Package API
 
 This package for each data sources performs the following tasks:
 
-* Download database - `db_download_*`
-* Create `dplyr` SQL backend - `src_*`
+* Downloaded taxonomic databases `db_download_*`
+* Create `dplyr` SQL backend via `dbplyr::src_dbi` - `src_*` 
+* Query and get data back into a data.frame - `sql_collect`
+* Manage cached database files - `tdb_cache`
+* Retrieve immediate descendents of a taxon - `children`
+* Retrieve the taxonomic hierarchies from local database - `classification`
+* Retrieve all taxa descending from a vector of taxa - `downstream`
+* Convert species names to taxon IDs - `name2taxid`
+* Convert taxon IDs to species names - `taxid2name`
+* Convert taxon IDs to ranks - `taxid2rank`
 
-All databases are SQLite.
-
-Using the src connection, use `dplyr`, etc. to do operations downstream. Or create
-your own database connection to the sqlite file.
+You can use the `src` connections with `dplyr`, etc. to do operations downstream. Or use the database connection to do raw SQL queries.
 
 ## install
 
