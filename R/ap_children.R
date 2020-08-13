@@ -32,7 +32,7 @@ itis_children <- function(src, x, ...){
     tmp <- unique(dplyr::left_join(child_df, 
       dplyr::select(ranks, rank_id, rank_name), by = "rank_id"))
     tmp$rank_name <- tolower(tmp$rank_name)
-    tmp$rank_id <- NULL
+    # tmp$rank_id <- NULL
     tmp <- dplyr::rename(tmp, id = 'tsn', name = 'complete_name', rank = 'rank_name')
     return(tmp)
   }

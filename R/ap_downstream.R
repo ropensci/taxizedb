@@ -60,23 +60,23 @@ itis_downstream <- function(src, x, ...){
     if (taxid2rank(x, db = "itis") == downto) return(data.frame(NULL))
     downtoid <- itis_rankname2taxid(src, downto)
     stop_ <- "not"
-    notout <- data.frame(rank_name = "")
+    notout <- data.frame(rank = "")
     out <- list()
     iter <- 0
     while (stop_ == "not") {
       iter <- iter + 1
-      if (!nchar(as.character(notout$rank_name[[1]])) > 0) {
+      if (!nchar(as.character(notout$rank[[1]])) > 0) {
         temp <- children(as.character(x), db = "itis")[[1]]
       } else {
         temp <- notout
       }
       
       tt <- temp
-      if (!all(tolower(temp$rank_name) == tolower(downto))) {
+      if (!all(tolower(temp$rank) == tolower(downto))) {
         temp <- temp[temp$rank_id < downtoid, ]
         tt <- tt[tt$rank_id == downtoid, ]
         if (NROW(temp) > 0) {
-          res <- children(temp$tsn, db = "itis")
+          res <- children(temp$id, db = "itis")
           if (any(vapply(res, function(z) NROW(z) > 0, logical(1)))) {
             res <- Filter(function(z) NROW(z) > 0, res)
             tt <- dplyr::bind_rows(tt, dplyr::bind_rows(res))
@@ -91,21 +91,21 @@ itis_downstream <- function(src, x, ...){
       if (NROW(tt[!tt$rank_id == downtoid, ]) > 0) {
         notout <- tt[!tt$rank_id %in% downtoid, ]
       } else {
-        notout <- data.frame(rank_name = downto, stringsAsFactors = FALSE)
+        notout <- data.frame(rank = downto, stringsAsFactors = FALSE)
       }
 
-      if (length(notout$rank_name) > 0)
-        notout$rank_name <- tolower(notout$rank_name)
-      if (all(notout$rank_name == tolower(downto))) {
+      if (length(notout$rank) > 0)
+        notout$rank <- tolower(notout$rank)
+      if (all(notout$rank == tolower(downto))) {
         stop_ <- "fam"
       } else {
-        tsns <- notout$tsn
+        x <- notout$id
         stop_ <- "not"
       }
     }
     tmp <- dplyr::bind_rows(out)
     tmp$rank_id <- NULL
-    tmp$rank_name <- tolower(tmp$rank_name)
+    tmp$rank <- tolower(tmp$rank)
     stats::setNames(tmp, tolower(names(tmp)))
   }
   stats::setNames(lapply(x, FUN, src = src, ...), x)
