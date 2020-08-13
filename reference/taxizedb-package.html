@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.98</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -135,12 +135,15 @@
 <li><p>The PlantList: created from stitching together csv files. this
 source is no longer updated as far as we can tell. they say they've
 moved focus to the World Flora Online</p></li>
-<li><p>Catalogue of Life: created from Darwin Core Archive dump.</p></li>
+<li><p>Catalogue of Life: created from Darwin Core Archive dump. Using the
+latest monthly edition via
+http://www.catalogueoflife.org/DCA_Export/archive.php</p></li>
 <li><p>GBIF: created from Darwin Core Archive dump. right now we only have
 the taxonomy table (called gbif), but will add the other tables in the
 darwin core archive later</p></li>
 <li><p>Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata.
 On Zenodo, created by Joritt Poelen of GLOBI.</p></li>
+<li><p>World Flora Online: http://www.worldfloraonline.org/</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="update-schedule-for-databases"><a class="anchor" href="#update-schedule-for-databases"></a>Update schedule for databases</h2>
@@ -155,16 +158,16 @@ delete the old file and run <code>db_download_itis</code> to get a new dump;
 they I think update the dumps every month or so</p></li>
 <li><p>The PlantList: no longer updated, so you shouldn't need to download
 this after the first download</p></li>
-<li><p>Catalogue of Life: we have a script that we run on a server once
-per month to stitch together the sqlite database from the DCA, so
-updated once per month, but we're not sure how frequently COL updates
-their DCA dumps</p></li>
-<li><p>GBIF: we have a script that we run on a server once
-per month to stitch together the sqlite database from the DCA, so
-updated once per month, but we're not sure how frequently GBIF updates
-their DCA dumps</p></li>
+<li><p>Catalogue of Life: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest COL data into a SQLite database thats hosted on
+Amazon S3</p></li>
+<li><p>GBIF: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest COL data into a SQLite database thats hosted on
+Amazon S3</p></li>
 <li><p>Wikidata: last updated April 6, 2018. Scripts are available to
 update the data if you prefer to do it yourself.</p></li>
+<li><p>World Flora Online: since <code>db_download_wfo</code> creates the database when
+the function is called, it's updated whenever you run the function</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="links"><a class="anchor" href="#links"></a>Links</h2>
@@ -179,6 +182,7 @@ update the data if you prefer to do it yourself.</p></li>
 via http://www.catalogueoflife.org/content/annual-checklist-archive</p></li>
 <li><p>GBIF: http://rs.gbif.org/datasets/backbone/</p></li>
 <li><p>Wikidata: https://zenodo.org/record/1213477</p></li>
+<li><p>World Flora Online: http://www.worldfloraonline.org/</p></li>
 </ul>
 
 
@@ -218,7 +222,7 @@ via http://www.catalogueoflife.org/content/annual-checklist-archive</p></li>
 <span class='no'>tpl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"tpl"</span>)
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>tpl</span>, <span class='no'>Family</span> <span class='kw'>==</span> <span class='st'>"Pinaceae"</span>)
 
-<span class='co'># data source: catalogue of life</span>
+<span class='co'># data source: Catalogue of Life</span>
 <span class='co'>## download col datababase</span>
 <span class='fu'><a href='db_download.html'>db_download_col</a></span>()
 <span class='co'>## connec to the col database</span>
@@ -241,6 +245,12 @@ via http://www.catalogueoflife.org/content/annual-checklist-archive</p></li>
 <span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_wikidata</a></span>()
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"wikidata"</span>)
 <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>df</span>, <span class='no'>rank_id</span> <span class='kw'>==</span> <span class='st'>"Q7432"</span>)
+
+<span class='co'># data source: World Flora Online</span>
+<span class='fu'><a href='db_download.html'>db_download_wfo</a></span>()
+<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_wfo</a></span>()
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"wfo"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>df</span>, <span class='no'>taxonID</span> <span class='kw'>==</span> <span class='st'>"wfo-0000000010"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

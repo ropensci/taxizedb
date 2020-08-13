@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.98</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -134,7 +134,8 @@
     </tr>
     <tr>
       <th>db</th>
-      <td><p>(character) The database to search, one of ncbi or itis</p></td>
+      <td><p>(character) The database to search, one of ncbi, itis,
+gbif, col, or wfo</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -169,11 +170,23 @@ and rank. This is exactly equivalent to the output of <code><a href='https://doc
 )
 
 <span class='co'># ITIS</span>
-(<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Aves'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>))
+<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Aves'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>)
 <span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"family"</span>)
 <span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"genus"</span>)
-(<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Bombus'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>))
+<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Bombus'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>)
 <span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"species"</span>)
+
+<span class='co'># COL</span>
+<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Chordata'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"col"</span>)
+<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"col"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"family"</span>)
+
+<span class='co'># GBIF</span>
+<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Pinaceae'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"gbif"</span>)
+<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"gbif"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"genus"</span>)
+
+<span class='co'># World Flora Online</span>
+<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Pinaceae'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>)
+<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"species"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

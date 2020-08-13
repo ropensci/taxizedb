@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.98</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -134,7 +134,8 @@
     </tr>
     <tr>
       <th>db</th>
-      <td><p>(character) The database to search, one of ncbi or itis</p></td>
+      <td><p>(character) The database to search, one of ncbi, itis, gbif,
+col, wfo, or tpl</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -160,6 +161,12 @@ functions</p></td>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>taxid2name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3702</span>, <span class='fl'>9606</span>))
 <span class='fu'>taxid2name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>154395</span>, <span class='fl'>154357</span>, <span class='fl'>23041</span>, <span class='fl'>154396</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>)
+<span class='fu'>taxid2name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'wfo-0000541830'</span>, <span class='st'>'wfo-0000291463'</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>)
+<span class='fu'>taxid2name</span>(<span class='st'>"wfo-7000000057"</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"wfo"</span>)
+<span class='fu'>taxid2name</span>(<span class='fl'>2877951</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"gbif"</span>)
+<span class='fu'>taxid2name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2877951</span>, <span class='fl'>5386</span>), <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"gbif"</span>)
+<span class='fu'>taxid2name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3960765</span>, <span class='fl'>3953606</span>, <span class='fl'>3953010</span>), <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"col"</span>)
+<span class='fu'>taxid2name</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kew-2614538"</span>, <span class='st'>"kew-2895433"</span>, <span class='st'>"kew-2615007"</span>), <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"tpl"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

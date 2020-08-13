@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.98</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -125,25 +125,10 @@
 <h2 class="hasAnchor">
 <a href="#new-features" class="anchor"></a>NEW FEATURES</h2>
 <ul>
-<li><p>Support for the NCBI taxonomy database</p></li>
+<li>support for the NCBI taxonomy database added</li>
+<li>gains ports of <code>taxize</code> functions to <code>taxizedb</code> (NCBI &amp; ITIS supported): <code>children</code>, <code>classification</code>, <code>downstream</code>. beware when both <code>taxize</code> and <code>taxizedb</code> loaded in the same R session to namespace calls to these three functions.</li>
+<li>gains mapping functions: <code>name2taxid</code> (scientific or common name to taxonomy ID); <code>taxid2name</code> (taxonomy ID to scientific name); <code>taxid2rank</code> (taxonomy ID to rank)</li>
 <li>
-<p>Ports of <code>taxize</code> functions to <code>taxizedb</code> (only NCBI supported)</p>
-<ul>
-<li>`children’</li>
-<li>`classification’</li>
-<li>`downstream’</li>
-</ul>
-</li>
-<li>
-<p>Mapping functions</p>
-<ul>
-<li>
-<code>name2taxid</code> - scientific or common name to taxonomy ID</li>
-<li>
-<code>taxid2name</code> - taxonomy ID to scientific name</li>
-<li>
-<code>taxid2rank</code> - taxonomy ID to rank</li>
-</ul>
 </li>
 </ul>
 </div>

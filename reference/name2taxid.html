@@ -73,7 +73,7 @@ names. name2taxid_map() returns a data.frame mapping names to ids" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.98</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -136,7 +136,8 @@ names. <code>name2taxid_map()</code> returns a data.frame mapping names to ids</
     </tr>
     <tr>
       <th>db</th>
-      <td><p>(character) The database to search, one of ncbi or itis</p></td>
+      <td><p>(character) The database to search, one of ncbi, itis, gbif,
+wfo, or tpl</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -175,7 +176,16 @@ underscores with spaces ONLY if there are not spaces in the original name.</p>
 <span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'pig'</span>), <span class='kw'>out_type</span><span class='kw'>=</span><span class='st'>"summary"</span>)
 <span class='fu'>name2taxid</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Apis mellifera'</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>)
 <span class='fu'>name2taxid</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Apis mellifera'</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>,
-  <span class='kw'>out_type</span><span class='kw'>=</span><span class='st'>"summary"</span>)
+ <span class='kw'>out_type</span><span class='kw'>=</span><span class='st'>"summary"</span>)
+<span class='fu'>name2taxid</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Quercus kelloggii'</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>)
+<span class='fu'>name2taxid</span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Quercus kelloggii'</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>,
+ <span class='kw'>out_type</span><span class='kw'>=</span><span class='st'>"summary"</span>)
+<span class='fu'>name2taxid</span>(<span class='st'>"Austrobaileyaceae"</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>)
+<span class='fu'>name2taxid</span>(<span class='st'>"Quercus kelloggii"</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"gbif"</span>)
+<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Quercus"</span>, <span class='st'>"Fabaceae"</span>, <span class='st'>"Animalia"</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"gbif"</span>)
+<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Abies"</span>, <span class='st'>"Pinales"</span>, <span class='st'>"Tracheophyta"</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"col"</span>)
+<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Abies mangifica"</span>, <span class='st'>"Acanthopale aethiogermanica"</span>,
+  <span class='st'>"Acanthopale albosetulosa"</span>), <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"tpl"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

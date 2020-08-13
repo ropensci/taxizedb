@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9.98</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -134,7 +134,8 @@
     </tr>
     <tr>
       <th>db</th>
-      <td><p>(character) The database to search, one of ncbi or itis</p></td>
+      <td><p>(character) The database to search, one of ncbi, itis, gbif,
+col, or wfo</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -148,14 +149,16 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of data.frames with the columns: childtaxa_id,  childtaxa_name,
-childtaxa_rank. This is exactly equivalent to the output of
-<code><a href='https://docs.ropensci.org/taxize/reference/children.html'>taxize::children()</a></code></p>
+    <p>list of tibbles with the columns: id, name, rank. This is exactly
+equivalent to the output of <code><a href='https://docs.ropensci.org/taxize/reference/children.html'>taxize::children()</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>children</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3700</span>, <span class='fl'>2</span>))
 <span class='fu'>children</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>154395</span>, <span class='fl'>154357</span>), <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"itis"</span>)
+<span class='fu'>children</span>(<span class='st'>"wfo-4000032377"</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"wfo"</span>)
+<span class='fu'>children</span>(<span class='fl'>2877951</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"gbif"</span>)
+<span class='fu'>children</span>(<span class='fl'>3960765</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"col"</span>) <span class='co'># Abies</span>
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
