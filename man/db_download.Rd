@@ -5,6 +5,7 @@
 \alias{db_download_ncbi}
 \alias{db_download_itis}
 \alias{db_download_tpl}
+\alias{db_download_wfo}
 \alias{db_download_col}
 \alias{db_download_gbif}
 \alias{db_download_wikidata}
@@ -15,6 +16,8 @@ db_download_ncbi(verbose = TRUE)
 db_download_itis(verbose = TRUE)
 
 db_download_tpl(verbose = TRUE)
+
+db_download_wfo(verbose = TRUE)
 
 db_download_col(verbose = TRUE)
 
@@ -60,6 +63,10 @@ to sql file
 # Wikidata
 # db_download_wikidata()
 # src_wikidata()
+
+# World Flora Online
+# db_download_wfo()
+# src_wfo()
 }
 }
 \seealso{

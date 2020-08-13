@@ -8,6 +8,7 @@
 \alias{src_gbif}
 \alias{src_ncbi}
 \alias{src_wikidata}
+\alias{src_wfo}
 \title{src - dplyr src objects}
 \usage{
 src_itis(path = db_path("itis"), ...)
@@ -21,6 +22,8 @@ src_gbif(path = db_path("gbif"), ...)
 src_ncbi(path = db_path("ncbi"), ...)
 
 src_wikidata(path = db_path("wikidata"), ...)
+
+src_wfo(path = db_path("wfo"), ...)
 }
 \arguments{
 \item{path}{(character) path to SQLite database. by default
@@ -42,5 +45,6 @@ src - dplyr src objects
 # src_gbif()
 # src_ncbi()
 # src_wikidata()
+# src_wfo()
 }
 }

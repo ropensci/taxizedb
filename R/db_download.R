@@ -31,6 +31,10 @@
 #' # Wikidata
 #' # db_download_wikidata()
 #' # src_wikidata()
+#' 
+#' # World Flora Online
+#' # db_download_wfo()
+#' # src_wfo()
 #' }
 
 #' @export
@@ -261,6 +265,89 @@ db_download_tpl <- function(verbose = TRUE) {
   utils::unzip(db_path, exdir = db_path_file)
   # move database
   file.rename(file.path(db_path_file, "plantlist.sqlite"), final_file)
+  # cleanup
+  mssg(verbose, 'cleaning up...')
+  unlink(db_path)
+  unlink(db_path_file, recursive = TRUE)
+  # return path
+  return(final_file)
+}
+
+#' @export
+#' @rdname db_download
+db_download_wfo <- function(verbose = TRUE) {
+  db_url <- "http://104.198.143.165/files/WFO_Backbone/_WFOCompleteBackbone/WFO_Backbone.zip" #nolint
+  db_path <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone.zip')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone')
+  class_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone/classification.txt')
+  final_file <- file.path(tdb_cache$cache_path_get(), 'wfo.sqlite')
+
+  if (file.exists(final_file)) {
+    mssg(verbose, "Database already exists, returning old file")
+    return(final_file)
+  }
+
+  # make home dir if not already present
+  tdb_cache$mkdir()
+  
+  # download data
+  mssg(verbose, 'downloading...')
+  curl::curl_download(db_url, db_path, quiet = TRUE)
+  
+  # unzip
+  mssg(verbose, 'unzipping...')
+  utils::unzip(db_path, exdir = db_path_file)
+  
+  # create sqlite db
+  taxa_txt <- suppressWarnings(readr::read_tsv(class_file, progress = FALSE))
+  taxa_txt <- dplyr::rename(taxa_txt, referencez = references)
+
+  mssg(verbose, 'building SQLite database...')
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname=final_file)
+
+  # Create table
+  RSQLite::dbExecute(conn=db, "
+    CREATE TABLE wfo (
+      taxonID TEXT,
+      scientificNameID TEXT,
+      scientificName TEXT,
+      taxonRank TEXT,
+      parentNameUsageID TEXT,
+      scientificNameAuthorship TEXT,
+      family TEXT,
+      genus TEXT,
+      specificEpithet TEXT,
+      infraspecificEpithet TEXT,
+      verbatimTaxonRank TEXT,
+      nomenclaturalStatus TEXT,
+      namePublishedIn TEXT,
+      taxonomicStatus TEXT,
+      acceptedNameUsageID TEXT,
+      nameAccordingToID TEXT,
+      created TEXT,
+      modified TEXT,
+      referencez TEXT
+    )
+    "
+  )
+
+  # Load tables
+  RSQLite::dbWriteTable(
+    conn   = db,
+    name   = 'wfo',
+    value  = as.data.frame(taxa_txt),
+    append = TRUE
+  )
+
+  # Create indices on taxonID columns
+  RSQLite::dbExecute(db,
+    'CREATE INDEX taxonID_index ON wfo (taxonID)'
+  )
+  RSQLite::dbExecute(db,
+    'CREATE INDEX scientificName_index ON wfo (scientificName)'
+  )
+  RSQLite::dbDisconnect(db)
+
   # cleanup
   mssg(verbose, 'cleaning up...')
   unlink(db_path)

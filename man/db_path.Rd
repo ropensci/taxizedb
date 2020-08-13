@@ -8,7 +8,7 @@ db_path(db)
 }
 \arguments{
 \item{db}{(character) db name. one of: itis, tpl, col, gbif,
-ncbi, wikidata. required}
+ncbi, wikidata, wfo. required}
 }
 \description{
 database path

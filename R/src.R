@@ -12,6 +12,7 @@
 #' # src_gbif()
 #' # src_ncbi()
 #' # src_wikidata()
+#' # src_wfo()
 #' }
 
 #' @export
@@ -57,6 +58,14 @@ src_ncbi <- function(path = db_path("ncbi"), ...) {
 #' @export
 #' @rdname src_taxizedb
 src_wikidata <- function(path = db_path("wikidata"), ...) {
+  stopifnot(file.exists(path))
+  con <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = path, ...)
+  dbplyr::src_dbi(con, auto_disconnect=TRUE)
+}
+
+#' @export
+#' @rdname src_taxizedb
+src_wfo <- function(path = db_path("wfo"), ...) {
   stopifnot(file.exists(path))
   con <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = path, ...)
   dbplyr::src_dbi(con, auto_disconnect=TRUE)
