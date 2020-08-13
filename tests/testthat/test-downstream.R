@@ -1,9 +1,9 @@
 context("downstream")
 
 skip_on_cran()
-skip_on_cran()
 
 test_that("taxizedb::downstream matches taxize::downstream - NCBI", {
+  skip_on_ci()
   arab_id <- name2taxid('Arabidopsis')
   tax <- taxize::downstream('Arabidopsis', db='ncbi', downto='species',
     messages = FALSE)[[1]]
