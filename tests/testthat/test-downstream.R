@@ -12,6 +12,7 @@ test_that("taxizedb::downstream matches taxize::downstream - NCBI", {
 })
 
 test_that("taxizedb::downstream matches taxize::downstream - ITIS", {
+  skip_on_ci()
   arab_id_itis <- name2taxid('Arabidopsis', db="itis")
   expect_equal(
     NROW(taxize::downstream('Arabidopsis', db='itis', downto='species',
