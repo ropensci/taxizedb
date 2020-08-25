@@ -1,3 +1,11 @@
+taxizedb 0.2.2
+==============
+
+## BUG FIXES
+
+* fix failing tests (#50)
+
+
 taxizedb 0.2.0
 ==============
 

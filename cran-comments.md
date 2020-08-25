@@ -14,7 +14,7 @@ There are no reverse dependencies.
 
 ---
 
-This version fixes many bugs and adds additional data sources.
+This version fixes some failing tests on CRAN.
 
 Thanks!
 Scott Chamberlain

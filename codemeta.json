@@ -10,14 +10,13 @@
   "codeRepository": "https://github.com/ropensci/taxizedb",
   "issueTracker": "https://github.com/ropensci/taxizedb/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.1.9.9100",
+  "version": "0.2.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
-    "version": "3.6.1",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 3.6.1 Patched (2019-07-17 r76848)",
+  "runtimePlatform": "R version 4.0.2 Patched (2020-06-30 r78761)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -48,19 +47,6 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
-      "identifier": "roxygen2",
-      "name": "roxygen2",
-      "version": ">= 6.0.1",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=roxygen2"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "testthat",
       "name": "testthat",
       "provider": {
@@ -82,6 +68,30 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=taxize"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "rmarkdown",
+      "name": "rmarkdown",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=rmarkdown"
     }
   ],
   "softwareRequirements": [
@@ -151,18 +161,6 @@
     },
     {
       "@type": "SoftwareApplication",
-      "identifier": "tidyr",
-      "name": "tidyr",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=tidyr"
-    },
-    {
-      "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
       "provider": {
@@ -226,12 +224,21 @@
       "sameAs": "https://CRAN.R-project.org/package=hoardr"
     }
   ],
-  "contIntegration": "https://travis-ci.org/ropensci/taxizedb",
+  "contIntegration": ["https://circleci.com/gh/ropensci/taxizedb", "https://codecov.io/gh/ropensci/taxizedb"],
   "releaseNotes": "https://github.com/ropensci/taxizedb/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/taxizedb/blob/master/README.md",
-  "fileSize": "28.071KB",
+  "fileSize": "0KB",
   "contributor": {},
   "copyrightHolder": {},
   "funder": {},
-  "keywords": ["taxonomy", "taxonomic-databases", "itis", "rstats", "taxize", "r", "r-package"]
+  "keywords": [
+    "taxonomy",
+    "taxonomic-databases",
+    "itis",
+    "rstats",
+    "taxize",
+    "r",
+    "r-package"
+  ],
+  "relatedLink": "https://ropensci.github.io/taxizedb/"
 }
