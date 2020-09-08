@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Retrieve the taxonomic hierarchies from local database — classification • taxizedb</title>
+<title>Get taxa at specific scientific ranks — taxa_at • taxizedb</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Retrieve the taxonomic hierarchies from local database — classification" />
-<meta property="og:description" content="This function is equivalent to the taxize::classification() function,
-except that it uses a local database (so is much faster). The output is
-identical to taxize::classification()" />
+<meta property="og:title" content="Get taxa at specific scientific ranks — taxa_at" />
+<meta property="og:description" content="Get taxa at specific scientific ranks" />
 
 
 
@@ -116,55 +114,80 @@ identical to taxize::classification()" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Retrieve the taxonomic hierarchies from local database</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ropensci/taxizedb/blob/master/R/ap_classification.R'><code>R/ap_classification.R</code></a></small>
-    <div class="hidden name"><code>classification.Rd</code></div>
+    <h1>Get taxa at specific scientific ranks</h1>
+    <small class="dont-index">Source: <a href='https://github.com/ropensci/taxizedb/blob/master/R/taxa_at.R'><code>R/taxa_at.R</code></a></small>
+    <div class="hidden name"><code>taxa_at.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function is equivalent to the <code><a href='https://docs.ropensci.org/taxize/reference/classification.html'>taxize::classification()</a></code> function,
-except that it uses a local database (so is much faster). The output is
-identical to <code><a href='https://docs.ropensci.org/taxize/reference/classification.html'>taxize::classification()</a></code></p>
+    <p>Get taxa at specific scientific ranks</p>
     </div>
 
-    <pre class="usage"><span class='fu'>classification</span>(<span class='kw'>x</span>, db = <span class='st'>"ncbi"</span>, verbose = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>taxa_at</span>(
+  <span class='kw'>x</span>,
+  <span class='kw'>rank</span>,
+  db = <span class='st'>"ncbi"</span>,
+  missing = <span class='st'>"lower"</span>,
+  verbose = <span class='fl'>TRUE</span>,
+  warn = <span class='fl'>TRUE</span>,
+  <span class='kw'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>character) Vector of taxon keys for the given database</p></td>
+      <td><p>(character) Vector of taxon keys (ids) for the given
+database. required</p></td>
+    </tr>
+    <tr>
+      <th>rank</th>
+      <td><p>(character) A target rank for which to fetch data. required</p></td>
     </tr>
     <tr>
       <th>db</th>
-      <td><p>character) The database to search, one of ncbi, itis,
-gbif, col, or wfo</p></td>
+      <td><p>(character) The database to search, one of ncbi, itis, gbif,
+col, or wfo</p></td>
+    </tr>
+    <tr>
+      <th>missing</th>
+      <td><p>(character) if no data found at the given rank and input key,
+should we get the next closest lower than that given in <code>rank</code>, or higher.
+one of lower (default), higher.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
       <td><p>(logical) Print verbose messages</p></td>
     </tr>
     <tr>
+      <th>warn</th>
+      <td><p>(logical) If <code>TRUE</code>, raise a warning if any taxon IDs can not
+be found</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>Additional arguments passed to database specific classification
-functions.</p></td>
+functions</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of data.frames with the columns: name, rank, and id. This is
-exactly equivalent to the output of <code><a href='https://docs.ropensci.org/taxize/reference/classification.html'>taxize::classification()</a></code></p>
+    <p>list of data.frame's for each input taxon key, where each data.frame
+has fields: name, rank, id. When no results found, an empty data.frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>classification</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3702</span>, <span class='fl'>9606</span>))
-<span class='fu'>classification</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>154395</span>, <span class='fl'>154357</span>), db=<span class='st'>"itis"</span>)
-<span class='fu'>classification</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wfo-0000291463"</span>, <span class='st'>"wfo-7000000057"</span>), db=<span class='st'>"wfo"</span>)
-<span class='fu'>classification</span>(<span class='fl'>2878586</span>, db=<span class='st'>"gbif"</span>)
-<span class='fu'>classification</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2878586</span>, <span class='fl'>2704179</span>), db=<span class='st'>"gbif"</span>)
-<span class='fu'>classification</span>(<span class='fl'>3960765</span>, db=<span class='st'>"col"</span>) <span class='co'># Abies</span>
+<span class='fu'>taxa_at</span>(<span class='fl'>186803</span>, rank = <span class='st'>"order"</span>, db=<span class='st'>"ncbi"</span>, missing = <span class='st'>"lower"</span>)
+<span class='fu'>taxa_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>186803</span>, <span class='fl'>541000</span>, <span class='fl'>216572</span>, <span class='fl'>186804</span>, <span class='fl'>31979</span>,  <span class='fl'>186806</span>),
+ rank = <span class='st'>"family"</span>, missing = <span class='st'>"lower"</span>)
+<span class='fu'>taxa_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>154395</span>, <span class='fl'>154357</span>, <span class='fl'>23041</span>, <span class='fl'>154396</span>), rank = <span class='st'>"family"</span>, db=<span class='st'>"itis"</span>)
+<span class='fu'>taxa_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'wfo-4000032377'</span>, <span class='st'>'wfo-0000541830'</span>), rank = <span class='st'>"family"</span>, db=<span class='st'>"wfo"</span>)
+<span class='fu'>taxa_at</span>(<span class='st'>"wfo-7000000057"</span>, rank = <span class='st'>"order"</span>, db=<span class='st'>"wfo"</span>)
+<span class='fu'>taxa_at</span>(<span class='fl'>2877951</span>, rank = <span class='st'>"phylum"</span>, db=<span class='st'>"gbif"</span>)
+<span class='fu'>taxa_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2877951</span>, <span class='fl'>5386</span>), rank = <span class='st'>"family"</span>, db=<span class='st'>"gbif"</span>)
+<span class='fu'>taxa_at</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3960765</span>, <span class='fl'>3953606</span>, <span class='fl'>3953010</span>), rank = <span class='st'>"family"</span>, db=<span class='st'>"col"</span>)
 }
 </div></pre>
   </div>

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.93</span>
       </span>
     </div>
 
@@ -123,7 +123,7 @@
     <p>This function is nearly equivalent to the <code><a href='https://docs.ropensci.org/taxize/reference/downstream.html'>taxize::downstream()</a></code> function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>downstream</span>(<span class='no'>x</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"ncbi"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>downstream</span>(<span class='kw'>x</span>, db = <span class='st'>"ncbi"</span>, verbose = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -154,40 +154,41 @@ functions</p></td>
 and rank. This is exactly equivalent to the output of <code><a href='https://docs.ropensci.org/taxize/reference/downstream.html'>taxize::downstream()</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># get descendents from all ranks</span>
 <span class='co'># downstream(c(3700, 9605)) # takes a while</span>
 
 <span class='co'># limit results to species</span>
-<span class='fu'>downstream</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3700</span>, <span class='fl'>9605</span>), <span class='kw'>downto</span><span class='kw'>=</span><span class='st'>'species'</span>)
+<span class='fu'>downstream</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3700</span>, <span class='fl'>9605</span>), downto=<span class='st'>'species'</span>)
 
 <span class='co'># allow ambiguous nodes but no ambiguous species</span>
 <span class='fu'>downstream</span>(
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3700</span>, <span class='fl'>9605</span>),
-  <span class='kw'>downto</span><span class='kw'>=</span><span class='st'>'species'</span>,
-  <span class='kw'>ambiguous_nodes</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
-  <span class='kw'>ambiguous_species</span><span class='kw'>=</span><span class='fl'>TRUE</span>
+  downto=<span class='st'>'species'</span>,
+  ambiguous_nodes=<span class='fl'>FALSE</span>,
+  ambiguous_species=<span class='fl'>TRUE</span>
 )
 
 <span class='co'># ITIS</span>
-<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Aves'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>)
-<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"family"</span>)
-<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"genus"</span>)
-<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Bombus'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>)
-<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"itis"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"species"</span>)
+<span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Aves'</span>, db = <span class='st'>"itis"</span>)
+<span class='fu'>downstream</span>(<span class='kw'>id</span>, db = <span class='st'>"itis"</span>, downto = <span class='st'>"family"</span>)
+<span class='fu'>downstream</span>(<span class='kw'>id</span>, db = <span class='st'>"itis"</span>, downto = <span class='st'>"genus"</span>)
+<span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Bombus'</span>, db = <span class='st'>"itis"</span>)
+<span class='fu'>downstream</span>(<span class='kw'>id</span>, db = <span class='st'>"itis"</span>, downto = <span class='st'>"species"</span>)
 
 <span class='co'># COL</span>
-<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Chordata'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"col"</span>)
-<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"col"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"family"</span>)
+<span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Chordata'</span>, db = <span class='st'>"col"</span>)
+<span class='fu'>downstream</span>(<span class='kw'>id</span>, db = <span class='st'>"col"</span>, downto = <span class='st'>"family"</span>)
 
 <span class='co'># GBIF</span>
-<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Pinaceae'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"gbif"</span>)
-<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"gbif"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"genus"</span>)
+<span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Pinaceae'</span>, db = <span class='st'>"gbif"</span>)
+<span class='fu'>downstream</span>(<span class='kw'>id</span>, db = <span class='st'>"gbif"</span>, downto = <span class='st'>"genus"</span>)
 
 <span class='co'># World Flora Online</span>
-<span class='no'>id</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Pinaceae'</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>)
-<span class='fu'>downstream</span>(<span class='no'>id</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"wfo"</span>, <span class='kw'>downto</span> <span class='kw'>=</span> <span class='st'>"species"</span>)
-}</div></pre>
+<span class='kw'>id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='name2taxid.html'>name2taxid</a></span>(<span class='st'>'Pinaceae'</span>, db = <span class='st'>"wfo"</span>)
+<span class='fu'>downstream</span>(<span class='kw'>id</span>, db = <span class='st'>"wfo"</span>, downto = <span class='st'>"species"</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -203,7 +204,7 @@ and rank. This is exactly equivalent to the output of <code><a href='https://doc
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

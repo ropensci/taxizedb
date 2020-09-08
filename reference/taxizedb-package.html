@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.93</span>
       </span>
     </div>
 
@@ -187,71 +187,72 @@ via http://www.catalogueoflife.org/content/annual-checklist-archive</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
 
 <span class='co'># data source: NCBI</span>
 <span class='fu'><a href='db_download.html'>db_download_ncbi</a></span>()
-<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_ncbi</a></span>()
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"names"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>df</span>, <span class='no'>name_class</span> <span class='kw'>==</span> <span class='st'>"scientific name"</span>)
+<span class='kw'>src</span> <span class='op'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_ncbi</a></span>()
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='kw'>src</span>, <span class='st'>"names"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>df</span>, <span class='kw'>name_class</span> <span class='op'>==</span> <span class='st'>"scientific name"</span>)
 
 <span class='co'># data source: ITIS</span>
 <span class='co'>## download ITIS database</span>
 <span class='fu'><a href='db_download.html'>db_download_itis</a></span>()
 <span class='co'>## connect to the ITIS database</span>
-<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_itis</a></span>()
+<span class='kw'>src</span> <span class='op'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_itis</a></span>()
 <span class='co'>## use SQL syntax</span>
-<span class='fu'><a href='sql_collect.html'>sql_collect</a></span>(<span class='no'>src</span>, <span class='st'>"select * from hierarchy limit 5"</span>)
+<span class='fu'><a href='sql_collect.html'>sql_collect</a></span>(<span class='kw'>src</span>, <span class='st'>"select * from hierarchy limit 5"</span>)
 <span class='co'>### or pipe the src to sql_collect</span>
-<span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='sql_collect.html'>sql_collect</a></span>(<span class='st'>"select * from hierarchy limit 5"</span>)
+<span class='kw'>src</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='sql_collect.html'>sql_collect</a></span>(<span class='st'>"select * from hierarchy limit 5"</span>)
 <span class='co'>## use dplyr verbs</span>
-<span class='no'>src</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='st'>"hierarchy"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>ChildrenCount</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)
+<span class='kw'>src</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='st'>"hierarchy"</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>ChildrenCount</span> <span class='op'>&gt;</span> <span class='fl'>1000</span>)
 <span class='co'>## or create tbl object for repeated use</span>
-<span class='no'>hiers</span> <span class='kw'>&lt;-</span> <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='st'>"hierarchy"</span>)
-<span class='no'>hiers</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>TSN</span>, <span class='no'>level</span>)
+<span class='kw'>hiers</span> <span class='op'>&lt;-</span> <span class='kw'>src</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='st'>"hierarchy"</span>)
+<span class='kw'>hiers</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>TSN</span>, <span class='kw'>level</span>)
 
 <span class='co'># data source: The PlantList</span>
 <span class='co'>## download tpl datababase</span>
 <span class='fu'><a href='db_download.html'>db_download_tpl</a></span>()
 <span class='co'>## connecto the tpl database</span>
-<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_tpl</a></span>()
+<span class='kw'>src</span> <span class='op'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_tpl</a></span>()
 <span class='co'>## do queries</span>
-<span class='no'>tpl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"tpl"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>tpl</span>, <span class='no'>Family</span> <span class='kw'>==</span> <span class='st'>"Pinaceae"</span>)
+<span class='kw'>tpl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='kw'>src</span>, <span class='st'>"tpl"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>tpl</span>, <span class='kw'>Family</span> <span class='op'>==</span> <span class='st'>"Pinaceae"</span>)
 
 <span class='co'># data source: Catalogue of Life</span>
 <span class='co'>## download col datababase</span>
 <span class='fu'><a href='db_download.html'>db_download_col</a></span>()
 <span class='co'>## connec to the col database</span>
-<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_col</a></span>()
+<span class='kw'>src</span> <span class='op'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_col</a></span>()
 <span class='co'>## do queries</span>
-<span class='no'>names</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"taxa"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>names</span>, <span class='no'>taxonID</span>, <span class='no'>scientificName</span>)
+<span class='kw'>names</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='kw'>src</span>, <span class='st'>"taxa"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>names</span>, <span class='kw'>taxonID</span>, <span class='kw'>scientificName</span>)
 
 <span class='co'># data source: GBIF</span>
 <span class='co'>## download gbif datababase</span>
 <span class='fu'><a href='db_download.html'>db_download_gbif</a></span>()
 <span class='co'>## connecto the gbif database</span>
-<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_gbif</a></span>()
+<span class='kw'>src</span> <span class='op'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_gbif</a></span>()
 <span class='co'>## do queries</span>
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"gbif"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>df</span>, <span class='no'>taxonID</span>, <span class='no'>scientificName</span>)
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='kw'>src</span>, <span class='st'>"gbif"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>df</span>, <span class='kw'>taxonID</span>, <span class='kw'>scientificName</span>)
 
 <span class='co'># data source: Wikidata</span>
 <span class='fu'><a href='db_download.html'>db_download_wikidata</a></span>()
-<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_wikidata</a></span>()
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"wikidata"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>df</span>, <span class='no'>rank_id</span> <span class='kw'>==</span> <span class='st'>"Q7432"</span>)
+<span class='kw'>src</span> <span class='op'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_wikidata</a></span>()
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='kw'>src</span>, <span class='st'>"wikidata"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>df</span>, <span class='kw'>rank_id</span> <span class='op'>==</span> <span class='st'>"Q7432"</span>)
 
 <span class='co'># data source: World Flora Online</span>
 <span class='fu'><a href='db_download.html'>db_download_wfo</a></span>()
-<span class='no'>src</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_wfo</a></span>()
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='no'>src</span>, <span class='st'>"wfo"</span>)
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>df</span>, <span class='no'>taxonID</span> <span class='kw'>==</span> <span class='st'>"wfo-0000000010"</span>)
-}</div></pre>
+<span class='kw'>src</span> <span class='op'>&lt;-</span> <span class='fu'><a href='src_taxizedb.html'>src_wfo</a></span>()
+<span class='kw'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/tbl.html'>tbl</a></span>(<span class='kw'>src</span>, <span class='st'>"wfo"</span>)
+<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>df</span>, <span class='kw'>taxonID</span> <span class='op'>==</span> <span class='st'>"wfo-0000000010"</span>)
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -267,7 +268,7 @@ via http://www.catalogueoflife.org/content/annual-checklist-archive</p></li>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

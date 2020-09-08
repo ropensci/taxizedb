@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.93</span>
       </span>
     </div>
 
@@ -123,7 +123,7 @@
     <p>Retrieve immediate descendents of a taxon</p>
     </div>
 
-    <pre class="usage"><span class='fu'>children</span>(<span class='no'>x</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"ncbi"</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>children</span>(<span class='kw'>x</span>, db = <span class='st'>"ncbi"</span>, verbose = <span class='fl'>TRUE</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,13 +153,14 @@ col, or wfo</p></td>
 equivalent to the output of <code><a href='https://docs.ropensci.org/taxize/reference/children.html'>taxize::children()</a></code></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>children</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3700</span>, <span class='fl'>2</span>))
-<span class='fu'>children</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>154395</span>, <span class='fl'>154357</span>), <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"itis"</span>)
-<span class='fu'>children</span>(<span class='st'>"wfo-4000032377"</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"wfo"</span>)
-<span class='fu'>children</span>(<span class='fl'>2877951</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"gbif"</span>)
-<span class='fu'>children</span>(<span class='fl'>3960765</span>, <span class='kw'>db</span><span class='kw'>=</span><span class='st'>"col"</span>) <span class='co'># Abies</span>
-}</div></pre>
+<span class='fu'>children</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>154395</span>, <span class='fl'>154357</span>), db=<span class='st'>"itis"</span>)
+<span class='fu'>children</span>(<span class='st'>"wfo-4000032377"</span>, db=<span class='st'>"wfo"</span>)
+<span class='fu'>children</span>(<span class='fl'>2877951</span>, db=<span class='st'>"gbif"</span>)
+<span class='fu'>children</span>(<span class='fl'>3960765</span>, db=<span class='st'>"col"</span>) <span class='co'># Abies</span>
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -175,7 +176,7 @@ equivalent to the output of <code><a href='https://docs.ropensci.org/taxize/refe
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
