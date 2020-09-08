@@ -47,23 +47,22 @@ taxa_at <- function(x, rank, db='ncbi', missing = "lower", verbose=TRUE,
 }
 
 ncbi_taxa_at <- function(src, x, rank, missing, ...) {
-  FUN <- function(x, src, ...) {
-    if (length(x) == 0) return(data.frame(NULL))
-    clz <- classification(x, db=src2db(src))[[1]]
-    if (!is.data.frame(clz)) return(data.frame(NULL))
-    df <- clz[rank == clz$rank, ]
+  tmp <- classification(x, db = src2db(src))
+  FUN <- function(w, src, ...) {
+    if (!is.data.frame(w)) return(data.frame(NULL))
+    df <- w[rank == w$rank, ]
     if (NROW(df) == 1) return(df)
     if (NROW(df) == 0) {
       rowid <- txdb_which_rank(rank)
       if (missing == "lower") rks <- txdb_rr[(rowid+1):NROW(txdb_rr),"ranks"]
       if (missing == "higher") rks <- txdb_rr[1:(rowid-1),"ranks"]
       # find next closest rank
-      mtchs <- rks[rks %in% clz$rank]
+      mtchs <- rks[rks %in% w$rank]
       if (length(mtchs) == 0) return(data.frame(NULL))
-      return(clz[clz$rank == mtchs[1],])
+      return(w[w$rank == mtchs[1],])
     }
   }
-  stats::setNames(lapply(x, FUN, src = src), x)
+  stats::setNames(lapply(tmp, FUN, src = src), x)
 }
 gbif_taxa_at <- itis_taxa_at <- wfo_taxa_at <-
   col_taxa_at <- ncbi_taxa_at
