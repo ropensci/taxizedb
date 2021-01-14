@@ -383,6 +383,7 @@ db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
     mssg(verbose, "Database already exists, returning old file")
     return(db_path)
   }
+  unlink(db_path, force = TRUE)
 
   tdb_cache$mkdir()
   mssg(verbose, 'downloading...')
@@ -411,6 +412,7 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
     mssg(verbose, "Database already exists, returning old file")
     return(db_path)
   }
+  unlink(db_path, force = TRUE)
 
   tdb_cache$mkdir()
   mssg(verbose, 'downloading...')
@@ -438,6 +440,7 @@ db_download_wikidata <- function(verbose = TRUE) {
     mssg(verbose, "Database already exists, returning old file")
     return(final_file)
   }
+  unlink(final_file, force = TRUE)
 
   tdb_cache$mkdir()
 
