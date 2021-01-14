@@ -6,6 +6,9 @@
 .github
 ^cran-comments\.md$
 ^codemeta\.json$
-&docker-compose\.yml$
+^docker-compose\.yml$
 ^.circleci$
-
+docker-compose.yml
+notes-wikidata.txt
+^Makefile$
+^docs$

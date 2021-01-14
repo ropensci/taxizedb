@@ -1,7 +1,8 @@
 ### Internal utilities
 
 # convert a vector to a comma separated string list suitable for SQL, e.g.
-# c("Arabidopsis", "Peridermium sp. 'Ysgr-4'") -> "'Arabidopsis', 'Peridermium sp. ''Ysgr-4'''"
+# c("Arabidopsis", "Peridermium sp. 'Ysgr-4'") -> "'Arabidopsis',
+# 'Peridermium sp. ''Ysgr-4'''"
 # Note that double quoting is the SQL convention for escaping quotes in strings
 sql_character_list <- function(x){
   if(any(is.na(x))){
@@ -34,7 +35,9 @@ ap_vector_dispatch <- function(x, db, cmd, verbose=TRUE, empty=character(0), ...
 }
 
 ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, ...){
-  result <- if(is.null(x) || length(x) == 0){
+  assert(db, "character")
+  assert(verbose, "logical")
+  result <- if(is.null(x) || length(x) == 0) {
     # For empty or NULL input, return empty list
     empty
   } else {
@@ -51,16 +54,26 @@ ap_dispatch <- function(x, db, cmd, out_class=cmd, empty=list(), verbose=TRUE, .
   result 
 }
 
-run_with_db <- function(FUN, db, ...){
-  src <- if(db == 'ncbi'){
-    src_ncbi(db_download_ncbi(verbose=FALSE))
+run_with_db <- function(FUN, db, ...) {
+  src <- if(db == 'ncbi') {
+    src_ncbi(db_download_ncbi(verbose = FALSE))
+  } else if (db == "itis") {
+    src_itis(db_download_itis(verbose = FALSE))
+  } else if (db == "wfo") {
+    src_itis(db_download_wfo(verbose = FALSE))
+  } else if (db == "gbif") {
+    src_itis(db_download_gbif(verbose = FALSE))
+  } else if (db == "col") {
+    src_itis(db_download_col(verbose = FALSE))
+  } else if (db == "tpl") {
+    src_itis(db_download_tpl(verbose = FALSE))
   } else {
     stop("Database '", db, "' is not supported")
   }
   FUN(src, ...)
 }
 
-ncbi_apply <- function(src, x, FUN, missing=NA, ...){
+ncbi_apply <- function(src, x, FUN, missing=NA, die_if_ambiguous=TRUE, ...){
   # preserve original names (this is important when x is a name vector)
   namemap <- x
   names(namemap) <- x
@@ -68,6 +81,27 @@ ncbi_apply <- function(src, x, FUN, missing=NA, ...){
   is_named <- !(grepl('^[0-9]+$', x, perl=TRUE) | is.na(x))
   # If x is not integrel, then we assume it is a name.
   if(any(is_named)){
+
+    # This is not a pretty solution, since it makes an unnecessary call to the database
+    if(die_if_ambiguous){
+      # get a table mapping names to taxa
+      d <- name2taxid(x[is_named], db='ncbi', out_type="summary")
+      # find duplicated elements (ambiguous taxa)
+      dups <- unique(d$name[duplicated(d$name)])
+      # die if there are any
+      if(length(dups) > 0){
+        msg <- "The following taxa map to multiple taxonomy ids: "
+        msg <- dplyr::group_by(d, .data$name) %>%
+          dplyr::filter(length(.data$name) > 1) %>%
+          dplyr::summarize(taxids = paste(.data$tax_id, collapse="|")) %>% {
+            paste("    ", .$name, " - ", .$taxids, collapse="\n")
+          } %>%
+          paste(msg, ., sep="\n")
+        stop(msg)
+      }
+    }
+
+    # get a table mapping names to taxa
     x[is_named] <- name2taxid(x[is_named], db='ncbi')
     names(namemap)[is_named] <- x[is_named]
   }

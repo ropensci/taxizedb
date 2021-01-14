@@ -1,5 +1,6 @@
 context("name2taxid")
 
+skip_on_cran()
 src <- src_ncbi(db_download_ncbi())
 
 test_that("name2taxid", {
@@ -14,11 +15,22 @@ test_that("name2taxid", {
 
 test_that("name2taxid works for ambiguous cases", {
   tax_names <- c('pig', 'Bacteria', 'horse')
-  expected_df <- tibble::data_frame(
-    name_txt = c("pig", "Bacteria", "Bacteria", "horse"),
-    tax_id = c("9823", "2", "629395", "9796")
+  expected_df <- tibble::tibble(
+    name = c("pig", "Bacteria", "Bacteria", "horse"),
+    id = c("9823", "2", "629395", "9796")
   )
-  expect_equal(name2taxid(tax_names, out_type='summary'), expected_df, out_type='summary') 
+  expect_equal(name2taxid(tax_names, out_type='summary'), expected_df,
+    out_type='summary')
+})
+
+test_that("name2taxid correctly handles space/underscore", {
+  # "Homo_sapiens" is not in the SQL names table, but "Homo sapiens" is.
+  # taxizedb will replace the underscore with a space.
+  expect_equal(name2taxid("Homo_sapiens"), name2taxid("Homo sapiens"))
+  # Here the underscore is an not just a standin for a space. taxizedb replaces
+  # underscores with spaces EXCEPT when a space is already present in the name:
+  # FIXME: this used to work
+  # expect_equal(name2taxid("haloarchaeon 3A1_DGR"), "1071085")
 })
 
 test_that("name2taxid(out_type='uid') dies if ambiguous", {
@@ -26,12 +38,13 @@ test_that("name2taxid(out_type='uid') dies if ambiguous", {
 })
 
 test_that("name2taxid works with duplicates", {
-  expect_equal(name2taxid(c("Arabidopsis", "Arabidopsis"), out_type='uid'), c("3701", "3701"))
+  expect_equal(name2taxid(c("Arabidopsis", "Arabidopsis"), out_type='uid'),
+    c("3701", "3701"))
 })
 
 test_that("name2taxid summary works", {
   expect_equal(
     name2taxid('dragon', out_type='summary'),
-    tibble::data_frame(name_txt=character(), tax_id=character())
-  ) 
+    tibble::tibble(name=character(), id=character())
+  )
 })

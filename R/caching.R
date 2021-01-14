@@ -11,16 +11,15 @@
 #' type call
 #'
 #' @section Useful user functions:
-#' \itemize{
-#'  \item `tdb_cache$cache_path_get()` get cache path
-#'  \item `tdb_cache$cache_path_set()` set cache path
-#'  \item `tdb_cache$list()` returns a character vector of full
-#'  path file names
-#'  \item `tdb_cache$files()` returns file objects with metadata
-#'  \item `tdb_cache$details()` returns files with details
-#'  \item `tdb_cache$delete()` delete specific files
-#'  \item `tdb_cache$delete_all()` delete all files, returns nothing
-#' }
+#' 
+#' - `tdb_cache$cache_path_get()` get cache path
+#' - `tdb_cache$cache_path_set()` set cache path
+#' - `tdb_cache$list()` returns a character vector of full
+#'    path file names
+#' - `tdb_cache$files()` returns file objects with metadata
+#' - `tdb_cache$details()` returns files with details
+#' - `tdb_cache$delete()` delete specific files
+#' - `tdb_cache$delete_all()` delete all files, returns nothing
 #'
 #' @examples \dontrun{
 #' tdb_cache

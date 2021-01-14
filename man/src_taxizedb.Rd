@@ -7,30 +7,29 @@
 \alias{src_col}
 \alias{src_gbif}
 \alias{src_ncbi}
+\alias{src_wikidata}
+\alias{src_wfo}
 \title{src - dplyr src objects}
 \usage{
-src_itis(user, password, dbname = "ITIS", ...)
+src_itis(path = db_path("itis"), ...)
 
-src_tpl(user, password, dbname = "plantlist", ...)
+src_tpl(path = db_path("tpl"), ...)
 
-src_col(user = "root", password = NULL, dbname = "col", ...)
+src_col(path = db_path("col"), ...)
 
-src_gbif(path)
+src_gbif(path = db_path("gbif"), ...)
 
-src_ncbi(path)
+src_ncbi(path = db_path("ncbi"), ...)
+
+src_wikidata(path = db_path("wikidata"), ...)
+
+src_wfo(path = db_path("wfo"), ...)
 }
 \arguments{
-\item{user}{(character) user name}
-
-\item{password}{(character) password}
-
-\item{dbname}{(character) database name. Defaults: ITIS, col, and
-plantlistdb for ITIS, COL, and ThePlantlist, respectively. GBIF uses
-SQLite so doesn't have a database name}
+\item{path}{(character) path to SQLite database. by default
+we use the function \code{\link[=db_path]{db_path()}} to get the path}
 
 \item{...}{Further args passed on to \code{\link[DBI:dbConnect]{DBI::dbConnect()}}}
-
-\item{path}{(character) path to SQLite database}
 }
 \value{
 an src object
@@ -45,5 +44,7 @@ src - dplyr src objects
 # src_col()
 # src_gbif()
 # src_ncbi()
+# src_wikidata()
+# src_wfo()
 }
 }

@@ -5,32 +5,34 @@ Description: Tools for working with 'taxonomic' databases, including
     utilities for downloading databases, loading them into various
     'SQL' databases, cleaning up files, and providing a 'SQL' connection
     that can be used to do 'SQL' queries directly or used in 'dplyr'.
-Version: 0.1.7.9621
+Version: 0.2.3.91
 Authors@R: c(
-    person("Scott", "Chamberlain", email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
+    person("Scott", "Chamberlain",
+        email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
     person("Zebulun", "Arendsee", role = "aut")
     )
-URL: https://github.com/ropensci/taxizedb
+URL: https://ropensci.github.io/taxizedb/, https://github.com/ropensci/taxizedb
 BugReports: https://github.com/ropensci/taxizedb/issues
 License: MIT + file LICENSE
 LazyData: TRUE
 Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
+Language: en-US
 Imports:
     curl (>= 2.4),
     DBI (>= 0.6-1),
-    RPostgreSQL (>= 0.4.1),
-    RMySQL (>= 0.10.11),
     RSQLite (>= 1.1.2),
     dplyr (>= 0.7.0),
     tibble,
-    tidyr,
     rlang,
     readr (>= 1.1.1),
     dbplyr (>= 1.0.0),
     magrittr (>= 1.5),
     hoardr (>= 0.1.0)
 Suggests:
-    roxygen2 (>= 6.0.1),
     testthat,
-    taxize
-RoxygenNote: 6.0.1
+    taxize,
+    knitr,
+    rmarkdown
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr

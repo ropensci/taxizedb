@@ -3,35 +3,93 @@ taxizedb
 
 
 
-[![Build Status](https://travis-ci.org/ropensci/taxizedb.svg?branch=master)](https://travis-ci.org/ropensci/taxizedb)
+[![cran checks](https://cranchecks.info/badges/worst/taxizedb)](https://cranchecks.info/pkgs/taxizedb)
+[![R-check](https://github.com/ropensci/taxizedb/workflows/R-check/badge.svg)](https://github.com/ropensci/taxizedb/actions?query=workflow%3AR-check)
+[![CircleCI](https://circleci.com/gh/ropensci/taxizedb.svg?style=svg)](https://circleci.com/gh/ropensci/taxizedb)
 [![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/taxizedb)
-[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/r-hub/cranlogs.app)
 [![cran version](https://www.r-pkg.org/badges/version/taxizedb)](https://cran.r-project.org/package=taxizedb)
 [![DOI](https://zenodo.org/badge/53961466.svg)](https://zenodo.org/badge/latestdoi/53961466)
 
-`taxizedb` - Tools for Working with Taxonomic Databases on your Machine
+`taxizedb` - Tools for Working with Taxonomic Databases on your machine
+
+Docs: <https://ropensci.github.io/taxizedb/>
 
 [taxize](https://github.com/ropensci/taxize) is a heavily used taxonomic toolbelt
 package in R - However, it makes web requests for nearly all methods. That is fine
 for most cases, but when the user has many, many names it is much more efficient
 to do requests to a local SQL database.
 
-Not all taxonomic databases are publicly available, or possible to mash into a SQLized
-version. Taxonomic DB's supported thus far:
+## Data sources
 
-* ITIS - they provide a SQL dump
-* COL - they provide a SQL dump
-* Theplantlist - we make a SQL database from CSV files they provide
-* GBIF taxonomic backbone - we make a SQL database from darwin core archive
+Not all taxonomic databases are publicly available, or possible to mash into a SQLized
+version. Taxonomic DB's supported:
+
+- NCBI: text files are provided by NCBI, which we stitch into a sqlite db
+- ITIS: they provide a sqlite dump, which we use here
+- The PlantList: created from stitching together csv files. this
+ source is no longer updated as far as we can tell. they say they've
+ moved focus to the World Flora Online
+- Catalogue of Life: created from Darwin Core Archive dump.
+- GBIF: created from Darwin Core Archive dump. right now we only have
+ the taxonomy table (called gbif), but will add the other tables in the
+ darwin core archive later
+- Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata. 
+ On Zenodo, created by Joritt Poelen of GLOBI.
+- World Flora Online: http://www.worldfloraonline.org/
+
+Update schedule for databases:
+
+- NCBI: since `db_download_ncbi` creates the database when the function
+is called, it's updated whenever you run the function
+- ITIS: since ITIS provides the sqlite database as a download, you can
+delete the old file and run `db_download_itis` to get a new dump;
+they I think update the dumps every month or so
+- The PlantList: no longer updated, so you shouldn't need to download
+this after the first download. hosted on Amazon S3
+- Catalogue of Life: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest COL data into a SQLite database thats hosted on
+Amazon S3
+- GBIF: a GitHub Actions job runs once a day at 00:00 UTC,
+building the lastest GBIF data into a SQLite database thats hosted on
+Amazon S3
+- Wikidata: last updated April 6, 2018. Scripts are available to 
+update the data if you prefer to do it yourself.
+- World Flora Online: since `db_download_wfo` creates the database when
+the function is called, it's updated whenever you run the function
+
+ Links:
+
+- NCBI: ftp://ftp.ncbi.nih.gov/pub/taxonomy/
+- ITIS: https://www.itis.gov/downloads/index.html
+- The PlantList - http://www.theplantlist.org/
+- Catalogue of Life:
+  - latest monthly edition via http://www.catalogueoflife.org/DCA_Export/archive.php
+- GBIF: http://rs.gbif.org/datasets/backbone/
+- Wikidata: https://zenodo.org/record/1213477
+- World Flora Online: http://www.worldfloraonline.org/
 
 Get in touch [in the issues](https://github.com/ropensci/taxizedb/issues) with
 any ideas on new data sources.
 
+All databases are SQLite.
+
+## Package API
+
 This package for each data sources performs the following tasks:
 
-* Download database - `db_download_*`
-* Load database into SQL - `db_load_*`
-* Create `dplyr` SQL backend - `src_*`
+* Downloaded taxonomic databases `db_download_*`
+* Create `dplyr` SQL backend via `dbplyr::src_dbi` - `src_*` 
+* Query and get data back into a data.frame - `sql_collect`
+* Manage cached database files - `tdb_cache`
+* Retrieve immediate descendents of a taxon - `children`
+* Retrieve the taxonomic hierarchies from local database - `classification`
+* Retrieve all taxa descending from a vector of taxa - `downstream`
+* Convert species names to taxon IDs - `name2taxid`
+* Convert taxon IDs to species names - `taxid2name`
+* Convert taxon IDs to ranks - `taxid2rank`
+
+You can use the `src` connections with `dplyr`, etc. to do operations downstream. Or use the database connection to do raw SQL queries.
 
 ## install
 
@@ -46,296 +104,7 @@ dev version
 
 
 ```r
-devtools::install_github("ropensci/taxizedb")
-```
-
-
-```r
-library("taxizedb")
-library("dplyr")
-```
-
-## start your SQL DBs
-
-Remember to start your PostgreSQL database for ITIS and ThePlantList and your MySQL database for COL
-
-## Download and load DBs
-
-ITIS
-
-
-```r
-x <- db_download_itis()
-db_load_itis(x)
-```
-
-The Plant List (TPL)
-
-
-```r
-x <- db_download_tpl()
-db_load_tpl(x)
-```
-
-Catalogue of Life (COL)
-
-
-```r
-x <- db_download_col()
-db_load_col(x)
-```
-
-## connect to the DBs
-
-ITIS
-
-
-```r
-src <- src_itis(user = "<user name>", password = "<password>")
-```
-
-TPL
-
-
-```r
-src <- src_tpl()
-```
-
-COL
-
-
-```r
-src <- src_col()
-```
-
-## query with SQL syntax
-
-
-```r
-sql_collect(src, "select * from hierarchy limit 5")
-#> # A tibble: 5 x 5
-#>                     hierarchy_string    tsn parent_tsn level childrencount
-#> *                              <chr>  <int>      <int> <int>         <int>
-#> 1                             202422 202422          0     0        154282
-#> 2                      202422-846491 846491     202422     1          2666
-#> 3               202422-846491-660046 660046     846491     2          2654
-#> 4        202422-846491-660046-846497 846497     660046     3             7
-#> 5 202422-846491-660046-846497-846508 846508     846497     4             6
-```
-
-
-```r
-# or pipe the src to sql_collect
-src %>% sql_collect("select * from hierarchy limit 5")
-#> # A tibble: 5 x 5
-#>                     hierarchy_string    tsn parent_tsn level childrencount
-#> *                              <chr>  <int>      <int> <int>         <int>
-#> 1                             202422 202422          0     0        154282
-#> 2                      202422-846491 846491     202422     1          2666
-#> 3               202422-846491-660046 660046     846491     2          2654
-#> 4        202422-846491-660046-846497 846497     660046     3             7
-#> 5 202422-846491-660046-846497-846508 846508     846497     4             6
-```
-
-## use dplyr verbs
-
-get a `tbl`
-
-
-```r
-hiers <- src %>% tbl("hierarchy")
-#> # Source:   table<hierarchy> [?? x 5]
-#> # Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
-#>                                              hierarchy_string    tsn parent_tsn level childrencount
-#>                                                         <chr>  <int>      <int> <int>         <int>
-#>  1                                                     202422 202422          0     0        154282
-#>  2                                              202422-846491 846491     202422     1          2666
-#>  3                                       202422-846491-660046 660046     846491     2          2654
-#>  4                                202422-846491-660046-846497 846497     660046     3             7
-#>  5                         202422-846491-660046-846497-846508 846508     846497     4             6
-#>  6                  202422-846491-660046-846497-846508-846553 846553     846508     5             5
-#>  7           202422-846491-660046-846497-846508-846553-954935 954935     846553     6             3
-#>  8      202422-846491-660046-846497-846508-846553-954935-5549   5549     954935     7             2
-#>  9 202422-846491-660046-846497-846508-846553-954935-5549-5550   5550       5549     8             0
-#> 10           202422-846491-660046-846497-846508-846553-954936 954936     846553     6             0
-#> # ... with more rows
-```
-
-select certain fields
-
-
-```r
-hiers %>% select(tsn, level)
-#> # Source:   lazy query [?? x 2]
-#> # Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
-#>       tsn level
-#>     <int> <int>
-#>  1 202422     0
-#>  2 846491     1
-#>  3 660046     2
-#>  4 846497     3
-#>  5 846508     4
-#>  6 846553     5
-#>  7 954935     6
-#>  8   5549     7
-#>  9   5550     8
-#> 10 954936     6
-#> # ... with more rows
-```
-
-## Local versions of `taxize` functions
-
-A few of the key functions from `taxize` have been ported to `taxizedb`.
-Support is currently limited to the NCBI taxonomy database.
-
-`children` accesses the nodes immediately descending from a given taxon
-
-
-```r
-children(3701, db='ncbi')
-#> $`3701`
-#>    childtaxa_id                                                     childtaxa_name childtaxa_rank
-#> 1       1837063                         Arabidopsis thaliana x Arabidopsis halleri        species
-#> 2       1547872                                              Arabidopsis umezawana        species
-#> 3       1328956 (Arabidopsis thaliana x Arabidopsis arenosa) x Arabidopsis suecica        species
-#> 4       1240361                         Arabidopsis thaliana x Arabidopsis arenosa        species
-#> 5        869750                          Arabidopsis thaliana x Arabidopsis lyrata        species
-#> 6        412662                                            Arabidopsis pedemontana        species
-#> 7        378006                         Arabidopsis arenosa x Arabidopsis thaliana        species
-#> 8        347883                                              Arabidopsis arenicola        species
-#> 9        302551                                              Arabidopsis petrogena        species
-#> 10        97980                                               Arabidopsis croatica        species
-#> 11        97979                                            Arabidopsis cebennensis        species
-#> 12        81970                                                Arabidopsis halleri        species
-#> 13        59690                                             Arabidopsis kamchatica        species
-#> 14        59689                                                 Arabidopsis lyrata        species
-#> 15        45251                                               Arabidopsis neglecta        species
-#> 16        45249                                                Arabidopsis suecica        species
-#> 17        38785                                                Arabidopsis arenosa        species
-#> 18         3702                                               Arabidopsis thaliana        species
-#> 
-#> attr(,"class")
-#> [1] "children"
-#> attr(,"db")
-#> [1] "ncbi"
-```
-
-`classification` finds the lineage of a taxon
-
-
-```r
-classification(3702, db='ncbi')
-#> $`3702`
-#>                    name         rank      id
-#> 1    cellular organisms      no rank  131567
-#> 2             Eukaryota superkingdom    2759
-#> 3         Viridiplantae      kingdom   33090
-#> 4          Streptophyta       phylum   35493
-#> 5        Streptophytina    subphylum  131221
-#> 6           Embryophyta      no rank    3193
-#> 7          Tracheophyta      no rank   58023
-#> 8         Euphyllophyta      no rank   78536
-#> 9         Spermatophyta      no rank   58024
-#> 10        Magnoliophyta      no rank    3398
-#> 11      Mesangiospermae      no rank 1437183
-#> 12       eudicotyledons      no rank   71240
-#> 13           Gunneridae      no rank   91827
-#> 14         Pentapetalae      no rank 1437201
-#> 15               rosids     subclass   71275
-#> 16              malvids      no rank   91836
-#> 17          Brassicales        order    3699
-#> 18         Brassicaceae       family    3700
-#> 19           Camelineae        tribe  980083
-#> 20          Arabidopsis        genus    3701
-#> 21 Arabidopsis thaliana      species    3702
-#> 
-#> attr(,"class")
-#> [1] "classification"
-#> attr(,"db")
-#> [1] "ncbi"
-```
-
-`downstream` finds all taxa descending from a taxon
-
-
-```r
-downstream(3700, db='ncbi')
-#> $`3700`
-#>      childtaxa_id                                                     childtaxa_name     rank
-#> 1         2071891                                                     Draba taylorii  species
-#> 2         2071524                                                  Rorippa tenerrima  species
-#> 3         2071523                                                Rorippa crystallina  species
-#> 4         2071509                                                   Physaria calderi  species
-#> 5         2071468                                                 Erysimum arenicola  species
-#> 6         2071452                                                   Draba yukonensis  species
-#> 7         2071451                                                   Draba thompsonii  species
-#> ...
-#> 326       1492251                                                 Erysimum lilacinum  species
-#> 327       1492250                                              Erysimum leucanthemum  species
-#> 328       1492249                                               Erysimum leptostylum  species
-#> 329       1492248                                              Erysimum leptophyllum  species
-#> 330       1492247                                               Erysimum leptocarpum  species
-#> 331       1492246                                                Erysimum ledebourii  species
-#> 332       1492245                                                Erysimum laxiflorum  species
-#> 333       1492244                                                  Erysimum kurdicum  species
-#>  [ reached getOption("max.print") -- omitted 2880 rows ]
-#>
-#> attr(,"class")
-#> [1] "downstream"
-#> attr(,"db")
-#> [1] "ncbi"
-```
-
-All of these functions run very fast. It only takes a few seconds to find all
-bacterial taxa and count them: 
-
-
-```r
-downstream(2, db='ncbi')[[1]] %>%
-    dplyr::group_by(rank) %>%
-    dplyr::count()
-#> #> [1] 138695
-#> # A tibble: 18 x 2
-#> # Groups:   rank [18]
-#> rank                 n
-#> <chr>            <int>
-#>  1 class               83
-#>  2 family             483
-#>  3 forma                4
-#>  4 genus             3497
-#>  5 no rank          37140
-#>  6 order              198
-#>  7 phylum             134
-#>  8 species          97031
-#>  9 species group       68
-#> 10 species subgroup    10
-#> 11 subclass             3
-#> 12 subfamily            1
-#> 13 subgenus             1
-#> 14 suborder             8
-#> 15 subphylum            1
-#> 16 subspecies          10
-#> 17 tribe                2
-#> 18 varietas            21
-```
-
-## Mapping functions
-
-Several mapping functions are available for the NCBI taxonomy database:
-
-
-```r
-# Map scientific or common names to taxonomy IDs
-name2taxid("pig")
-#> [1] "9823"
-
-# Map taxonomy IDs to scientific names
-taxid2name(9823)
-#> [1] "Sus scrofa"
-
-# Map taxonomy IDs to rank
-taxid2rank(2)
-#> [1] "superkingdom"
+remotes::install_github("ropensci/taxizedb")
 ```
 
 ## Contributors
@@ -350,6 +119,6 @@ taxid2rank(2)
 * Please [report any issues or bugs](https://github.com/ropensci/taxizedb/issues).
 * License: MIT
 * Get citation information for `taxizedb` in R doing `citation(package = 'taxizedb')`
-* Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+* Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
 
 [![ropensci](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)

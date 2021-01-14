@@ -1,5 +1,7 @@
 context("taxid2rank")
 
+skip_on_cran()
+
 test_that("taxid2rank", {
   expect_equal(taxid2rank(3702), 'species')
   expect_equal(taxid2rank(rep(3702, 2)), rep('species', 2))

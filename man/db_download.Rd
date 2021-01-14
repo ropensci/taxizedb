@@ -5,8 +5,10 @@
 \alias{db_download_ncbi}
 \alias{db_download_itis}
 \alias{db_download_tpl}
+\alias{db_download_wfo}
 \alias{db_download_col}
 \alias{db_download_gbif}
+\alias{db_download_wikidata}
 \title{Download taxonomic databases}
 \usage{
 db_download_ncbi(verbose = TRUE, overwrite = FALSE)
@@ -15,9 +17,13 @@ db_download_itis(verbose = TRUE, overwrite = FALSE)
 
 db_download_tpl(verbose = TRUE, overwrite = FALSE)
 
+db_download_wfo(verbose = TRUE, overwrite = FALSE)
+
 db_download_col(verbose = TRUE, overwrite = FALSE)
 
 db_download_gbif(verbose = TRUE, overwrite = FALSE)
+
+db_download_wikidata(verbose = TRUE)
 }
 \arguments{
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
@@ -26,7 +32,7 @@ db_download_gbif(verbose = TRUE, overwrite = FALSE)
 previously downloaded data. Default: \code{FALSE}}
 }
 \value{
-Path to the downloaded SQL database
+(character) path to the downloaded SQL database
 }
 \description{
 Download taxonomic databases
@@ -35,50 +41,35 @@ Download taxonomic databases
 Downloads sql database, cleans up unneeded files, returns path
 to sql file
 }
-\section{Supported}{
-
-\itemize{
-\item ITIS - PostgreSQL
-\item The PlantList - PostgreSQL
-\item Catalogue of Life - MySQL
-\item GBIF - SQLite
-\item NCBI - SQLite
-}
-}
-
-\section{Beware}{
-
-COL database loading takes a long time, e.g., 30 minutes. you may
-want to run it in a separate R session, or just look at the db_load_col fxn
-and run the commands in your shell.
-}
-
 \examples{
 \dontrun{
 # ITIS
-# x <- db_download_itis()
-# db_load_itis(x)
+# db_download_itis()
 # src_itis()
 
 # Plantlist
-# x <- db_download_tpl()
-# db_load_tpl(x, "sacmac")
+# db_download_tpl()
 # src_tpl()
 
 # COL
-# x <- db_download_col()
-# db_load_col(x)
+# db_download_col()
 # src_col()
 
 # GBIF
-# x <- db_download_gbif()
-# db_load_gbif()
-# src_gbif(x)
+# db_download_gbif()
+# src_gbif()
 
 # NCBI
-# x <- db_download_ncbi()
-# db_load_ncbi()
-# src_ncbi(x)
+# db_download_ncbi()
+# src_ncbi()
+
+# Wikidata
+# db_download_wikidata()
+# src_wikidata()
+
+# World Flora Online
+# db_download_wfo()
+# src_wfo()
 }
 }
 \seealso{

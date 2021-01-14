@@ -4,27 +4,55 @@
 \alias{name2taxid}
 \title{Convert species names to taxon IDs}
 \usage{
-name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid", "summary"),
-  ...)
+name2taxid(x, db = "ncbi", verbose = TRUE, out_type = c("uid", "summary"), ...)
 }
 \arguments{
-\item{x}{Vector of taxon keys for the given database}
+\item{x}{(character) Vector of taxon keys for the given database}
 
-\item{db}{The database to search}
+\item{db}{(character) The database to search, one of ncbi, itis, gbif,
+wfo, or tpl}
 
-\item{verbose}{Print verbose messages}
+\item{verbose}{(logical) Print verbose messages}
 
-\item{out_type}{character "uid" for an ID vector, "summary" for a table with
-columns 'tax_id' and 'tax_name'.}
+\item{out_type}{(logical) character "uid" for an ID vector, "summary" for a
+table with columns 'tax_id' and 'tax_name'.}
 
-\item{...}{Additional arguments passed to database specific classification functions.}
+\item{...}{Additional arguments passed to database specific classification
+functions.}
 }
 \description{
-\code{name2taxid} returns a vector and dies if there are any ambiguous
-names. \code{name2taxid_map} returns a data.frame mapping names to ids.
+\code{name2taxid()} returns a vector and dies if there are any ambiguous
+names. \code{name2taxid_map()} returns a data.frame mapping names to ids
 }
+\section{NCBI database}{
+
+
+The NCBI taxonomy database includes common names, synonyms and misspellings.
+However, the database is a little inconsistent. For some species, such as
+Arabidopsis thaliana, the misspelling Arabidopsis_thaliana is included, but
+the same is NOT done for humans. However, underscores are supported when
+querying through entrez, as is done in taxize, which implies entrez is
+replacing underscores with spaces. So I do the same. A corner case appears
+when an organism uses underscores as part of the name, not just a standin
+for space ("haloarchaeon 3A1_DGR"). To deal with this case, we replace
+underscores with spaces ONLY if there are not spaces in the original name.
+}
+
 \examples{
 \dontrun{
 name2taxid(c('Arabidopsis thaliana', 'pig'))
+name2taxid(c('Arabidopsis thaliana', 'pig'), out_type="summary")
+name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis")
+name2taxid(x=c('Arabidopsis thaliana', 'Apis mellifera'), db = "itis",
+ out_type="summary")
+name2taxid(x=c('Arabidopsis thaliana', 'Quercus kelloggii'), db = "wfo")
+name2taxid(x=c('Arabidopsis thaliana', 'Quercus kelloggii'), db = "wfo",
+ out_type="summary")
+name2taxid("Austrobaileyaceae", db = "wfo")
+name2taxid("Quercus kelloggii", db = "gbif")
+name2taxid(c("Quercus", "Fabaceae", "Animalia"), db = "gbif")
+name2taxid(c("Abies", "Pinales", "Tracheophyta"), db = "col")
+name2taxid(c("Abies mangifica", "Acanthopale aethiogermanica",
+  "Acanthopale albosetulosa"), db = "tpl")
 }
 }
