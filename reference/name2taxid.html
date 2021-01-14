@@ -73,7 +73,7 @@ names. name2taxid_map() returns a data.frame mapping names to ids" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.93</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3.91</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ names. name2taxid_map() returns a data.frame mapping names to ids" />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -98,7 +98,7 @@ names. name2taxid_map() returns a data.frame mapping names to ids" />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/ropensci/taxizedb/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,7 +125,7 @@ names. name2taxid_map() returns a data.frame mapping names to ids" />
 names. <code>name2taxid_map()</code> returns a data.frame mapping names to ids</p>
     </div>
 
-    <pre class="usage"><span class='fu'>name2taxid</span>(<span class='kw'>x</span>, db = <span class='st'>"ncbi"</span>, verbose = <span class='fl'>TRUE</span>, out_type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"uid"</span>, <span class='st'>"summary"</span>), <span class='kw'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>name2taxid</span><span class='op'>(</span><span class='va'>x</span>, db <span class='op'>=</span> <span class='st'>"ncbi"</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, out_type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"uid"</span>, <span class='st'>"summary"</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,22 +171,22 @@ for space ("haloarchaeon 3A1_DGR"). To deal with this case, we replace
 underscores with spaces ONLY if there are not spaces in the original name.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'pig'</span>))
-<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'pig'</span>), out_type=<span class='st'>"summary"</span>)
-<span class='fu'>name2taxid</span>(x=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Apis mellifera'</span>), db = <span class='st'>"itis"</span>)
-<span class='fu'>name2taxid</span>(x=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Apis mellifera'</span>), db = <span class='st'>"itis"</span>,
- out_type=<span class='st'>"summary"</span>)
-<span class='fu'>name2taxid</span>(x=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Quercus kelloggii'</span>), db = <span class='st'>"wfo"</span>)
-<span class='fu'>name2taxid</span>(x=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Quercus kelloggii'</span>), db = <span class='st'>"wfo"</span>,
- out_type=<span class='st'>"summary"</span>)
-<span class='fu'>name2taxid</span>(<span class='st'>"Austrobaileyaceae"</span>, db = <span class='st'>"wfo"</span>)
-<span class='fu'>name2taxid</span>(<span class='st'>"Quercus kelloggii"</span>, db = <span class='st'>"gbif"</span>)
-<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Quercus"</span>, <span class='st'>"Fabaceae"</span>, <span class='st'>"Animalia"</span>), db = <span class='st'>"gbif"</span>)
-<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Abies"</span>, <span class='st'>"Pinales"</span>, <span class='st'>"Tracheophyta"</span>), db = <span class='st'>"col"</span>)
-<span class='fu'>name2taxid</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Abies mangifica"</span>, <span class='st'>"Acanthopale aethiogermanica"</span>,
-  <span class='st'>"Acanthopale albosetulosa"</span>), db = <span class='st'>"tpl"</span>)
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'pig'</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'pig'</span><span class='op'>)</span>, out_type<span class='op'>=</span><span class='st'>"summary"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span>x<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Apis mellifera'</span><span class='op'>)</span>, db <span class='op'>=</span> <span class='st'>"itis"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span>x<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Apis mellifera'</span><span class='op'>)</span>, db <span class='op'>=</span> <span class='st'>"itis"</span>,
+ out_type<span class='op'>=</span><span class='st'>"summary"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span>x<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Quercus kelloggii'</span><span class='op'>)</span>, db <span class='op'>=</span> <span class='st'>"wfo"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span>x<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'Arabidopsis thaliana'</span>, <span class='st'>'Quercus kelloggii'</span><span class='op'>)</span>, db <span class='op'>=</span> <span class='st'>"wfo"</span>,
+ out_type<span class='op'>=</span><span class='st'>"summary"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span><span class='st'>"Austrobaileyaceae"</span>, db <span class='op'>=</span> <span class='st'>"wfo"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span><span class='st'>"Quercus kelloggii"</span>, db <span class='op'>=</span> <span class='st'>"gbif"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Quercus"</span>, <span class='st'>"Fabaceae"</span>, <span class='st'>"Animalia"</span><span class='op'>)</span>, db <span class='op'>=</span> <span class='st'>"gbif"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Abies"</span>, <span class='st'>"Pinales"</span>, <span class='st'>"Tracheophyta"</span><span class='op'>)</span>, db <span class='op'>=</span> <span class='st'>"col"</span><span class='op'>)</span>
+<span class='fu'>name2taxid</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Abies mangifica"</span>, <span class='st'>"Acanthopale aethiogermanica"</span>,
+  <span class='st'>"Acanthopale albosetulosa"</span><span class='op'>)</span>, db <span class='op'>=</span> <span class='st'>"tpl"</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -203,7 +203,7 @@ underscores with spaces ONLY if there are not spaces in the original name.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
