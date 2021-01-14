@@ -23,7 +23,7 @@ db_download_col(verbose = TRUE, overwrite = FALSE)
 
 db_download_gbif(verbose = TRUE, overwrite = FALSE)
 
-db_download_wikidata(verbose = TRUE)
+db_download_wikidata(verbose = TRUE, overwrite = FALSE)
 }
 \arguments{
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
@@ -49,6 +49,7 @@ to sql file
 
 # Plantlist
 # db_download_tpl()
+# db_download_tpl(overwrite=TRUE) # overwrite - download again
 # src_tpl()
 
 # COL
@@ -65,6 +66,7 @@ to sql file
 
 # Wikidata
 # db_download_wikidata()
+# db_download_wikidata(overwrite=TRUE) # overwrite - download again
 # src_wikidata()
 
 # World Flora Online

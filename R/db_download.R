@@ -2,9 +2,9 @@
 #'
 #' @export
 #' @name db_download
+#' @param verbose (logical) Print messages. Default: `TRUE`
 #' @param overwrite (logical) If `TRUE` force an update by overwriting
 #' previously downloaded data. Default: `FALSE`
-#' @param verbose (logical) Print messages. Default: `TRUE`
 #' @return (character) path to the downloaded SQL database
 #' @details Downloads sql database, cleans up unneeded files, returns path
 #' to sql file
@@ -16,6 +16,7 @@
 #'
 #' # Plantlist
 #' # db_download_tpl()
+#' # db_download_tpl(overwrite=TRUE) # overwrite - download again
 #' # src_tpl()
 #'
 #' # COL
@@ -32,6 +33,7 @@
 #'
 #' # Wikidata
 #' # db_download_wikidata()
+#' # db_download_wikidata(overwrite=TRUE) # overwrite - download again
 #' # src_wikidata()
 #' 
 #' # World Flora Online
@@ -430,13 +432,13 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_wikidata <- function(verbose = TRUE) {
+db_download_wikidata <- function(verbose = TRUE, overwrite = FALSE) {
   db_url <- 'https://zenodo.org/record/1213477/files/wikidata-taxon-info20171227.tsv.gz'
 
   txt_file <- file.path(tdb_cache$cache_path_get(), 'wikidata-taxon-info20171227.tsv.gz')
   final_file <- file.path(tdb_cache$cache_path_get(), 'wikidata.sqlite')
 
-  if (file.exists(final_file)) {
+  if (file.exists(final_file) && !overwrite) {
     mssg(verbose, "Database already exists, returning old file")
     return(final_file)
   }
