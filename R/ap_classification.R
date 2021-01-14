@@ -120,7 +120,7 @@ col_classification <- function(src, x, ...){
     df <- dplyr::rename(df, id = 'taxonID', rank = 'taxonRank', name = 'scientificName')
     df <- dplyr::select(df, name, rank, id)
     df <- df[order(rev(row.names(df))),]
-    data.frame(df)
+    data.frame(df, stringsAsFactors = FALSE)
   }
   stats::setNames(lapply(x, FUN, src = src), x)
 }
@@ -153,7 +153,7 @@ gbif_classification <- function(src, x, ...) {
     df <- dplyr::rename(df, id = 'taxonID', rank = 'taxonRank', name = 'scientificName')
     df <- dplyr::select(df, name, rank, id)
     df <- df[order(rev(row.names(df))),]
-    data.frame(df)
+    data.frame(df, stringsAsFactors = FALSE)
   }
   stats::setNames(lapply(x, FUN, src = src), x)
 }

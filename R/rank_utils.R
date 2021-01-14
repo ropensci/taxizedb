@@ -30,7 +30,8 @@ txdb_ranks <- c(
 )
 txdb_rr <- data.frame(
   rankid = txdb_ids,
-  ranks = txdb_ranks
+  ranks = txdb_ranks,
+  stringsAsFactors = FALSE
 )
 
 txdb_which_rank_v <- function(x) {
