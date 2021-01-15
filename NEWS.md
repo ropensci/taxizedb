@@ -1,3 +1,16 @@
+taxizedb 0.3.0
+==============
+
+## NEW FEATURES
+
+* `db_download()` gains new parameter `overwrite` (logical): used to state that you want to overwrite an existing database on disk. before this you would have to manually delete an older database file (#34)
+* new function added `taxa_at()` for getting taxa at specific scientific ranks. For example, your known taxon is the family Lachnospiraceae with NCBI identifier of 186803. You want information on the phylum which the Lachnospiraceae family is in. This function can do that for you.  (#51)
+
+## BUG FIXES
+
+* fixed problem in internal function `txdb_rr()`: in older verions of R (e.g., 3.6) we were creating a data.frame in this function without settings `stringsAsFactors=FALSE`, resulting in different behavior in R v3 vs. R v4 given the change in `stringsAsFactors` behavior in R v4 onward (#54)
+
+
 taxizedb 0.2.2
 ==============
 
