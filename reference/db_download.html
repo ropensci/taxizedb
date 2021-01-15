@@ -123,19 +123,19 @@
     <p>Download taxonomic databases</p>
     </div>
 
-    <pre class="usage"><span class='fu'>db_download_ncbi</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>db_download_ncbi</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>db_download_itis</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>db_download_itis</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>db_download_tpl</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>db_download_tpl</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>db_download_wfo</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>db_download_wfo</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>db_download_col</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>db_download_col</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>db_download_gbif</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>db_download_gbif</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>db_download_wikidata</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+<span class='fu'>db_download_wikidata</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span>, overwrite <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,6 +143,11 @@
     <tr>
       <th>verbose</th>
       <td><p>(logical) Print messages. Default: <code>TRUE</code></p></td>
+    </tr>
+    <tr>
+      <th>overwrite</th>
+      <td><p>(logical) If <code>TRUE</code> force an update by overwriting
+previously downloaded data. Default: <code>FALSE</code></p></td>
     </tr>
     </table>
 
@@ -165,6 +170,7 @@ to sql file</p>
 
 <span class='co'># Plantlist</span>
 <span class='co'># db_download_tpl()</span>
+<span class='co'># db_download_tpl(overwrite=TRUE) # overwrite - download again</span>
 <span class='co'># src_tpl()</span>
 
 <span class='co'># COL</span>
@@ -181,6 +187,7 @@ to sql file</p>
 
 <span class='co'># Wikidata</span>
 <span class='co'># db_download_wikidata()</span>
+<span class='co'># db_download_wikidata(overwrite=TRUE) # overwrite - download again</span>
 <span class='co'># src_wikidata()</span>
 
 <span class='co'># World Flora Online</span>
