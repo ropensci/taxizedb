@@ -12,3 +12,4 @@ docker-compose.yml
 notes-wikidata.txt
 ^Makefile$
 ^docs$
+^LICENSE\.md$
