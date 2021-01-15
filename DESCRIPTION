@@ -5,7 +5,7 @@ Description: Tools for working with 'taxonomic' databases, including
     utilities for downloading databases, loading them into various
     'SQL' databases, cleaning up files, and providing a 'SQL' connection
     that can be used to do 'SQL' queries directly or used in 'dplyr'.
-Version: 0.2.3.91
+Version: 0.3.0
 Authors@R: c(
     person("Scott", "Chamberlain",
         email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
@@ -31,8 +31,5 @@ Imports:
     hoardr (>= 0.1.0)
 Suggests:
     testthat,
-    taxize,
-    knitr,
-    rmarkdown
+    taxize
 RoxygenNote: 7.1.1
-VignetteBuilder: knitr

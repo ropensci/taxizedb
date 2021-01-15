@@ -3,6 +3,7 @@
 ^\.travis\.yml$
 ^CODE_OF_CONDUCT\.md$
 ^README\.Rmd$
+^README\.md$
 .github
 ^cran-comments\.md$
 ^codemeta\.json$
@@ -13,3 +14,4 @@ notes-wikidata.txt
 ^Makefile$
 ^docs$
 ^LICENSE\.md$
+vignettes/
