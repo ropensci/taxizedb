@@ -1,7 +1,7 @@
 ---
 title: "taxizedb"
 author: Scott Chamberlain
-date: "2020-08-11"
+date: "2021-01-14"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{taxizedb}
