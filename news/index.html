@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">taxizedb</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3.91</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -117,13 +117,34 @@
       <small>Source: <a href='https://github.com/ropensci/taxizedb/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="taxizedb-030" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.0">
+<a href="#taxizedb-030" class="anchor"></a>taxizedb 0.3.0<small> Unreleased </small>
+</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>NEW FEATURES</h2>
+<ul>
+<li>
+<code><a href="../reference/db_download.html">db_download()</a></code> gains new parameter <code>overwrite</code> (logical): used to state that you want to overwrite an existing database on disk. before this you would have to manually delete an older database file (<a href='https://github.com/ropensci/taxizedb/issues/34'>#34</a>)</li>
+<li>new function added <code><a href="../reference/taxa_at.html">taxa_at()</a></code> for getting taxa at specific scientific ranks. For example, your known taxon is the family Lachnospiraceae with NCBI identifier of 186803. You want information on the phylum which the Lachnospiraceae family is in. This function can do that for you. (<a href='https://github.com/ropensci/taxizedb/issues/51'>#51</a>)</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>BUG FIXES</h2>
+<ul>
+<li>fixed problem in internal function <code>txdb_rr()</code>: in older verions of R (e.g., 3.6) we were creating a data.frame in this function without settings <code>stringsAsFactors=FALSE</code>, resulting in different behavior in R v3 vs. R v4 given the change in <code>stringsAsFactors</code> behavior in R v4 onward (<a href='https://github.com/ropensci/taxizedb/issues/54'>#54</a>)</li>
+</ul>
+</div>
+</div>
     <div id="taxizedb-022" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.2">
 <a href="#taxizedb-022" class="anchor"></a>taxizedb 0.2.2<small> 2020-08-26 </small>
 </h1>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>BUG FIXES</h2>
+<a href="#bug-fixes-1" class="anchor"></a>BUG FIXES</h2>
 <ul>
 <li>fix failing tests (<a href='https://github.com/ropensci/taxizedb/issues/50'>#50</a>)</li>
 </ul>
@@ -133,9 +154,9 @@
 <h1 class="page-header" data-toc-text="0.2.0">
 <a href="#taxizedb-020" class="anchor"></a>taxizedb 0.2.0<small> 2020-08-13 </small>
 </h1>
-<div id="new-features" class="section level2">
+<div id="new-features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>NEW FEATURES</h2>
+<a href="#new-features-1" class="anchor"></a>NEW FEATURES</h2>
 <ul>
 <li>gains 3 new data sources: NCBI taxonomy, World Flora Online, Wikidata (<a href='https://github.com/ropensci/taxizedb/issues/18'>#18</a>) (<a href='https://github.com/ropensci/taxizedb/issues/49'>#49</a>) (<a href='https://github.com/ropensci/taxizedb/issues/37'>#37</a>)</li>
 <li>gains ports of <code>taxize</code> functions to <code>taxizedb</code> (NCBI &amp; ITIS supported): <code>children</code>, <code>classification</code>, <code>downstream</code>. beware when both <code>taxize</code> and <code>taxizedb</code> loaded in the same R session to namespace calls to these three functions (<a href='https://github.com/ropensci/taxizedb/issues/19'>#19</a>) (<a href='https://github.com/ropensci/taxizedb/issues/25'>#25</a>) (<a href='https://github.com/ropensci/taxizedb/issues/44'>#44</a>) (<a href='https://github.com/ropensci/taxizedb/issues/48'>#48</a>)</li>
@@ -169,9 +190,9 @@
 <h1 class="page-header" data-toc-text="0.1.4">
 <a href="#taxizedb-014" class="anchor"></a>taxizedb 0.1.4<small> 2017-06-20 </small>
 </h1>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>BUG FIXES</h2>
+<a href="#bug-fixes-2" class="anchor"></a>BUG FIXES</h2>
 <ul>
 <li>Fixes to SQL database connection functions for changes in <code>dplyr</code>, which now requires <code>dbplyr</code> package - also <code>DBI</code> now imported (<a href='https://github.com/ropensci/taxizedb/issues/16'>#16</a>)</li>
 </ul>
@@ -181,9 +202,9 @@
 <h1 class="page-header" data-toc-text="0.1.0">
 <a href="#taxizedb-010" class="anchor"></a>taxizedb 0.1.0<small> 2017-05-03 </small>
 </h1>
-<div id="new-features-1" class="section level2">
+<div id="new-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-1" class="anchor"></a>NEW FEATURES</h2>
+<a href="#new-features-2" class="anchor"></a>NEW FEATURES</h2>
 <ul>
 <li>Released to CRAN</li>
 </ul>
