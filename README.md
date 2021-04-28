@@ -13,7 +13,7 @@ taxizedb
 
 `taxizedb` - Tools for Working with Taxonomic Databases on your machine
 
-Docs: <https://ropensci.github.io/taxizedb/>
+Docs: <https://docs.ropensci.org/taxizedb/>
 
 [taxize](https://github.com/ropensci/taxize) is a heavily used taxonomic toolbelt
 package in R - However, it makes web requests for nearly all methods. That is fine

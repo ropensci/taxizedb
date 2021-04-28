@@ -11,7 +11,7 @@ Authors@R: c(
         email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
     person("Zebulun", "Arendsee", role = "aut")
     )
-URL: https://ropensci.github.io/taxizedb/, https://github.com/ropensci/taxizedb
+URL: https://docs.ropensci.org/taxizedb/, https://github.com/ropensci/taxizedb
 BugReports: https://github.com/ropensci/taxizedb/issues
 License: MIT + file LICENSE
 LazyData: TRUE
