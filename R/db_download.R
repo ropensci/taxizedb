@@ -215,7 +215,7 @@ db_download_ncbi <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_itis <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_itis <- function(verbose = TRUE, overwrite = FALSE, use_curl = TRUE, timeout = 100) {
   # paths
   db_url <- 'https://itis.gov/downloads/itisSqlite.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'itisSqlite.zip')
@@ -234,7 +234,13 @@ db_download_itis <- function(verbose = TRUE, overwrite = FALSE) {
   tdb_cache$mkdir()
   # download data
   mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
+  if(use_curl) {
+    curl::curl_download(db_url, db_path, quiet = TRUE)
+  }
+  else {
+	  options(timeout=timeout)
+	  download.file(db_url,db_path)
+  }
   # unzip
   mssg(verbose, 'unzipping...')
   utils::unzip(db_path, exdir = db_path_file)
