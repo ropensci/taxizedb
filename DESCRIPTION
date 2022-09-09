@@ -8,8 +8,9 @@ Description: Tools for working with 'taxonomic' databases, including
 Version: 0.3.0
 Authors@R: c(
     person("Scott", "Chamberlain",
-        email = "myrmecocystus+r@gmail.com", role = c("aut", "cre")),
-    person("Zebulun", "Arendsee", role = "aut")
+        email = "myrmecocystus+r@gmail.com", role = "aut"),
+    person("Zebulun", "Arendsee", role = "aut"),
+    person("Tamás", "Stirling", email = "stirling.tamas@gmail.com", role = c("ctb", "cre"))
     )
 URL: https://docs.ropensci.org/taxizedb/, https://github.com/ropensci/taxizedb
 BugReports: https://github.com/ropensci/taxizedb/issues
