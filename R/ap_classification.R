@@ -62,7 +62,7 @@ wfo_classification <- function(src, x, ...) {
     z <- sql_collect(src,
       sprintf("select %s from wfo where taxonID = '%s'", cols, x))
     if (NROW(z) == 0) return(data.frame(NULL))
-    if (is.na(z$parentNameUsageID)) return(data.frame(NULL))
+    if (is.na(z$parentNameUsageID)) return(data.frame(z))
     out <- list(z)
     i <- 1
     not_done <- TRUE
@@ -72,8 +72,12 @@ wfo_classification <- function(src, x, ...) {
         "SELECT %s FROM wfo WHERE taxonID IN ('%s')", cols,
         paste0(z$parentNameUsageID, collapse = "','"))
       z <- sql_collect(src, parents_query)
-      out[[i]] <- z
-      if (is.na(z$parentNameUsageID)) not_done <- FALSE
+      if (NROW(z) == 0) {
+        not_done <- FALSE
+      } else {
+        out[[i]] <- z
+        if (is.na(z$parentNameUsageID)) not_done <- FALSE
+      }
     }
     df <- dplyr::bind_rows(out)
     df$parentNameUsageID <- NULL

@@ -292,7 +292,7 @@ db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
   db_url <- "http://104.198.143.165/files/WFO_Backbone/_WFOCompleteBackbone/WFO_Backbone.zip" #nolint
   db_path <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone')
-  class_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone/classification.txt')
+  class_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone/classification.csv')
   final_file <- file.path(tdb_cache$cache_path_get(), 'wfo.sqlite')
 
   assert(verbose, "logical")
@@ -326,12 +326,17 @@ db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
     CREATE TABLE wfo (
       taxonID TEXT,
       scientificNameID TEXT,
+      localID TEXT,
       scientificName TEXT,
       taxonRank TEXT,
       parentNameUsageID TEXT,
       scientificNameAuthorship TEXT,
       family TEXT,
+      subfamily TEXT,
+      tribe TEXT,
+      subtribe TEXT,
       genus TEXT,
+      subgenus TEXT,
       specificEpithet TEXT,
       infraspecificEpithet TEXT,
       verbatimTaxonRank TEXT,
@@ -339,10 +344,15 @@ db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
       namePublishedIn TEXT,
       taxonomicStatus TEXT,
       acceptedNameUsageID TEXT,
+      originalNameUsageID TEXT,
       nameAccordingToID TEXT,
+      taxonRemarks TEXT,
       created TEXT,
       modified TEXT,
-      referencez TEXT
+      referencez TEXT,
+      source TEXT,
+      majorGroup TEXT,
+      tplID TEXT
     )
     "
   )
