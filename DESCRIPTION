@@ -1,16 +1,16 @@
 Package: taxizedb
 Type: Package
 Title: Tools for Working with 'Taxonomic' Databases
-Description: Tools for working with 'taxonomic' databases, including
-    utilities for downloading databases, loading them into various
-    'SQL' databases, cleaning up files, and providing a 'SQL' connection
-    that can be used to do 'SQL' queries directly or used in 'dplyr'.
-Version: 0.3.0
+Description: Tools for working with 'taxonomic' databases, including utilities
+    for downloading databases, loading them into various 'SQL' databases,
+    cleaning up files, and providing a 'SQL' connection that can be used to do
+    'SQL' queries directly or used in 'dplyr'.
+Version: 0.3.1
 Authors@R: c(
     person("Scott", "Chamberlain", role = "aut"),
     person("Zebulun", "Arendsee", role = "aut"),
-    person("Tamás", "Stirling", email = "stirling.tamas@gmail.com", role = c("ctb", "cre"))
-    )
+    person("Tamás", "Stirling", email = "stirling.tamas@gmail.com",
+           role = c("ctb", "cre")))
 URL: https://docs.ropensci.org/taxizedb/, https://github.com/ropensci/taxizedb
 BugReports: https://github.com/ropensci/taxizedb/issues
 License: MIT + file LICENSE
@@ -32,4 +32,4 @@ Imports:
 Suggests:
     testthat,
     taxize
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
