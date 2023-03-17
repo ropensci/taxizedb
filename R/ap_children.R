@@ -29,8 +29,10 @@ itis_children <- function(src, x, ...){
       "SELECT tsn,rank_id,complete_name FROM taxonomic_units WHERE tsn IN ('%s')", 
       paste0(tsns, collapse = "','"))
     child_df <- sql_collect(src, child_query)
-    tmp <- unique(dplyr::left_join(child_df, 
-      dplyr::select(ranks, rank_id, rank_name), by = "rank_id"))
+    tmp <- unique(dplyr::left_join(
+      child_df, 
+      dplyr::select(ranks, rank_id, rank_name),
+      by = "rank_id", multiple = "all"))
     tmp$rank_name <- tolower(tmp$rank_name)
     # tmp$rank_id <- NULL
     tmp <- dplyr::rename(tmp, id = 'tsn', name = 'complete_name', rank = 'rank_name')
