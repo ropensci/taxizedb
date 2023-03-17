@@ -1,3 +1,10 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 taxizedb
 ========
 
@@ -10,11 +17,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![cran checks](https://cranchecks.info/badges/worst/taxizedb)](https://cranchecks.info/pkgs/taxizedb)
+[![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![cran checks](https://badges.cranchecks.info/worst/taxizedb.svg)](https://badges.cranchecks.info/worst/taxizedb.svg)
 [![R-check](https://github.com/ropensci/taxizedb/workflows/R-check/badge.svg)](https://github.com/ropensci/taxizedb/actions?query=workflow%3AR-check)
-[![CircleCI](https://circleci.com/gh/ropensci/taxizedb.svg?style=svg)](https://circleci.com/gh/ropensci/taxizedb)
 [![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/taxizedb)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/r-hub/cranlogs.app)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/taxizedb?color=blue)](https://cran.r-project.org/package=taxizedb)
 [![cran version](https://www.r-pkg.org/badges/version/taxizedb)](https://cran.r-project.org/package=taxizedb)
 [![DOI](https://zenodo.org/badge/53961466.svg)](https://zenodo.org/badge/latestdoi/53961466)
 
@@ -111,13 +119,6 @@ dev version
 ```{r eval=FALSE}
 remotes::install_github("ropensci/taxizedb")
 ```
-
-## Contributors
-
-* [Scott Chamberlain](https://github.com/sckott)
-* [Zebulun Arendsee](https://github.com/arendsee)
-* [Tamora James](https://github.com/tdjames1)
-
 
 ## Meta
 
