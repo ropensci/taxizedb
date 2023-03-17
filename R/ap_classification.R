@@ -205,9 +205,9 @@ ncbi_classification <- function(src, x, ...){
       # the ancestor order is encoded only in the row order of the data.frame,
       # which is not robost.
       dplyr::select(
-        name = .data$name,
-        rank = .data$rank,
-        id   = .data$ancestor
+        name = name,
+        rank = rank,
+        id   = ancestor
       )
     )
   }
