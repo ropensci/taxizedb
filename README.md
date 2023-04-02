@@ -6,8 +6,8 @@
 [![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![cran
 checks](https://badges.cranchecks.info/worst/taxizedb.svg)](https://badges.cranchecks.info/worst/taxizedb.svg)
-[![R-check](https://github.com/ropensci/taxizedb/workflows/R-check/badge.svg)](https://github.com/ropensci/taxizedb/actions?query=workflow%3AR-check)
-[![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/taxizedb)
+[![R-check](https://github.com/ropensci/taxizedb/workflows/R-check/badge.svg)](https://github.com/ropensci/taxizedb/actions)
+[![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/taxizedb)
 [![rstudio mirror
 downloads](https://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/r-hub/cranlogs.app)
 [![Total
@@ -70,7 +70,7 @@ Links:
 - The PlantList - <http://www.theplantlist.org/>
 - Catalogue of Life:
   - latest monthly edition via
-    <http://www.catalogueoflife.org/DCA_Export/archive.php>
+    <https://www.catalogueoflife.org/data/download>
 - GBIF: <http://rs.gbif.org/datasets/backbone/>
 - Wikidata: <https://zenodo.org/record/1213477>
 - World Flora Online: <http://www.worldfloraonline.org/>
@@ -122,7 +122,7 @@ remotes::install_github("ropensci/taxizedb")
 - Get citation information for `taxizedb` in R doing
   `citation(package = 'taxizedb')`
 - Please note that this package is released with a [Contributor Code of
-  Conduct](https://ropensci.org/code-of-conduct/). By contributing to
+  Conduct](https://ropensci.org/code-of-conduct). By contributing to
   this project, you agree to abide by its terms.
 
 [![ropensci](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
