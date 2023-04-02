@@ -14,7 +14,6 @@ Authors@R: c(
 URL: https://docs.ropensci.org/taxizedb/, https://github.com/ropensci/taxizedb
 BugReports: https://github.com/ropensci/taxizedb/issues
 License: MIT + file LICENSE
-LazyData: TRUE
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
 Language: en-US
