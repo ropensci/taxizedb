@@ -269,14 +269,14 @@ ncbi_downstream <- function(src, x, ...){
     query <- sprintf(cmd, sql_integer_list(x))
     sql_collect(src, query) %>%
       dplyr::mutate(
-        rank = taxid2rank(tax_id),
-        childtaxa_name = taxid2name(tax_id)
+        rank = taxid2rank(.data$tax_id),
+        childtaxa_name = taxid2name(.data$tax_id)
       ) %>%
       dplyr::select(
-        childtaxa_id   = tax_id,
-        childtaxa_name = childtaxa_name,
+        childtaxa_id   = .data$tax_id,
+        childtaxa_name = .data$childtaxa_name,
         rank           = rank,
-        key            = ancestor
+        key            = .data$ancestor
       ) %>%
       {
         if(!is.null(downto)){
