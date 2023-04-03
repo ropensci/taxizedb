@@ -1,3 +1,8 @@
+taxizedb 0.3.1
+==============
+
+* New maintainer (#65).
+
 taxizedb 0.3.0
 ==============
 

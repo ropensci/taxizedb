@@ -53,7 +53,9 @@ test_that("children works for GBIF", {
 })
 
 test_that("missing values are consistent with taxize", {
-  df1 <- taxizedb::children("asdfasdf", db='ncbi')[[1]]
+  # TODO fix warning instead of suppressing it. This requires fixing deprecated
+  # use of select() so it may be best to update this across the whole package.
+  df1 <- suppressWarnings(taxizedb::children("asdfasdf", db='ncbi')[[1]])
   df2 <- taxize::children("asdfasdf", db='ncbi', verbose = FALSE)[[1]]
   names(df1) <- names(df2)
   expect_equal(df1, df2)

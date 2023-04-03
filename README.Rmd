@@ -1,3 +1,10 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 taxizedb
 ========
 
@@ -10,11 +17,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![cran checks](https://cranchecks.info/badges/worst/taxizedb)](https://cranchecks.info/pkgs/taxizedb)
-[![R-check](https://github.com/ropensci/taxizedb/workflows/R-check/badge.svg)](https://github.com/ropensci/taxizedb/actions?query=workflow%3AR-check)
-[![CircleCI](https://circleci.com/gh/ropensci/taxizedb.svg?style=svg)](https://circleci.com/gh/ropensci/taxizedb)
-[![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://codecov.io/gh/ropensci/taxizedb)
+[![status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![cran checks](https://badges.cranchecks.info/worst/taxizedb.svg)](https://badges.cranchecks.info/worst/taxizedb.svg)
+[![R-check](https://github.com/ropensci/taxizedb/workflows/R-check/badge.svg)](https://github.com/ropensci/taxizedb/actions)
+[![codecov](https://codecov.io/gh/ropensci/taxizedb/branch/master/graph/badge.svg)](https://app.codecov.io/gh/ropensci/taxizedb)
 [![rstudio mirror downloads](https://cranlogs.r-pkg.org/badges/taxizedb)](https://github.com/r-hub/cranlogs.app)
+[![Total Downloads](https://cranlogs.r-pkg.org/badges/grand-total/taxizedb?color=blue)](https://cran.r-project.org/package=taxizedb)
 [![cran version](https://www.r-pkg.org/badges/version/taxizedb)](https://cran.r-project.org/package=taxizedb)
 [![DOI](https://zenodo.org/badge/53961466.svg)](https://zenodo.org/badge/latestdoi/53961466)
 
@@ -71,7 +79,7 @@ the function is called, it's updated whenever you run the function
 - ITIS: https://www.itis.gov/downloads/index.html
 - The PlantList - http://www.theplantlist.org/
 - Catalogue of Life:
-  - latest monthly edition via http://www.catalogueoflife.org/DCA_Export/archive.php
+  - latest monthly edition via https://www.catalogueoflife.org/data/download
 - GBIF: http://rs.gbif.org/datasets/backbone/
 - Wikidata: https://zenodo.org/record/1213477
 - World Flora Online: http://www.worldfloraonline.org/
@@ -112,18 +120,11 @@ dev version
 remotes::install_github("ropensci/taxizedb")
 ```
 
-## Contributors
-
-* [Scott Chamberlain](https://github.com/sckott)
-* [Zebulun Arendsee](https://github.com/arendsee)
-* [Tamora James](https://github.com/tdjames1)
-
-
 ## Meta
 
 * Please [report any issues or bugs](https://github.com/ropensci/taxizedb/issues).
 * License: MIT
 * Get citation information for `taxizedb` in R doing `citation(package = 'taxizedb')`
-* Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct/). By contributing to this project, you agree to abide by its terms.
+* Please note that this package is released with a [Contributor Code of Conduct](https://ropensci.org/code-of-conduct). By contributing to this project, you agree to abide by its terms.
 
 [![ropensci](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)

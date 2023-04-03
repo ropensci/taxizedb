@@ -275,7 +275,7 @@ ncbi_downstream <- function(src, x, ...){
       dplyr::select(
         childtaxa_id   = .data$tax_id,
         childtaxa_name = .data$childtaxa_name,
-        rank           = .data$rank,
+        rank           = rank,
         key            = .data$ancestor
       ) %>%
       {

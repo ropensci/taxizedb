@@ -1,34 +1,31 @@
 {
-  "@context": [
-    "http://purl.org/codemeta/2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "taxizedb",
-  "description": "Tools for working with 'taxonomic' databases, including\n    utilities for downloading databases, loading them into various\n    'SQL' databases, cleaning up files, and providing a 'SQL' connection\n    that can be used to do 'SQL' queries directly or used in 'dplyr'.",
+  "description": "Tools for working with 'taxonomic' databases, including utilities for downloading databases, loading them into various 'SQL' databases, cleaning up files, and providing a 'SQL' connection that can be used to do 'SQL' queries directly or used in 'dplyr'.",
   "name": "taxizedb: Tools for Working with 'Taxonomic' Databases",
+  "relatedLink": "https://docs.ropensci.org/taxizedb/",
   "codeRepository": "https://github.com/ropensci/taxizedb",
   "issueTracker": "https://github.com/ropensci/taxizedb/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.0.3 Patched (2021-01-08 r79819)",
+  "runtimePlatform": "R version 4.2.2 (2022-10-31)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
-    "name": "Central R Archive Network (CRAN)",
+    "name": "Comprehensive R Archive Network (CRAN)",
     "url": "https://cran.r-project.org"
   },
   "author": [
     {
       "@type": "Person",
       "givenName": "Scott",
-      "familyName": "Chamberlain",
-      "email": "myrmecocystus+r@gmail.com"
+      "familyName": "Chamberlain"
     },
     {
       "@type": "Person",
@@ -36,12 +33,20 @@
       "familyName": "Arendsee"
     }
   ],
+  "contributor": [
+    {
+      "@type": "Person",
+      "givenName": "Tamás",
+      "familyName": "Stirling",
+      "email": "stirling.tamas@gmail.com"
+    }
+  ],
   "maintainer": [
     {
       "@type": "Person",
-      "givenName": "Scott",
-      "familyName": "Chamberlain",
-      "email": "myrmecocystus+r@gmail.com"
+      "givenName": "Tamás",
+      "familyName": "Stirling",
+      "email": "stirling.tamas@gmail.com"
     }
   ],
   "softwareSuggestions": [
@@ -70,8 +75,8 @@
       "sameAs": "https://CRAN.R-project.org/package=taxize"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "curl",
       "name": "curl",
@@ -84,7 +89,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=curl"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "DBI",
       "name": "DBI",
@@ -97,7 +102,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=DBI"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "RSQLite",
       "name": "RSQLite",
@@ -110,7 +115,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=RSQLite"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
@@ -123,7 +128,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "tibble",
       "name": "tibble",
@@ -135,7 +140,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=tibble"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "rlang",
       "name": "rlang",
@@ -147,7 +152,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=rlang"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "readr",
       "name": "readr",
@@ -160,7 +165,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=readr"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "dbplyr",
       "name": "dbplyr",
@@ -173,7 +178,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dbplyr"
     },
-    {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
@@ -186,7 +191,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magrittr"
     },
-    {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "hoardr",
       "name": "hoardr",
@@ -198,23 +203,12 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=hoardr"
-    }
-  ],
-  "contIntegration": ["https://circleci.com/gh/ropensci/taxizedb", "https://codecov.io/gh/ropensci/taxizedb"],
+    },
+    "SystemRequirements": null
+  },
+  "fileSize": "138.754KB",
   "releaseNotes": "https://github.com/ropensci/taxizedb/blob/master/NEWS.md",
   "readme": "https://github.com/ropensci/taxizedb/blob/master/README.md",
-  "fileSize": "138.205KB",
-  "contributor": {},
-  "copyrightHolder": {},
-  "funder": {},
-  "keywords": [
-    "taxonomy",
-    "taxonomic-databases",
-    "itis",
-    "rstats",
-    "taxize",
-    "r",
-    "r-package"
-  ],
-  "relatedLink": "https://docs.ropensci.org/taxizedb/"
+  "contIntegration": ["https://github.com/ropensci/taxizedb/actions?query=workflow%3AR-check", "https://circleci.com/gh/ropensci/taxizedb", "https://codecov.io/gh/ropensci/taxizedb"],
+  "keywords": ["taxonomy", "taxonomic-databases", "itis", "rstats", "taxize", "r", "r-package"]
 }
