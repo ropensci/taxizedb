@@ -15,3 +15,4 @@ notes-wikidata.txt
 ^docs$
 ^LICENSE\.md$
 vignettes/
+^CRAN-SUBMISSION$
