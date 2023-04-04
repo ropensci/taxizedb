@@ -1,0 +1,11 @@
+bibentry(
+  bibtype = "Manual",
+  title   = "{taxizedb}: Tools for Working with 'Taxonomic' Databases",
+  author  = c(person(given = "Scott", family = "Chamberlain"),
+              person(given = "Zebulun", family = "Arendsee"),
+              person(given = "Tamás", family = "Stirling")),
+  year    = "2023",
+  note    = "R package version 0.3.1",
+  doi     = "10.5281/zenodo.1158055",
+  header  = "To cite taxizedb in publications use:"
+)
