@@ -1,11 +1,15 @@
+title <- paste0(meta$Package, ": ", meta$Title)
+year <- format(Sys.time(), "%Y")
+note <- paste0("R package version ", meta$Version)
+
 bibentry(
   bibtype = "Manual",
-  title   = "{taxizedb}: Tools for Working with 'Taxonomic' Databases",
+  header  = "To cite taxizedb in publications use:",
+  title   = title,
   author  = c(person(given = "Scott", family = "Chamberlain"),
               person(given = "Zebulun", family = "Arendsee"),
-              person(given = "Tamás", family = "Stirling")),
-  year    = "2023",
-  note    = "R package version 0.3.1",
-  doi     = "10.5281/zenodo.1158055",
-  header  = "To cite taxizedb in publications use:"
+              person(given = "Tamas", family = "Stirling")),
+  year    = year,
+  note    = note,
+  doi     = "10.5281/zenodo.1158055"
 )
