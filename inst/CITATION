@@ -1,0 +1,15 @@
+title <- paste0(meta$Package, ": ", meta$Title)
+year <- format(Sys.time(), "%Y")
+note <- paste0("R package version ", meta$Version)
+
+bibentry(
+  bibtype = "Manual",
+  header  = "To cite taxizedb in publications use:",
+  title   = title,
+  author  = c(person(given = "Scott", family = "Chamberlain"),
+              person(given = "Zebulun", family = "Arendsee"),
+              person(given = "Tamas", family = "Stirling")),
+  year    = year,
+  note    = note,
+  doi     = "10.5281/zenodo.1158055"
+)
