@@ -4,6 +4,7 @@
 #' @name db_download
 #' @param verbose (logical) Print messages. Default: `TRUE`
 #' @param overwrite (logical) If `TRUE` force an update by overwriting
+#' @param path (character) If not NULL, use this file rather than downloading a new one
 #' previously downloaded data. Default: `FALSE`
 #' @return (character) path to the downloaded SQL database
 #' @details Downloads sql database, cleans up unneeded files, returns path
@@ -43,7 +44,7 @@
 
 #' @export
 #' @rdname db_download
-db_download_ncbi <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_ncbi <- function(verbose = TRUE, overwrite = FALSE, path = NULL) {
   # set paths
   db_url <- 'ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip'
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'taxdump.zip')
@@ -62,9 +63,13 @@ db_download_ncbi <- function(verbose = TRUE, overwrite = FALSE) {
 
   # make home dir if not already present
   tdb_cache$mkdir()
-  # download data
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path_file, quiet = TRUE)
+  if(is.null(path)){
+    # download data
+    mssg(verbose, 'downloading...')
+    curl::curl_download(db_url, db_path_file, quiet = TRUE)
+  } else {
+    file.copy(path, db_path_file)
+  }
   # unzip
   mssg(verbose, 'unzipping...')
   utils::unzip(db_path_file, files = c('names.dmp', 'nodes.dmp'), exdir = db_path_dir)
@@ -215,7 +220,7 @@ db_download_ncbi <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_itis <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_itis <- function(verbose = TRUE, overwrite = FALSE, path = NULL) {
   # paths
   db_url <- 'https://itis.gov/downloads/itisSqlite.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'itisSqlite.zip')
@@ -232,9 +237,15 @@ db_download_itis <- function(verbose = TRUE, overwrite = FALSE) {
 
   # make home dir if not already present
   tdb_cache$mkdir()
-  # download data
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
+
+  if(is.null(path)){
+    # download data
+    mssg(verbose, 'downloading...')
+    curl::curl_download(db_url, db_path, quiet = TRUE)
+  } else {
+    file.copy(path, db_path)
+  }
+
   # unzip
   mssg(verbose, 'unzipping...')
   utils::unzip(db_path, exdir = db_path_file)
@@ -254,7 +265,7 @@ db_download_itis <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_tpl <- function(verbose = TRUE, overwrite = FALSE, path = NULL) {
   db_url <- "https://taxize-dbs.s3-us-west-2.amazonaws.com/plantlist.zip" #nolint
   db_path <- file.path(tdb_cache$cache_path_get(), 'plantlist.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'plantlist')
@@ -270,9 +281,15 @@ db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
 
   # make home dir if not already present
   tdb_cache$mkdir()
-  # download data
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
+
+  if(is.null(path)){
+    # download data
+    mssg(verbose, 'downloading...')
+    curl::curl_download(db_url, db_path, quiet = TRUE)
+  } else {
+    file.copy(path, db_path)
+  }
+
   # unzip
   mssg(verbose, 'unzipping...')
   utils::unzip(db_path, exdir = db_path_file)
@@ -288,7 +305,7 @@ db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_wfo <- function(verbose = TRUE, overwrite = FALSE, path = NULL) {
   db_url <- "http://104.198.143.165/files/WFO_Backbone/_WFOCompleteBackbone/WFO_Backbone.zip" #nolint
   db_path <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone')
@@ -306,9 +323,13 @@ db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
   # make home dir if not already present
   tdb_cache$mkdir()
   
-  # download data
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
+  if(is.null(path)){
+    # download data
+    mssg(verbose, 'downloading...')
+    curl::curl_download(db_url, db_path, quiet = TRUE)
+  } else {
+    file.copy(path, db_path)
+  }
   
   # unzip
   mssg(verbose, 'unzipping...')
@@ -384,7 +405,7 @@ db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_col <- function(verbose = TRUE, overwrite = FALSE, path = NULL) {
   db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/col.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'col.sqlite')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'col.zip')
@@ -398,8 +419,14 @@ db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
   unlink(db_path, force = TRUE)
 
   tdb_cache$mkdir()
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path_file, quiet = TRUE)
+
+  if(is.null(path)){
+    # download data
+    mssg(verbose, 'downloading...')
+    curl::curl_download(db_url, db_path_file, quiet = TRUE)
+  } else {
+    file.copy(path, db_path_file)
+  }
 
   mssg(verbose, 'unzipping...')
   utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
@@ -413,7 +440,7 @@ db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_gbif <- function(verbose = TRUE, overwrite = FALSE, path = NULL) {
   db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/gbif.zip'
   db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'gbif.zip')
@@ -427,8 +454,14 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
   unlink(db_path, force = TRUE)
 
   tdb_cache$mkdir()
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path_file, quiet = TRUE)
+
+  if(is.null(path)){
+    # download data
+    mssg(verbose, 'downloading...')
+    curl::curl_download(db_url, db_path_file, quiet = TRUE)
+  } else {
+    file.copy(path, db_path_file)
+  }
 
   mssg(verbose, 'unzipping...')
   utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
@@ -442,7 +475,7 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_wikidata <- function(verbose = TRUE, overwrite = FALSE) {
+db_download_wikidata <- function(verbose = TRUE, overwrite = FALSE, path = NULL) {
   db_url <- 'https://zenodo.org/record/1213477/files/wikidata-taxon-info20171227.tsv.gz'
 
   txt_file <- file.path(tdb_cache$cache_path_get(), 'wikidata-taxon-info20171227.tsv.gz')
@@ -459,6 +492,14 @@ db_download_wikidata <- function(verbose = TRUE, overwrite = FALSE) {
   # download
   mssg(verbose, 'downloading...')
   curl::curl_download(db_url, txt_file, quiet = TRUE)
+
+  if(is.null(path)){
+    # download data
+    mssg(verbose, 'downloading...')
+    curl::curl_download(db_url, txt_file, quiet = TRUE)
+  } else {
+    file.copy(path, txt_file)
+  }
 
   # load taxa.txt
   taxa_txt <- readr::read_tsv(txt_file, skip = 1,
