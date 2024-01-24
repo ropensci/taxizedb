@@ -11,24 +11,26 @@
 \alias{db_download_wikidata}
 \title{Download taxonomic databases}
 \usage{
-db_download_ncbi(verbose = TRUE, overwrite = FALSE)
+db_download_ncbi(verbose = TRUE, overwrite = FALSE, path = NULL)
 
-db_download_itis(verbose = TRUE, overwrite = FALSE)
+db_download_itis(verbose = TRUE, overwrite = FALSE, path = NULL)
 
-db_download_tpl(verbose = TRUE, overwrite = FALSE)
+db_download_tpl(verbose = TRUE, overwrite = FALSE, path = NULL)
 
-db_download_wfo(verbose = TRUE, overwrite = FALSE)
+db_download_wfo(verbose = TRUE, overwrite = FALSE, path = NULL)
 
-db_download_col(verbose = TRUE, overwrite = FALSE)
+db_download_col(verbose = TRUE, overwrite = FALSE, path = NULL)
 
-db_download_gbif(verbose = TRUE, overwrite = FALSE)
+db_download_gbif(verbose = TRUE, overwrite = FALSE, path = NULL)
 
-db_download_wikidata(verbose = TRUE, overwrite = FALSE)
+db_download_wikidata(verbose = TRUE, overwrite = FALSE, path = NULL)
 }
 \arguments{
 \item{verbose}{(logical) Print messages. Default: \code{TRUE}}
 
-\item{overwrite}{(logical) If \code{TRUE} force an update by overwriting
+\item{overwrite}{(logical) If \code{TRUE} force an update by overwriting}
+
+\item{path}{(character) If not NULL, use this file rather than downloading a new one
 previously downloaded data. Default: \code{FALSE}}
 }
 \value{
