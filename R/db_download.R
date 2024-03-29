@@ -45,7 +45,7 @@
 #' @rdname db_download
 db_download_ncbi <- function(verbose = TRUE, overwrite = FALSE) {
   # set paths
-  db_url <- 'ftp://ftp.ncbi.nih.gov/pub/taxonomy/taxdmp.zip'
+  db_url <- 'ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdmp.zip'
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'taxdump.zip')
   db_path_dir <- file.path(tdb_cache$cache_path_get(), 'taxdump')
   ncbi_names_file <- file.path(db_path_dir, 'names.dmp')
