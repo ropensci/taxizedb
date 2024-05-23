@@ -414,9 +414,9 @@ db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
 #' @export
 #' @rdname db_download
 db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/gbif.zip'
+  db_url <- "https://hosted-datasets.gbif.org/datasets/backbone/current/backbone.zip"
   db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
-  db_path_file <- file.path(tdb_cache$cache_path_get(), 'gbif.zip')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'backbone.zip')
 
   assert(verbose, "logical")
   assert(overwrite, "logical")
@@ -431,7 +431,24 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
   curl::curl_download(db_url, db_path_file, quiet = TRUE)
 
   mssg(verbose, 'unzipping...')
-  utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
+  utils::unzip(
+    db_path_file, 
+    exdir = paste0(tdb_cache$cache_path_get(), "/gbif")
+  )
+
+  # Convert to SQLite database
+
+  mssg(verbose, 'building SQLite database...')
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
+
+  out <- readr::read_tsv_chunked(
+    paste0(tdb_cache$cache_path_get(), "/gbif/Taxon.tsv"),
+    callback = function(chunk, dummy) {
+      dbWriteTable(db, "gbif", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "icccccccccccccccccccccc"
+  )
 
   mssg(verbose, 'cleaning up...')
   unlink(db_path_file)
