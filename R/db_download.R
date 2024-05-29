@@ -453,6 +453,13 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
     col_types = "icccccccccccccccccccccc"
   )
 
+  # create indices
+  RSQLite::dbExecute(db, 'CREATE UNIQUE INDEX id on gbif (taxonID)')
+  RSQLite::dbExecute(db, 'CREATE INDEX conname on gbif (canonicalName)')
+  RSQLite::dbExecute(db, 'CREATE INDEX sciname on gbif (scientificName)')
+  RSQLite::dbExecute(db, 'CREATE INDEX parname on gbif (parentNameUsageID)')
+
+  # disconnect
   RSQLite::dbDisconnect(db)
 
   mssg(verbose, 'cleaning up...')
