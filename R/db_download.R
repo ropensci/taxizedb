@@ -417,6 +417,7 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
   db_url <- "https://hosted-datasets.gbif.org/datasets/backbone/current/backbone.zip"
   db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'backbone.zip')
+  db_path_dir <- file.path(tdb_cache$cache_path_get(), 'gbif')
 
   assert(verbose, "logical")
   assert(overwrite, "logical")
@@ -452,6 +453,7 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
 
   mssg(verbose, 'cleaning up...')
   unlink(db_path_file)
+  unlink(db_path_dir, recursive = TRUE)
 
   mssg(verbose, 'all done...')
   return(db_path)
