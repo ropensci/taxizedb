@@ -289,7 +289,7 @@ db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
 #' @export
 #' @rdname db_download
 db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- "http://104.198.143.165/files/WFO_Backbone/_WFOCompleteBackbone/WFO_Backbone.zip" #nolint
+  db_url <- "https://zenodo.org/records/10425161/files/_DwC_backbone_R.zip?download=1" #nolint
   db_path <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone')
   class_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone/classification.csv')
