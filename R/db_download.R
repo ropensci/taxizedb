@@ -451,6 +451,8 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
     col_types = "icccccccccccccccccccccc"
   )
 
+  RSQLite::dbDisconnect(db)
+
   mssg(verbose, 'cleaning up...')
   unlink(db_path_file)
   unlink(db_path_dir, recursive = TRUE)
