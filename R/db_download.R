@@ -254,10 +254,8 @@ db_download_itis <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- "https://taxize-dbs.s3-us-west-2.amazonaws.com/plantlist.zip" #nolint
-  db_path <- file.path(tdb_cache$cache_path_get(), 'plantlist.zip')
-  db_path_file <- file.path(tdb_cache$cache_path_get(), 'plantlist')
+db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) { 
+  db_path_dir <- file.path(tdb_cache$cache_path_get(), 'tpl')
   final_file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sqlite')
 
   assert(verbose, "logical")
@@ -271,17 +269,21 @@ db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
   # make home dir if not already present
   tdb_cache$mkdir()
   # download data
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
-  # unzip
-  mssg(verbose, 'unzipping...')
-  utils::unzip(db_path, exdir = db_path_file)
-  # move database
-  file.rename(file.path(db_path_file, "plantlist.sqlite"), final_file)
-  # cleanup
-  mssg(verbose, 'cleaning up...')
-  unlink(db_path)
-  unlink(db_path_file, recursive = TRUE)
+  taxize::tpl_get(db_path_dir)
+  # convert to sqlite 
+  files <- list.files(db_path_dir, full.names = TRUE)
+  df <- data.table::rbindlist(lapply(files, data.table::fread), fill = TRUE)
+  names(df) <- gsub("\\s", "_", tolower(names(df)))
+  df$scientificname <- paste(df$genus, df$species)
+  x <- DBI::dbConnect(RSQLite::SQLite(), final_file)
+  DBI::dbWriteTable(x, "tpl", df)
+  # create indices
+  RSQLite::dbExecute(x, 'CREATE UNIQUE INDEX id ON tpl (id)')
+  RSQLite::dbExecute(x, 'CREATE INDEX sciname ON tpl (scientificname)')
+  # disconnect
+  DBI::dbDisconnect(x)
+  # clean up
+  unlink(db_path_dir, recursive = TRUE)
   # return path
   return(final_file)
 }
