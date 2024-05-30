@@ -48,8 +48,10 @@ test_that("children works for GBIF", {
   expect_is(unclass(res), "list")
   expect_is(res[[1]], "tbl")
   expect_named(res[[1]], c("id", "name", "rank"))
-  expect_equal(unique(res[[1]]$rank),
-    c("species", "variety", "subspecies", "form", "unranked"))
+  expect_equal(
+    sort(unique(res[[1]]$rank)),
+    c("form", "species", "subspecies", "unranked", "variety")
+  )
 })
 
 test_that("missing values are consistent with taxize", {
