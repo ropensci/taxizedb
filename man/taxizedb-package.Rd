@@ -2,6 +2,7 @@
 % Please edit documentation in R/taxizedb-package.R
 \docType{package}
 \name{taxizedb-package}
+\alias{-package}
 \alias{taxizedb-package}
 \alias{taxizedb}
 \title{taxizedb}
