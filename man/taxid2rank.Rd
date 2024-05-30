@@ -35,6 +35,6 @@ taxid2rank(c('wfo-4000032377', 'wfo-0000541830'), db = "wfo")
 taxid2rank("wfo-7000000057", db = "wfo")
 taxid2rank(2877951, db = "gbif")
 taxid2rank(c(2877951, 5386), db = "gbif")
-taxid2rank(c(3960765, 3953606, 3953010), db = "col")
+taxid2rank(c("C66T4", "C7ZVH", "TP"), db = "col")
 }
 }

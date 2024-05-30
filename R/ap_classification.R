@@ -19,7 +19,7 @@
 #' classification(c("wfo-0000291463", "wfo-7000000057"), db = "wfo")
 #' classification(2878586, db = "gbif")
 #' classification(c(2878586, 2704179), db = "gbif")
-#' classification(3960765, db = "col") # Abies
+#' classification("C66T4", db = "col") # Abies Mill.
 #' }
 classification <- function(x, db='ncbi', verbose=TRUE, ...){
   ap_dispatch(

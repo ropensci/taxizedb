@@ -51,7 +51,7 @@ name2taxid(x=c('Arabidopsis thaliana', 'Quercus kelloggii'), db = "wfo",
 name2taxid("Austrobaileyaceae", db = "wfo")
 name2taxid("Quercus kelloggii", db = "gbif")
 name2taxid(c("Quercus", "Fabaceae", "Animalia"), db = "gbif")
-name2taxid(c("Abies", "Pinales", "Tracheophyta"), db = "col")
+name2taxid(c("Abies Mill.", "Pinales Gorozh.", "Tracheophyta"), db = "col")
 name2taxid(c("Abies mangifica", "Acanthopale aethiogermanica",
   "Acanthopale albosetulosa"), db = "tpl")
 }

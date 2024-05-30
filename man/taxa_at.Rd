@@ -52,6 +52,6 @@ taxa_at(c('wfo-4000032377', 'wfo-0000541830'), rank = "family", db = "wfo")
 taxa_at("wfo-7000000057", rank = "order", db = "wfo")
 taxa_at(2877951, rank = "phylum", db = "gbif")
 taxa_at(c(2877951, 5386), rank = "family", db = "gbif")
-taxa_at(c(3960765, 3953606, 3953010), rank = "family", db = "col")
+taxa_at(c("C66T4", "C7ZVH", "TP"), rank = "family", db = "col")
 }
 }
