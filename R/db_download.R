@@ -387,9 +387,10 @@ db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
 #' @export
 #' @rdname db_download
 db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/col.zip'
+  db_url <- 'https://api.checklistbank.org/dataset/294826/export.zip?extended=true&format=DwCA'
   db_path <- file.path(tdb_cache$cache_path_get(), 'col.sqlite')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'col.zip')
+  db_path_dir <- file.path(tdb_cache$cache_path_get(), 'col')
 
   assert(verbose, "logical")
   assert(overwrite, "logical")
@@ -404,10 +405,64 @@ db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
   curl::curl_download(db_url, db_path_file, quiet = TRUE)
 
   mssg(verbose, 'unzipping...')
-  utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
+  utils::unzip(db_path_file, exdir = db_path_dir)
+
+  # Convert to SQLite database
+
+  mssg(verbose, 'building SQLite database...')
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/Distribution.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "distribution", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "cccccc"
+  )
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/SpeciesProfile.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "speciesprofile", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "ccccc"
+  )
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/VernacularName.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "vernacular", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "ccc"
+  )
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/Taxon.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "taxa", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "cccccicccclccccllccccc"
+  )
+
+  # create indices
+  RSQLite::dbExecute(db, 'CREATE UNIQUE INDEX id on taxa (taxonID)')
+  RSQLite::dbExecute(db, 'CREATE INDEX sciname on taxa (scientificName)')
+  RSQLite::dbExecute(db, 'CREATE INDEX parname on taxa (parentNameUsageID)')
+
+  # disconnect
+  RSQLite::dbDisconnect(db)
 
   mssg(verbose, 'cleaning up...')
   unlink(db_path_file)
+  unlink(db_path_dir, recursive = TRUE)
 
   mssg(verbose, 'all done...')
   return(db_path)
