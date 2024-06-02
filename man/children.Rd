@@ -26,9 +26,9 @@ Retrieve immediate descendents of a taxon
 \examples{
 \dontrun{
 children(c(3700, 2))
-children(c(154395, 154357), db="itis")
-children("wfo-4000032377", db="wfo")
-children(2877951, db="gbif")
-children(3960765, db="col") # Abies
+children(c(154395, 154357), db = "itis")
+children("wfo-4000032377", db = "wfo")
+children(2877951, db = "gbif")
+children("C66T4", db = "col") # Abies Mill. Mill.
 }
 }

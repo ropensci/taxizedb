@@ -254,10 +254,8 @@ db_download_itis <- function(verbose = TRUE, overwrite = FALSE) {
 
 #' @export
 #' @rdname db_download
-db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- "https://taxize-dbs.s3-us-west-2.amazonaws.com/plantlist.zip" #nolint
-  db_path <- file.path(tdb_cache$cache_path_get(), 'plantlist.zip')
-  db_path_file <- file.path(tdb_cache$cache_path_get(), 'plantlist')
+db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) { 
+  db_path_dir <- file.path(tdb_cache$cache_path_get(), 'tpl')
   final_file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sqlite')
 
   assert(verbose, "logical")
@@ -271,17 +269,21 @@ db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
   # make home dir if not already present
   tdb_cache$mkdir()
   # download data
-  mssg(verbose, 'downloading...')
-  curl::curl_download(db_url, db_path, quiet = TRUE)
-  # unzip
-  mssg(verbose, 'unzipping...')
-  utils::unzip(db_path, exdir = db_path_file)
-  # move database
-  file.rename(file.path(db_path_file, "plantlist.sqlite"), final_file)
-  # cleanup
-  mssg(verbose, 'cleaning up...')
-  unlink(db_path)
-  unlink(db_path_file, recursive = TRUE)
+  taxize::tpl_get(db_path_dir)
+  # convert to sqlite 
+  files <- list.files(db_path_dir, full.names = TRUE)
+  df <- data.table::rbindlist(lapply(files, data.table::fread), fill = TRUE)
+  names(df) <- gsub("\\s", "_", tolower(names(df)))
+  df$scientificname <- paste(df$genus, df$species)
+  x <- DBI::dbConnect(RSQLite::SQLite(), final_file)
+  DBI::dbWriteTable(x, "tpl", df)
+  # create indices
+  RSQLite::dbExecute(x, 'CREATE UNIQUE INDEX id ON tpl (id)')
+  RSQLite::dbExecute(x, 'CREATE INDEX sciname ON tpl (scientificname)')
+  # disconnect
+  DBI::dbDisconnect(x)
+  # clean up
+  unlink(db_path_dir, recursive = TRUE)
   # return path
   return(final_file)
 }
@@ -289,7 +291,7 @@ db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
 #' @export
 #' @rdname db_download
 db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- "http://104.198.143.165/files/WFO_Backbone/_WFOCompleteBackbone/WFO_Backbone.zip" #nolint
+  db_url <- "https://zenodo.org/records/10425161/files/_DwC_backbone_R.zip?download=1" #nolint
   db_path <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone.zip')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone')
   class_file <- file.path(tdb_cache$cache_path_get(), 'WFO_Backbone/classification.csv')
@@ -385,9 +387,10 @@ db_download_wfo <- function(verbose = TRUE, overwrite = FALSE) {
 #' @export
 #' @rdname db_download
 db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/col.zip'
+  db_url <- 'https://api.checklistbank.org/dataset/294826/export.zip?extended=true&format=DwCA'
   db_path <- file.path(tdb_cache$cache_path_get(), 'col.sqlite')
   db_path_file <- file.path(tdb_cache$cache_path_get(), 'col.zip')
+  db_path_dir <- file.path(tdb_cache$cache_path_get(), 'col')
 
   assert(verbose, "logical")
   assert(overwrite, "logical")
@@ -402,10 +405,64 @@ db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
   curl::curl_download(db_url, db_path_file, quiet = TRUE)
 
   mssg(verbose, 'unzipping...')
-  utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
+  utils::unzip(db_path_file, exdir = db_path_dir)
+
+  # Convert to SQLite database
+
+  mssg(verbose, 'building SQLite database...')
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/Distribution.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "distribution", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "cccccc"
+  )
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/SpeciesProfile.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "speciesprofile", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "ccccc"
+  )
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/VernacularName.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "vernacular", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "ccc"
+  )
+
+  out <- readr::read_tsv_chunked(
+    paste0(db_path_dir, "/Taxon.tsv"),
+    callback = function(chunk, dummy) {
+      names(chunk) <- gsub("^.*:", "", names(chunk))
+      DBI::dbWriteTable(db, "taxa", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "cccccicccclccccllccccc"
+  )
+
+  # create indices
+  RSQLite::dbExecute(db, 'CREATE UNIQUE INDEX id on taxa (taxonID)')
+  RSQLite::dbExecute(db, 'CREATE INDEX sciname on taxa (scientificName)')
+  RSQLite::dbExecute(db, 'CREATE INDEX parname on taxa (parentNameUsageID)')
+
+  # disconnect
+  RSQLite::dbDisconnect(db)
 
   mssg(verbose, 'cleaning up...')
   unlink(db_path_file)
+  unlink(db_path_dir, recursive = TRUE)
 
   mssg(verbose, 'all done...')
   return(db_path)
@@ -414,9 +471,10 @@ db_download_col <- function(verbose = TRUE, overwrite = FALSE) {
 #' @export
 #' @rdname db_download
 db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
-  db_url <- 'https://taxize-dbs.s3-us-west-2.amazonaws.com/gbif.zip'
+  db_url <- "https://hosted-datasets.gbif.org/datasets/backbone/current/backbone.zip"
   db_path <- file.path(tdb_cache$cache_path_get(), 'gbif.sqlite')
-  db_path_file <- file.path(tdb_cache$cache_path_get(), 'gbif.zip')
+  db_path_file <- file.path(tdb_cache$cache_path_get(), 'backbone.zip')
+  db_path_dir <- file.path(tdb_cache$cache_path_get(), 'gbif')
 
   assert(verbose, "logical")
   assert(overwrite, "logical")
@@ -431,10 +489,37 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
   curl::curl_download(db_url, db_path_file, quiet = TRUE)
 
   mssg(verbose, 'unzipping...')
-  utils::unzip(db_path_file, exdir = tdb_cache$cache_path_get())
+  utils::unzip(
+    db_path_file, 
+    exdir = paste0(tdb_cache$cache_path_get(), "/gbif")
+  )
+
+  # Convert to SQLite database
+
+  mssg(verbose, 'building SQLite database...')
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
+
+  out <- readr::read_tsv_chunked(
+    paste0(tdb_cache$cache_path_get(), "/gbif/Taxon.tsv"),
+    callback = function(chunk, dummy) {
+      DBI::dbWriteTable(db, "gbif", chunk, append = T)
+    },
+    chunk_size = 10000,
+    col_types = "icccccccccccccccccccccc"
+  )
+
+  # create indices
+  RSQLite::dbExecute(db, 'CREATE UNIQUE INDEX id on gbif (taxonID)')
+  RSQLite::dbExecute(db, 'CREATE INDEX conname on gbif (canonicalName)')
+  RSQLite::dbExecute(db, 'CREATE INDEX sciname on gbif (scientificName)')
+  RSQLite::dbExecute(db, 'CREATE INDEX parname on gbif (parentNameUsageID)')
+
+  # disconnect
+  RSQLite::dbDisconnect(db)
 
   mssg(verbose, 'cleaning up...')
   unlink(db_path_file)
+  unlink(db_path_dir, recursive = TRUE)
 
   mssg(verbose, 'all done...')
   return(db_path)

@@ -16,70 +16,44 @@ Downloads](https://cranlogs.r-pkg.org/badges/grand-total/taxizedb?color=blue)](h
 version](https://www.r-pkg.org/badges/version/taxizedb)](https://cran.r-project.org/package=taxizedb)
 [![DOI](https://zenodo.org/badge/53961466.svg)](https://zenodo.org/badge/latestdoi/53961466)
 
-`taxizedb` - Tools for Working with Taxonomic Databases on your machine
+`taxizedb` - Tools for Working with Taxonomic Databases
 
 Docs: <https://docs.ropensci.org/taxizedb/>
 
-[taxize](https://github.com/ropensci/taxize) is a heavily used taxonomic
-toolbelt package in R - However, it makes web requests for nearly all
-methods. That is fine for most cases, but when the user has many, many
-names it is much more efficient to do requests to a local SQL database.
+`taxizedb` is an R package for interacting with taxonomic databases. Its
+functionality can be divided in two parts: 1. You can download the
+databases to your platform 2. You can query the downloaded databases to
+retrieve taxonomic information.
+
+This two step approach is different from tools which interact with web
+services for each query, and has a number of advantages:
+
+- Once you download a database you can work with it offline
+- Once you download a database querying it is super fast
+- As long as you store your database files all the queries in your
+  analysis will be fully reproducible
 
 ## Data sources
 
-Not all taxonomic databases are publicly available, or possible to mash
-into a SQLized version. Taxonomic DB’s supported:
+When you download a database with `taxizedb` it will automatically
+convert it to SQLite and then all query functions will interact with
+this SQLite database. However, not all taxonomic databases are publicly
+available, or can be converted to SQLite. The following databases are
+supported:
 
-- NCBI: text files are provided by NCBI, which we stitch into a sqlite
-  db
-- ITIS: they provide a sqlite dump, which we use here
-- The PlantList: created from stitching together csv files. this source
-  is no longer updated as far as we can tell. they say they’ve moved
-  focus to the World Flora Online
-- Catalogue of Life: created from Darwin Core Archive dump.
-- GBIF: created from Darwin Core Archive dump. right now we only have
-  the taxonomy table (called gbif), but will add the other tables in the
-  darwin core archive later
-- Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and
-  Wikidata. On Zenodo, created by Joritt Poelen of GLOBI.
-- World Flora Online: <http://www.worldfloraonline.org/>
-
-Update schedule for databases:
-
-- NCBI: since `db_download_ncbi` creates the database when the function
-  is called, it’s updated whenever you run the function
-- ITIS: since ITIS provides the sqlite database as a download, you can
-  delete the old file and run `db_download_itis` to get a new dump; they
-  I think update the dumps every month or so
-- The PlantList: no longer updated, so you shouldn’t need to download
-  this after the first download. hosted on Amazon S3
-- Catalogue of Life: a GitHub Actions job runs once a day at 00:00 UTC,
-  building the lastest COL data into a SQLite database thats hosted on
-  Amazon S3
-- GBIF: a GitHub Actions job runs once a day at 00:00 UTC, building the
-  lastest GBIF data into a SQLite database thats hosted on Amazon S3
-- Wikidata: last updated April 6, 2018. Scripts are available to update
-  the data if you prefer to do it yourself.
-- World Flora Online: since `db_download_wfo` creates the database when
-  the function is called, it’s updated whenever you run the function
-
-Links:
-
-- NCBI: <ftp://ftp.ncbi.nih.gov/pub/taxonomy/>
-- ITIS: <https://www.itis.gov/downloads/index.html>
-- The PlantList - <http://www.theplantlist.org/>
-- Catalogue of Life:
-  - latest monthly edition via
-    <https://www.catalogueoflife.org/data/download>
-- GBIF: <http://rs.gbif.org/datasets/backbone/>
-- Wikidata: <https://zenodo.org/record/1213477>
-- World Flora Online: <http://www.worldfloraonline.org/>
+- [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy)
+- [ITIS](https://itis.gov/)
+- [The Plant List (TPL)](http://www.theplantlist.org/) - Note that The
+  Plant List has been superseded by World Flora Online.
+- [World Flora Online (WFO)](http://www.worldfloraonline.org/)
+- [Catalogue of Life (COL)](https://www.catalogueoflife.org/)
+- [Global Biodiversity Information Facility
+  (GBIF)](https://www.gbif.org/)
+- [Wikidata](https://zenodo.org/records/1213477)
 
 Get in touch [in the
 issues](https://github.com/ropensci/taxizedb/issues) with any ideas on
 new data sources.
-
-All databases are SQLite.
 
 ## Package API
 
@@ -100,9 +74,9 @@ This package for each data sources performs the following tasks:
 You can use the `src` connections with `dplyr`, etc. to do operations
 downstream. Or use the database connection to do raw SQL queries.
 
-## install
+## Installation
 
-cran version
+CRAN version
 
 ``` r
 install.packages("taxizedb")
