@@ -1,6 +1,7 @@
-#' Load taxonomic databases - NO LONGER NEEDED
+#' Load taxonomic databases
 #' 
-#' Use [db_download] then [src_taxizedb]
+#' This family of functions has been removed. Use [db_download] then 
+#' [src_taxizedb].
 #'
 #' @export
 #' @param ... ignored

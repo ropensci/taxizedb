@@ -8,7 +8,7 @@
 \alias{db_load_gbif}
 \alias{db_load_ncbi}
 \alias{db_load_wikidata}
-\title{Load taxonomic databases - NO LONGER NEEDED}
+\title{Load taxonomic databases}
 \usage{
 db_load_itis(...)
 
@@ -26,5 +26,6 @@ db_load_wikidata(...)
 \item{...}{ignored}
 }
 \description{
-Use \link{db_download} then \link{src_taxizedb}
+This family of functions has been removed. Use \link{db_download} then
+\link{src_taxizedb}.
 }
