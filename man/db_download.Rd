@@ -41,6 +41,11 @@ Download taxonomic databases
 Downloads sql database, cleans up unneeded files, returns path
 to sql file
 }
+\note{
+The Plant List (TPL) is no longer accessible. If you have a copy of the
+sqlite database you can still use the rest of the TPL functions with it. We
+suggest using the World Flora Online (WFO) database as a replacement.
+}
 \examples{
 \dontrun{
 # ITIS
@@ -49,7 +54,6 @@ to sql file
 
 # Plantlist
 # db_download_tpl()
-# db_download_tpl(overwrite=TRUE) # overwrite - download again
 # src_tpl()
 
 # COL
