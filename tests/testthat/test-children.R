@@ -64,11 +64,17 @@ test_that("missing values are consistent with taxize", {
 })
 
 test_that('children fails well', {
-  # tpl not supported
-  expect_error(
-    children("Poa", db = "tpl"),
-    "TPL database is not supported"
-  )
+
+  # TPL is no longer accessible. We can only test locally.
+  file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sqlite')
+  if (file.exists(file)) {
+    # tpl not supported
+    expect_error(
+      children("Poa", db = "tpl"),
+      "TPL database is not supported"
+    )
+  }
+  
   # abc does not exist
   expect_error(
     children("Poa annua", db = "abc"),

@@ -1,3 +1,11 @@
+dev
+==============
+
+## DEFUNCT
+
+* TPL is no longer available so `db_download_tpl()` will fail. However, if the database was downloaded earlier, it can still be queried using `taxizedb` functions.
+
+
 taxizedb 0.3.1
 ==============
 

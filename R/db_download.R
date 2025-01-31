@@ -8,6 +8,9 @@
 #' @return (character) path to the downloaded SQL database
 #' @details Downloads sql database, cleans up unneeded files, returns path
 #' to sql file
+#' @note The Plant List (TPL) is no longer accessible. If you have a copy of the
+#' sqlite database you can still use the rest of the TPL functions with it. We 
+#' suggest using the World Flora Online (WFO) database as a replacement.
 #' @seealso [tdb_cache]
 #' @examples \dontrun{
 #' # ITIS
@@ -16,7 +19,6 @@
 #'
 #' # Plantlist
 #' # db_download_tpl()
-#' # db_download_tpl(overwrite=TRUE) # overwrite - download again
 #' # src_tpl()
 #'
 #' # COL
@@ -263,29 +265,13 @@ db_download_tpl <- function(verbose = TRUE, overwrite = FALSE) {
   if (file.exists(final_file) && !overwrite) {
     mssg(verbose, "Database already exists, returning old file")
     return(final_file)
+  } else {
+    stop(
+      "The Plant List (TPL) is no longer accessible. If you have a copy of the
+      sqlite database you can still use the rest of the TPL functions with it. 
+      We suggest using the World Flora Online (WFO) database as a replacement."
+    )
   }
-  unlink(final_file, force = TRUE)
-
-  # make home dir if not already present
-  tdb_cache$mkdir()
-  # download data
-  taxize::tpl_get(db_path_dir)
-  # convert to sqlite 
-  files <- list.files(db_path_dir, full.names = TRUE)
-  df <- data.table::rbindlist(lapply(files, data.table::fread), fill = TRUE)
-  names(df) <- gsub("\\s", "_", tolower(names(df)))
-  df$scientificname <- paste(df$genus, df$species)
-  x <- DBI::dbConnect(RSQLite::SQLite(), final_file)
-  DBI::dbWriteTable(x, "tpl", df)
-  # create indices
-  RSQLite::dbExecute(x, 'CREATE UNIQUE INDEX id ON tpl (id)')
-  RSQLite::dbExecute(x, 'CREATE INDEX sciname ON tpl (scientificname)')
-  # disconnect
-  DBI::dbDisconnect(x)
-  # clean up
-  unlink(db_path_dir, recursive = TRUE)
-  # return path
-  return(final_file)
 }
 
 #' @export

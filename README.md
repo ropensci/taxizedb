@@ -43,8 +43,6 @@ supported:
 
 - [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy)
 - [ITIS](https://itis.gov/)
-- [The Plant List (TPL)](http://www.theplantlist.org/) - Note that The
-  Plant List has been superseded by World Flora Online.
 - [World Flora Online (WFO)](http://www.worldfloraonline.org/)
 - [Catalogue of Life (COL)](https://www.catalogueoflife.org/)
 - [Global Biodiversity Information Facility
@@ -54,6 +52,14 @@ supported:
 Get in touch [in the
 issues](https://github.com/ropensci/taxizedb/issues) with any ideas on
 new data sources.
+
+## Data sources - legacy support
+
+[The Plant List (TPL)](https://en.wikipedia.org/wiki/The_Plant_List) has
+been replaced by World Flora Online. The website seems to be down so
+`taxizedb` can no longer facilitate new downloads. However, already
+downloaded database files can still be queried using `taxizedb`
+functions, for reproducibility.
 
 ## Package API
 

@@ -118,11 +118,17 @@ test_that('classification handles mixed inputs', {
 })
 
 test_that('classification fails well', {
-  # tpl not supported
-  expect_error(
-    classification("Poa annua", db = "tpl"),
-    "TPL database is not supported"
-  )
+
+  # TPL is no longer accessible. We can only test locally.
+  file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sqlite')
+  if (file.exists(file)) {
+    # tpl not supported
+    expect_error(
+      classification("Poa annua", db = "tpl"),
+      "TPL database is not supported"
+    )
+  }
+
   # abc does not exist
   expect_error(
     classification("Poa annua", db = "abc"),
