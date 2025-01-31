@@ -9,7 +9,6 @@ test_that("We can actually download, load, and query all databases", {
   ## These should load from cache if we already have the download!
   gbif <- db_download_gbif()
   itis <- db_download_itis()
-  tpl <- db_download_tpl()
   col <- db_download_col()
   ncbi <- db_download_ncbi()
   wfo <- db_download_wfo()
@@ -25,9 +24,15 @@ test_that("We can actually download, load, and query all databases", {
   ## Load the actual data:
   gbif_db <- src_gbif()
   itis_db <- src_itis()
-  tpl_db <- src_tpl()
   col_db <- src_col()
   ncbi_db <- src_ncbi()
   wfo_db <- src_wfo()
   wikitaxa_db <- src_wikidata()
+
+  # TPL is no longer accessible. We can only test locally.
+  file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sqlite')
+  if (file.exists(file)) {
+    tpl <- db_download_tpl()
+    tpl_db <- src_tpl()
+  }
 })

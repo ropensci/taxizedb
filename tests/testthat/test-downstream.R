@@ -36,12 +36,19 @@ test_that("downstream works with GBIF", {
   expect_named(x[[1]], c("id", "name", "rank"))
 })
 
+# TPL is no longer accessible. We can only test locally.
+test_that('downstream fails well', { 
+  file <- file.path(tdb_cache$cache_path_get(), 'plantlist.sqlite')
+  if (file.exists(file)) {
+    # tpl not supported
+    expect_error(
+      downstream("Poa", db = "tpl"),
+      "TPL database is not supported"
+    )
+  }
+})
+
 test_that('downstream fails well', {
-  # tpl not supported
-  expect_error(
-    downstream("Poa", db = "tpl"),
-    "TPL database is not supported"
-  )
   # abc does not exist
   expect_error(
     downstream("Poa annua", db = "abc"),
