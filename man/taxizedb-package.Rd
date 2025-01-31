@@ -95,8 +95,11 @@ hiers <- src \%>\% tbl("hierarchy")
 hiers \%>\% select(TSN, level)
 
 # data source: The PlantList
-## download tpl datababase
-db_download_tpl()
+
+"The Plant List (TPL) is no longer accessible. If you have a copy of the
+sqlite database you can still use the rest of the TPL functions with it.
+We suggest using the World Flora Online (WFO) database as a replacement." 
+
 ## connecto the tpl database
 src <- src_tpl()
 ## do queries
