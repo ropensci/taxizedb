@@ -32,5 +32,5 @@ Imports:
     taxize
 Suggests:
     testthat
-Remotes: ropensci/taxize@v0.9.99
+Remotes: ropensci/bold@v1.3.0, ropensci/taxize@v0.9.99
 RoxygenNote: 7.3.2
