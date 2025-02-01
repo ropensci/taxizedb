@@ -44,7 +44,11 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: any::rcmdcheck
+          r-version: 'release'
+          extra-packages: |
+            ropensci/taxize
+            ropensci/bold
+            any::rcmdcheck
           needs: check
 
       - uses: r-lib/actions/check-r-package@v2
