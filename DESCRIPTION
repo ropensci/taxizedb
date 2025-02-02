@@ -28,8 +28,9 @@ Imports:
     readr (>= 1.1.1),
     dbplyr (>= 1.0.0),
     magrittr (>= 1.5),
-    hoardr (>= 0.1.0)
-Suggests:
-    testthat,
+    hoardr (>= 0.1.0),
     taxize
+Suggests:
+    testthat
+Remotes: ropensci/bold, ropensci/taxize
 RoxygenNote: 7.3.2
