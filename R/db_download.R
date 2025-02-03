@@ -484,7 +484,7 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
 
   mssg(verbose, 'building SQLite database...')
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
-  
+
   out <- readr::read_tsv_chunked(
     paste0(tdb_cache$cache_path_get(), "/gbif/Taxon.tsv"),
     callback = function(chunk, dummy) {
@@ -492,7 +492,7 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
       rm(chunk)
       gc()
     },
-    chunk_size = 5000,
+    chunk_size = 10000,
     col_types = "icccccccccccccccccccccc"
   )
 
