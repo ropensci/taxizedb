@@ -481,22 +481,23 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
   )
 
   # Convert to SQLite database
-
   mssg(verbose, 'building SQLite database...')
-  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
-
+  
   out <- readr::read_tsv_chunked(
     paste0(tdb_cache$cache_path_get(), "/gbif/Taxon.tsv"),
     callback = function(chunk, dummy) {
+      db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
       DBI::dbWriteTable(db, "gbif", chunk, append = T)
+      DBI::dbDisconnect(db)
       rm(chunk)
       gc()
     },
     chunk_size = 10000,
     col_types = "icccccccccccccccccccccc"
   )
-
+  
   # create indices
+  db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
   RSQLite::dbExecute(db, 'CREATE UNIQUE INDEX id on gbif (taxonID)')
   RSQLite::dbExecute(db, 'CREATE INDEX conname on gbif (canonicalName)')
   RSQLite::dbExecute(db, 'CREATE INDEX sciname on gbif (scientificName)')
