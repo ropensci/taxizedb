@@ -489,6 +489,8 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
     paste0(tdb_cache$cache_path_get(), "/gbif/Taxon.tsv"),
     callback = function(chunk, dummy) {
       DBI::dbWriteTable(db, "gbif", chunk, append = T)
+      rm(chunk)
+      gc()
     },
     chunk_size = 10000,
     col_types = "icccccccccccccccccccccc"
