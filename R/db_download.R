@@ -485,14 +485,14 @@ db_download_gbif <- function(verbose = TRUE, overwrite = FALSE) {
   mssg(verbose, 'building SQLite database...')
   db <- RSQLite::dbConnect(RSQLite::SQLite(), dbname = db_path)
 
-  out <- readr::read_tsv_chunked(
+  out <- vroom::vroom(
     paste0(tdb_cache$cache_path_get(), "/gbif/Taxon.tsv"),
-    callback = function(chunk, dummy) {
-      DBI::dbWriteTable(db, "gbif", chunk, append = T)
-    },
-    chunk_size = 10000,
-    col_types = "icccccccccccccccccccccc"
+    delim = "\t",
+    col_types = "icccccccccccccccccccccc",
+    progress = FALSE
   )
+
+  DBI::dbWriteTable(db, "gbif", out, append = TRUE, batch_rows = 10000)
 
   # create indices
   RSQLite::dbExecute(db, 'CREATE UNIQUE INDEX id on gbif (taxonID)')
