@@ -184,7 +184,7 @@ ncbi_classification <- function(src, x, ...){
     )) %>%
     # NOTE: Remove the root node, for consistency with 'taxize'. The root
     # node really is important, though, because viruses are a thing.
-    dplyr::filter("ancestor" != 1L) %>%
+    dplyr::filter(.data$ancestor != 1L) %>%
     # Add ranks (TODO: add taxid2rank function)
     merge({
       cmd <- "SELECT tax_id, rank FROM nodes WHERE tax_id IN (%s)"
@@ -193,9 +193,9 @@ ncbi_classification <- function(src, x, ...){
     }, by.x='ancestor', by.y='tax_id') %>%
     dplyr::mutate(
       # make taxon IDs character vectors (for consistency with taxize)
-      ancestor = as.character(ancestor),
+      ancestor = as.character(.data$ancestor),
       # add ancestor scientific name
-      name = taxid2name(ancestor)
+      name = taxid2name(.data$ancestor)
     ) %>%
     split(f=.$tax_id) %>%
     lapply(function(d)
@@ -207,7 +207,7 @@ ncbi_classification <- function(src, x, ...){
       dplyr::select(
         name = name,
         rank = rank,
-        id   = ancestor
+        id   = .data$ancestor
       )
     )
   }
