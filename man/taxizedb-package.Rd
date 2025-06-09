@@ -26,7 +26,7 @@ the taxonomy table (called gbif), but will add the other tables in the
 darwin core archive later
 \item Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata.
 On Zenodo, created by Joritt Poelen of GLOBI.
-\item World Flora Online: http://www.worldfloraonline.org/
+\item World Flora Online: https://www.worldfloraonline.org/
 }
 }
 
@@ -63,7 +63,7 @@ the function is called, it's updated whenever you run the function
 via http://www.catalogueoflife.org/content/annual-checklist-archive
 \item GBIF: http://rs.gbif.org/datasets/backbone/
 \item Wikidata: https://zenodo.org/record/1213477
-\item World Flora Online: http://www.worldfloraonline.org/
+\item World Flora Online: https://www.worldfloraonline.org/
 }
 }
 
