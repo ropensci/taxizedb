@@ -21,7 +21,9 @@ children <- function(x, db='ncbi', verbose=TRUE, ...){
 
 itis_children <- function(src, x, ...){
   FUN <- function(x, src, ...) {
-    ranks <- unique(sql_collect(src, 'select * from taxon_unit_types'))
+    ranks <- sql_collect(src, 'select * from taxon_unit_types') |>
+      dplyr::select(rank_id, rank_name) |>
+      dplyr::distinct()
     children <- 
       sql_collect(src, sprintf("select * from hierarchy where Parent_TSN = '%s'", x))
     tsns <- children$TSN
@@ -29,10 +31,13 @@ itis_children <- function(src, x, ...){
       "SELECT tsn,rank_id,complete_name FROM taxonomic_units WHERE tsn IN ('%s')", 
       paste0(tsns, collapse = "','"))
     child_df <- sql_collect(src, child_query)
-    tmp <- unique(dplyr::left_join(
+    tmp <- dplyr::left_join(
       child_df, 
-      dplyr::select(ranks, rank_id, rank_name),
-      by = "rank_id", multiple = "all"))
+      ranks,
+      by = "rank_id",
+      multiple = "all",
+      relationship = "many-to-many"
+    )
     tmp$rank_name <- tolower(tmp$rank_name)
     # tmp$rank_id <- NULL
     tmp <- dplyr::rename(tmp, id = 'tsn', name = 'complete_name', rank = 'rank_name')
