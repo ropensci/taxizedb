@@ -19,7 +19,6 @@ Encoding: UTF-8
 Language: en-US
 Imports:
     curl (>= 2.4),
-    data.table,
     DBI (>= 0.6-1),
     RSQLite (>= 1.1.2),
     dplyr (>= 0.7.0),
@@ -29,9 +28,8 @@ Imports:
     dbplyr (>= 1.0.0),
     magrittr (>= 1.5),
     hoardr (>= 0.1.0),
-    taxize,
     vroom
 Suggests:
+    taxize,
     testthat
-Remotes: ropensci/bold, ropensci/taxize
 RoxygenNote: 7.3.2

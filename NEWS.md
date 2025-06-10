@@ -7,7 +7,6 @@ taxizedb 0.3.1
 
 ## BUG FIXES
 
-* `taxize` was not available on CRAN so the DESCRIPTION file was updated to pull the dependency from GitHub instead. (#88)
 * Replaced `readr::read_tsv_chunked` with `vroom::vroom()` to avoid memory limitation for checks on macOS. (#89)
 
 
