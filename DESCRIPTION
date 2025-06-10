@@ -17,6 +17,8 @@ License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
 Language: en-US
+Depends:
+    R (>= 4.1)
 Imports:
     curl (>= 2.4),
     DBI (>= 0.6-1),
