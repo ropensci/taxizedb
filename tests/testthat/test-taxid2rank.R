@@ -9,7 +9,7 @@ test_that("taxid2rank", {
   expect_warning(taxid2rank(99999999))
   expect_equal(
     taxid2rank(c(3702,99999999,1,2759), warn=F),
-    c('species', NA, 'no rank', 'superkingdom')
+    c('species', NA, 'no rank', 'domain')
   )
   # check order
   expect_equal(
