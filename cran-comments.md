@@ -1,3 +1,8 @@
+# taxizedb 0.3.2
+
+* This patch release is submitted following the removal of the package from CRAN due to a policy violation regarding correspondence format: "All correspondence with CRAN must be sent ... in plain text ASCII and not HTML". I accidentally replied to a CRAN Team member in HTML format and as a result the package was removed from CRAN without warning. I apologize for this oversight and kindly request that the package be reinstated on CRAN.
+* `urlchecker::url_check()` failed for https://www.worldfloraonline.org/. I checked the URL manually and the website is up and running.
+
 # taxizedb 0.3.1
 
 * This patch release was submitted to CRAN because the maintainer of the project
