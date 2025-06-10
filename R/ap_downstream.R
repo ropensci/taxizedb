@@ -273,10 +273,10 @@ ncbi_downstream <- function(src, x, ...){
         childtaxa_name = taxid2name(.data$tax_id)
       ) %>%
       dplyr::select(
-        childtaxa_id   = .data$tax_id,
-        childtaxa_name = .data$childtaxa_name,
+        childtaxa_id   = "tax_id",
+        childtaxa_name = "childtaxa_name",
         rank           = rank,
-        key            = .data$ancestor
+        key            = "ancestor"
       ) %>%
       {
         if(!is.null(downto)){

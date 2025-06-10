@@ -207,7 +207,7 @@ ncbi_classification <- function(src, x, ...){
       dplyr::select(
         name = name,
         rank = rank,
-        id   = .data$ancestor
+        id   = "ancestor"
       )
     )
   }
