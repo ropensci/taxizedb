@@ -1,4 +1,4 @@
-taxizedb 0.3.1
+taxizedb 0.3.2
 ==============
 
 ## MINOR IMPROVEMENTS
