@@ -1,15 +1,24 @@
-dev
+taxizedb 0.3.2
 ==============
+
+## MINOR IMPROVEMENTS
+
+* For certain databases, the `db_download_*()` function downloaded a preprocessed SQLite database from the cloud, where it was updated automatically e.g. daily. However, cloud access occasionally broke. To provide robust functionaility. `db_download_*()` was updated to download raw data and convert it to SQLite locally, on demand, for all databases. (#81)
+
+## BUG FIXES
+
+* Replaced `readr::read_tsv_chunked` with `vroom::vroom()` to avoid memory limitation for checks on macOS. (#89)
+
 
 ## DEFUNCT
 
-* TPL is no longer available so `db_download_tpl()` will fail. However, if the database was downloaded earlier, it can still be queried using `taxizedb` functions.
-
+* TPL is no longer available so `db_download_tpl()` will fail. However, if the database was downloaded earlier, it can still be queried using `taxizedb` functions. (#87)
 
 taxizedb 0.3.1
 ==============
 
 * New maintainer (#65).
+
 
 taxizedb 0.3.0
 ==============

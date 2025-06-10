@@ -43,7 +43,7 @@ supported:
 
 - [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy)
 - [ITIS](https://itis.gov/)
-- [World Flora Online (WFO)](http://www.worldfloraonline.org/)
+- [World Flora Online (WFO)](https://www.worldfloraonline.org/)
 - [Catalogue of Life (COL)](https://www.catalogueoflife.org/)
 - [Global Biodiversity Information Facility
   (GBIF)](https://www.gbif.org/)

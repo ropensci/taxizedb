@@ -30,7 +30,7 @@
 #' darwin core archive later
 #' - Wikidata: aggregated taxonomy of Open Tree of Life, GLoBI and Wikidata. 
 #' On Zenodo, created by Joritt Poelen of GLOBI.
-#' - World Flora Online: http://www.worldfloraonline.org/
+#' - World Flora Online: https://www.worldfloraonline.org/
 #'
 #' @section Update schedule for databases:
 #'
@@ -61,7 +61,7 @@
 #'   via http://www.catalogueoflife.org/content/annual-checklist-archive
 #' - GBIF: http://rs.gbif.org/datasets/backbone/
 #' - Wikidata: https://zenodo.org/record/1213477
-#' - World Flora Online: http://www.worldfloraonline.org/
+#' - World Flora Online: https://www.worldfloraonline.org/
 #'
 #' @examples \dontrun{
 #' library(dplyr)

@@ -5,7 +5,7 @@ Description: Tools for working with 'taxonomic' databases, including utilities
     for downloading databases, loading them into various 'SQL' databases,
     cleaning up files, and providing a 'SQL' connection that can be used to do
     'SQL' queries directly or used in 'dplyr'.
-Version: 0.3.1
+Version: 0.3.2
 Authors@R: c(
     person("Scott", "Chamberlain", role = "aut"),
     person("Zebulun", "Arendsee", role = "aut"),
@@ -17,9 +17,10 @@ License: MIT + file LICENSE
 Roxygen: list(markdown = TRUE)
 Encoding: UTF-8
 Language: en-US
+Depends:
+    R (>= 4.1)
 Imports:
     curl (>= 2.4),
-    data.table,
     DBI (>= 0.6-1),
     RSQLite (>= 1.1.2),
     dplyr (>= 0.7.0),
@@ -29,9 +30,8 @@ Imports:
     dbplyr (>= 1.0.0),
     magrittr (>= 1.5),
     hoardr (>= 0.1.0),
-    taxize,
     vroom
 Suggests:
+    taxize,
     testthat
-Remotes: ropensci/bold, ropensci/taxize
 RoxygenNote: 7.3.2
