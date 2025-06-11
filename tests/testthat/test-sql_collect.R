@@ -2,10 +2,6 @@ context("sql_collect")
 
 skip_on_cran()
 
-library(dplyr, quietly = TRUE, warn.conflicts = FALSE)
-library(DBI, quietly = TRUE, warn.conflicts = FALSE)
-library(RSQLite, quietly = TRUE, warn.conflicts = FALSE)
-
 test_that("sql_collect works", {
   # src
   # src <- dplyr::src_sqlite("irisdb.sqlite", create = TRUE)
