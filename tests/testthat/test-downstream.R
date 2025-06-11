@@ -2,25 +2,28 @@ context("downstream")
 
 skip_on_cran()
 
-test_that("taxizedb::downstream matches taxize::downstream - NCBI", {
-  skip_on_ci()
-  arab_id <- name2taxid('Arabidopsis')
-  tax <- taxize::downstream('Arabidopsis', db='ncbi', downto='species',
-    messages = FALSE)[[1]]
-  taxdb <- taxizedb::downstream(arab_id, db='ncbi', downto='species')[[1]]
-  expect_gt(NROW(tax), NROW(taxdb))
-})
-
-test_that("taxizedb::downstream matches taxize::downstream - ITIS", {
-  skip("Test is skipped until function is updated in taxize")
-  skip_on_ci()
-  arab_id_itis <- name2taxid('Arabidopsis', db="itis")
-  expect_equal(
-    NROW(taxize::downstream('Arabidopsis', db='itis', downto='species',
-      messages = FALSE)[[1]]),
-    NROW(taxizedb::downstream(arab_id_itis, db='itis', downto='species')[[1]])
-  )
-})
+if (!requireNamespace("taxize", quietly = TRUE)) {
+  skip("taxize not installed; skipping tests that require it")
+} else {
+  test_that("taxizedb::downstream matches taxize::downstream - NCBI", {
+    skip_on_ci()
+    arab_id <- name2taxid('Arabidopsis')
+    tax <- taxize::downstream('Arabidopsis', db='ncbi', downto='species',
+                              messages = FALSE)[[1]]
+    taxdb <- taxizedb::downstream(arab_id, db='ncbi', downto='species')[[1]]
+    expect_gt(NROW(tax), NROW(taxdb))
+  })
+  test_that("taxizedb::downstream matches taxize::downstream - ITIS", {
+    skip("Test is skipped until function is updated in taxize")
+    skip_on_ci()
+    arab_id_itis <- name2taxid('Arabidopsis', db="itis")
+    expect_equal(
+      NROW(taxize::downstream('Arabidopsis', db='itis', downto='species',
+                              messages = FALSE)[[1]]),
+      NROW(taxizedb::downstream(arab_id_itis, db='itis', downto='species')[[1]])
+    )
+  })
+}
 
 test_that("downstream dies on ambiguities", {
   expect_error(taxizedb::downstream("Bacteria"))

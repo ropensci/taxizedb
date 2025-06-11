@@ -1,36 +1,50 @@
 context("children")
 skip_on_cran()
 skip_if_not_installed("taxize")
-test_that("NCBI specific: unambiguous children", {
-  ### TODO: currently there is a type inconsitency in taxize, once that is
-  ### cleared up, this test can be restored
-  # expect_equal(
-  #   taxizedb::children(3701, db='ncbi'),
-  #   taxize::children(3701, db='ncbi')
-  # )
 
-  ## TODO: these are not currently equal
-  ## once changes in taxize are sorted out, we can restore this test
-  # expect_equal(
-  #   taxizedb::children(2, db='ncbi', ambiguous=FALSE)[[1]],
-  #   # need to sqash the walking stick Bacteria genus
-  #   taxize::children(2, db='ncbi', ambiguous=FALSE)[[1]] %>%
-  #     subset(childtaxa_rank != 'species') %>%
-  #     magrittr::set_rownames(NULL)
-  # )
-})
-
-test_that("NCBI specific: ambiguous NCBI children", {
-  ## TODO: these are not currently equal
-  ## once changes in taxize are sorted out, we can restore this test
-  # expect_equal(
-  #   taxizedb::children(2, db='ncbi', ambiguous=TRUE)[[1]],
-  #   # need to sqash the walking stick Bacteria genus
-  #   taxize::children(2, db='ncbi', ambiguous=TRUE)[[1]] %>%
-  #     subset(childtaxa_rank != 'species') %>%
-  #     magrittr::set_rownames(NULL)
-  # )
-})
+if (!requireNamespace("taxize", quietly = TRUE)) {
+  skip("taxize not installed; skipping tests that require it")
+} else {
+  test_that("NCBI specific: unambiguous children", {
+    ### TODO: currently there is a type inconsitency in taxize, once that is
+    ### cleared up, this test can be restored
+    # expect_equal(
+    #   taxizedb::children(3701, db='ncbi'),
+    #   taxize::children(3701, db='ncbi')
+    # )
+    
+    ## TODO: these are not currently equal
+    ## once changes in taxize are sorted out, we can restore this test
+    # expect_equal(
+    #   taxizedb::children(2, db='ncbi', ambiguous=FALSE)[[1]],
+    #   # need to sqash the walking stick Bacteria genus
+    #   taxize::children(2, db='ncbi', ambiguous=FALSE)[[1]] %>%
+    #     subset(childtaxa_rank != 'species') %>%
+    #     magrittr::set_rownames(NULL)
+    # )
+  })
+  
+  test_that("NCBI specific: ambiguous NCBI children", {
+    ## TODO: these are not currently equal
+    ## once changes in taxize are sorted out, we can restore this test
+    # expect_equal(
+    #   taxizedb::children(2, db='ncbi', ambiguous=TRUE)[[1]],
+    #   # need to sqash the walking stick Bacteria genus
+    #   taxize::children(2, db='ncbi', ambiguous=TRUE)[[1]] %>%
+    #     subset(childtaxa_rank != 'species') %>%
+    #     magrittr::set_rownames(NULL)
+    # )
+  })
+  
+  test_that("missing values are consistent with taxize", {
+    # TODO fix warning instead of suppressing it. This requires fixing deprecated
+    # use of select() so it may be best to update this across the whole package.
+    df1 <- suppressWarnings(taxizedb::children("asdfasdf", db='ncbi')[[1]])
+    df2 <- taxize::children("asdfasdf", db='ncbi', verbose = FALSE)[[1]]
+    names(df1) <- names(df2)
+    expect_equal(df1, df2)
+  })
+}
 
 test_that("children works for ITIS", {
   res <- children(c(154395, 154357), db="itis")
@@ -52,15 +66,6 @@ test_that("children works for GBIF", {
     sort(unique(res[[1]]$rank)),
     c("form", "species", "subspecies", "unranked", "variety")
   )
-})
-
-test_that("missing values are consistent with taxize", {
-  # TODO fix warning instead of suppressing it. This requires fixing deprecated
-  # use of select() so it may be best to update this across the whole package.
-  df1 <- suppressWarnings(taxizedb::children("asdfasdf", db='ncbi')[[1]])
-  df2 <- taxize::children("asdfasdf", db='ncbi', verbose = FALSE)[[1]]
-  names(df1) <- names(df2)
-  expect_equal(df1, df2)
 })
 
 test_that('children fails well', {
