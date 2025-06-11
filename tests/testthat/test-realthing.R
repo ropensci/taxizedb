@@ -1,7 +1,3 @@
-library(dplyr)
-library(dbplyr)
-library(taxizedb)
-
 test_that("We can actually download, load, and query all databases", {
 
   testthat::skip_if_not(Sys.getenv("taxizedb_docker") == "test" )
