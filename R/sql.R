@@ -1,10 +1,12 @@
 #' Query and get data back into a data.frame
-#'
+#' 
+#' Execute and SQL query on a database.
 #' @export
 #' @param src (src) An `src` object, result of calling [src_itis()],
 #' [src_col()], or [src_tpl()]
 #' @param query (character) A SQL query
 #' @param ... further args passed on to [dplyr::tbl()]
+#' @return A tibble with query results.
 #' @details we run [dplyr::tbl()], then [dplyr::collect()]
 #' @examples \dontrun{
 #' src <- src_itis()

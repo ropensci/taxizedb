@@ -24,6 +24,7 @@
 #' table with columns 'tax_id' and 'tax_name'.
 #' @param ... Additional arguments passed to database specific classification
 #' functions.
+#' @return A character vector if taxonomy identifiers.
 #' @examples \dontrun{
 #' name2taxid(c('Arabidopsis thaliana', 'pig'))
 #' name2taxid(c('Arabidopsis thaliana', 'pig'), out_type="summary")

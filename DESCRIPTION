@@ -1,10 +1,9 @@
 Package: taxizedb
 Type: Package
-Title: Tools for Working with 'Taxonomic' Databases
-Description: Tools for working with 'taxonomic' databases, including utilities
-    for downloading databases, loading them into various 'SQL' databases,
-    cleaning up files, and providing a 'SQL' connection that can be used to do
-    'SQL' queries directly or used in 'dplyr'.
+Title: Offline Access to Taxonomic Databases
+Description: Download taxonomic databases such as CoL, GBIF, ITIS, NCBI, WFO, or 
+    Wikidata, convert them into SQLite format, and query them locally for fast, 
+    reliable, and reproducible access to taxonomic data.
 Version: 0.3.2
 Authors@R: c(
     person("Scott", "Chamberlain", role = "aut"),
