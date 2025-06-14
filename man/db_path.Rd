@@ -10,6 +10,9 @@ db_path(db)
 \item{db}{(character) db name. one of: itis, tpl, col, gbif,
 ncbi, wikidata, wfo. required}
 }
+\value{
+Path to the local database.
+}
 \description{
 database path
 }

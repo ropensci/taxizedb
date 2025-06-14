@@ -2,6 +2,7 @@
 #' @export
 #' @param db (character) db name. one of: itis, tpl, col, gbif,
 #' ncbi, wikidata, wfo. required
+#' @return Path to the local database.
 db_path <- function(db) {
   file <- switch(
     db,

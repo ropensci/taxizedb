@@ -14,8 +14,11 @@ sql_collect(src, query, ...)
 
 \item{...}{further args passed on to \code{\link[dplyr:tbl]{dplyr::tbl()}}}
 }
+\value{
+A tibble with query results.
+}
 \description{
-Query and get data back into a data.frame
+Execute and SQL query on a database.
 }
 \details{
 we run \code{\link[dplyr:tbl]{dplyr::tbl()}}, then \code{\link[dplyr:compute]{dplyr::collect()}}
