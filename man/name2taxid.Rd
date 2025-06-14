@@ -20,6 +20,9 @@ table with columns 'tax_id' and 'tax_name'.}
 \item{...}{Additional arguments passed to database specific classification
 functions.}
 }
+\value{
+A character vector if taxonomy identifiers.
+}
 \description{
 \code{name2taxid()} returns a vector and dies if there are any ambiguous
 names. \code{name2taxid_map()} returns a data.frame mapping names to ids
