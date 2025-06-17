@@ -25,6 +25,9 @@ db_load_wikidata(...)
 \arguments{
 \item{...}{ignored}
 }
+\value{
+An error message.
+}
 \description{
 This family of functions has been removed. Use \link{db_download} then
 \link{src_taxizedb}.

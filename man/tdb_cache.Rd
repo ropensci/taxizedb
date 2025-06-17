@@ -3,6 +3,9 @@
 \name{tdb_cache}
 \alias{tdb_cache}
 \title{Caching}
+\value{
+An object of classes \code{HoardClient} and \code{R6}.
+}
 \description{
 Manage cached taxizedb files with \pkg{hoardr}
 }

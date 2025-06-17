@@ -5,6 +5,7 @@
 #'
 #' @export
 #' @param ... ignored
+#' @return An error message.
 #' @name db_load-defunct
 
 #' @export
