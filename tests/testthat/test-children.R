@@ -18,8 +18,8 @@ if (!requireNamespace("taxize", quietly = TRUE)) {
     # expect_equal(
     #   taxizedb::children(2, db='ncbi', ambiguous=FALSE)[[1]],
     #   # need to sqash the walking stick Bacteria genus
-    #   taxize::children(2, db='ncbi', ambiguous=FALSE)[[1]] %>%
-    #     subset(childtaxa_rank != 'species') %>%
+    #   taxize::children(2, db='ncbi', ambiguous=FALSE)[[1]] |>
+    #     subset(childtaxa_rank != 'species') |>
     #     magrittr::set_rownames(NULL)
     # )
   })
@@ -30,8 +30,8 @@ if (!requireNamespace("taxize", quietly = TRUE)) {
     # expect_equal(
     #   taxizedb::children(2, db='ncbi', ambiguous=TRUE)[[1]],
     #   # need to sqash the walking stick Bacteria genus
-    #   taxize::children(2, db='ncbi', ambiguous=TRUE)[[1]] %>%
-    #     subset(childtaxa_rank != 'species') %>%
+    #   taxize::children(2, db='ncbi', ambiguous=TRUE)[[1]] |>
+    #     subset(childtaxa_rank != 'species') |>
     #     magrittr::set_rownames(NULL)
     # )
   })

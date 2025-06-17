@@ -255,6 +255,7 @@ gbif_downstream <- function(src, x, ...){
   stats::setNames(lapply(x, FUN, src = src, ...), x)
 }
 
+#' @importFrom magrittr %>%
 ncbi_downstream <- function(src, x, ...){
 
   FUN <- function(

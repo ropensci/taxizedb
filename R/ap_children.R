@@ -89,6 +89,7 @@ gbif_children <- function(src, x, ...){
   stats::setNames(lapply(x, FUN, src = src), x)
 }
 
+#' @importFrom magrittr %>%
 ncbi_children <- function(src, x, ...){
 
   FUN <- function(src, x, ambiguous=FALSE, ...){

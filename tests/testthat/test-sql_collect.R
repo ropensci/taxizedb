@@ -17,7 +17,7 @@ test_that("sql_collect works", {
                      'petalwidth', 'species'))
 
   ## with pipe
-  bb <- src %>% sql_collect("select * from iris limit 5")
+  bb <- src |> sql_collect("select * from iris limit 5")
 
   expect_identical(aa, bb)
 

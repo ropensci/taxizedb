@@ -162,6 +162,7 @@ gbif_classification <- function(src, x, ...) {
   stats::setNames(lapply(x, FUN, src = src), x)
 }
 
+#' @importFrom magrittr %>%
 ncbi_classification <- function(src, x, ...){
 
   FUN <- function(src, x, ...){
