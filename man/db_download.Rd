@@ -49,33 +49,33 @@ suggest using the World Flora Online (WFO) database as a replacement.
 \examples{
 \dontrun{
 # ITIS
-# db_download_itis()
-# src_itis()
+db_download_itis()
+src_itis()
 
 # Plantlist
-# db_download_tpl()
-# src_tpl()
+db_download_tpl()
+src_tpl()
 
 # COL
-# db_download_col()
-# src_col()
+db_download_col()
+src_col()
 
 # GBIF
-# db_download_gbif()
-# src_gbif()
+db_download_gbif()
+src_gbif()
 
 # NCBI
-# db_download_ncbi()
-# src_ncbi()
+db_download_ncbi()
+src_ncbi()
 
 # Wikidata
-# db_download_wikidata()
-# db_download_wikidata(overwrite=TRUE) # overwrite - download again
-# src_wikidata()
+db_download_wikidata()
+db_download_wikidata(overwrite=TRUE) # overwrite - download again
+src_wikidata()
 
 # World Flora Online
-# db_download_wfo()
-# src_wfo()
+db_download_wfo()
+src_wfo()
 }
 }
 \seealso{

@@ -6,13 +6,13 @@
 #' @param ... Further args passed on to [DBI::dbConnect()]
 #' @return an src object
 #' @examples \dontrun{
-#' # src_itis()
-#' # src_tpl()
-#' # src_col()
-#' # src_gbif()
-#' # src_ncbi()
-#' # src_wikidata()
-#' # src_wfo()
+#' src_itis()
+#' src_tpl()
+#' src_col()
+#' src_gbif()
+#' src_ncbi()
+#' src_wikidata()
+#' src_wfo()
 #' }
 
 #' @export

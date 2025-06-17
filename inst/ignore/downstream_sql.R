@@ -1,4 +1,5 @@
 #tsn <- 173420
+#' @importFrom magrittr %>%
 make_sql <- function(x) {
   sprintf("select t.tsn, t.parent_tsn, t.complete_name as combinedName,
                            r.rank_name, r.rank_id, a.taxon_author as author

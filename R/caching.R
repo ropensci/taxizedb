@@ -4,6 +4,8 @@
 #'
 #' @export
 #' @name tdb_cache
+#' 
+#' @return An object of classes `HoardClient` and `R6`.
 #'
 #' @details `cache_delete` only accepts 1 file name, while
 #' `cache_delete_all` doesn't accept any names, but deletes all files.

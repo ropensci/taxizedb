@@ -84,7 +84,7 @@ sql_collect(src_itis, "select * from hierarchy limit 5")
 
 ```{r}
 # or pipe the src to sql_collect
-src_itis %>% sql_collect("select * from hierarchy limit 5")
+src_itis |> sql_collect("select * from hierarchy limit 5")
 ```
 
 ## use dplyr verbs
@@ -92,7 +92,7 @@ src_itis %>% sql_collect("select * from hierarchy limit 5")
 get a `tbl`
 
 ```{r}
-hiers <- src_itis %>% tbl("hierarchy")
+hiers <- src_itis |> tbl("hierarchy")
 #> # Source:   table<hierarchy> [?? x 5]
 #> # Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
 #>                                              hierarchy_string    tsn parent_tsn level childrencount
@@ -113,7 +113,7 @@ hiers <- src_itis %>% tbl("hierarchy")
 select certain fields
 
 ```{r}
-hiers %>% select(TSN, level)
+hiers |> select(TSN, level)
 #> # Source:   lazy query [?? x 2]
 #> # Database: postgres 9.6.0 [sacmac@localhost:5432/ITIS]
 #>       tsn level
@@ -235,8 +235,8 @@ All of these functions run very fast. It only takes a few seconds to find all
 bacterial taxa and count them: 
 
 ```{r}
-downstream(2, db='ncbi')[[1]] %>%
-    dplyr::group_by(rank) %>%
+downstream(2, db='ncbi')[[1]] |>
+    dplyr::group_by(rank) |>
     dplyr::count()
 #> #> [1] 138695
 #> # A tibble: 18 x 2

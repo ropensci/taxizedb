@@ -28,6 +28,6 @@ we run \code{\link[dplyr:tbl]{dplyr::tbl()}}, then \code{\link[dplyr:compute]{dp
 src <- src_itis()
 sql_collect(src, "select * from hierarchy limit 5")
 ## or pipe the src to sql_collect
-src \%>\% sql_collect("select * from hierarchy limit 5")
+src |> sql_collect("select * from hierarchy limit 5")
 }
 }

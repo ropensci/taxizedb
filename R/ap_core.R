@@ -4,6 +4,7 @@
 # c("Arabidopsis", "Peridermium sp. 'Ysgr-4'") -> "'Arabidopsis',
 # 'Peridermium sp. ''Ysgr-4'''"
 # Note that double quoting is the SQL convention for escaping quotes in strings
+#' @importFrom magrittr %>%
 sql_character_list <- function(x){
   if(any(is.na(x))){
     stop("Cannot pass NA into SQL query")
@@ -73,6 +74,7 @@ run_with_db <- function(FUN, db, ...) {
   FUN(src, ...)
 }
 
+#' @importFrom magrittr %>%
 ncbi_apply <- function(src, x, FUN, missing=NA, die_if_ambiguous=TRUE, ...){
   # preserve original names (this is important when x is a name vector)
   namemap <- x

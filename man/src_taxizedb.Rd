@@ -39,12 +39,12 @@ src - dplyr src objects
 }
 \examples{
 \dontrun{
-# src_itis()
-# src_tpl()
-# src_col()
-# src_gbif()
-# src_ncbi()
-# src_wikidata()
-# src_wfo()
+src_itis()
+src_tpl()
+src_col()
+src_gbif()
+src_ncbi()
+src_wikidata()
+src_wfo()
 }
 }
