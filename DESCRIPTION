@@ -2,8 +2,8 @@ Package: taxizedb
 Type: Package
 Title: Offline Access to Taxonomic Databases
 Description: Download taxonomic databases such as CoL, GBIF, ITIS, NCBI, WFO, or 
-    Wikidata, convert them into SQLite format, and query them locally for fast, 
-    reliable, and reproducible access to taxonomic data.
+    Wikidata, convert them into 'SQLite' format, and query them locally for 
+    fast, reliable, and reproducible access to taxonomic data.
 Version: 0.3.2
 Authors@R: c(
     person("Scott", "Chamberlain", role = "aut"),
